@@ -1,0 +1,1185 @@
+#+TITLE: metas
+#+STARTUP: overview
+#+SETUPFILE: ox.setup
+#+CATEGORY: metas
+# |   | name | description | status | commit log |
+# |---+------+-------------+--------+------------|
+# |   | meta | info        |        |            |
+# |   | shed | dev tool    |        |            |
+# |   |      |             |        |            |
+# |---+------+-------------+--------+------------|
+
+* meta
+:PROPERTIES:
+:ID:       60bed781-3a70-4435-9df0-097b799539e4
+:CUSTOM_ID: meta
+:EXPORT_FILE_NAME: o/readme
+:END:
++ what -- \\
+  This project contains documents I've written in plain-text used to
+  generate my [[https://rwest.io][website]] and readmes for code hosted at [[src:/][hg.rwest.io]].
++ why -- \\
+  good practice, helps me and strangers alike understand why things
+  are, as they are.
++ status -- ALPHA
++ license -- wtfplv2.1
++ [[src:meta][src]] <-
+
+- =m.org= contains formal docs for projects
+- =n.org= contains informal notes
+- =cv.org= is my resume (hire me!)
+** scripts
+:PROPERTIES:
+:ID:       d0e37437-8959-4692-9b7f-9245073042e2
+:END:
+
+#+name: meta-tbl
+| key   | val              | notes             |
+|-------+------------------+-------------------|
+| wd    | ~/shed/src/meta/ | working directory |
+| files |                  | input files       |
+| rh    | /sshx:hyde:      | remote host       |
+| o     | o/               | output directory  |
+
+#+name: meta-vt
+#+begin_src emacs-lisp :results value :var tbl=meta-tbl idx=0
+(nth idx (mapcar (lambda (x) (cadr x)) tbl))
+#+end_src
+
+#+RESULTS: meta-vt
+: ~/shed/src/meta/
+
+*** tmp
+:PROPERTIES:
+:ID:       a3e61646-3d9f-4186-9187-cc826b3e9392
+:END:
+First we generate the output directory and copy the source files
+there. This ensures the root project directory isn't polluted on
+export.
+
+You could also do an initial export to generate pre-parsed files (with
+comments and headings tagged with =noexport= removed) in the output
+directory instead of copying the raw source. This is great for docs
+with sensitive info, but I prefer the copy method for public projects.
+
+#+name: meta-tmp
+#+begin_src elisp :var o=meta-vt(idx=3)
+    (let ((path (concat o "org/"))
+          (files (list "m.org" "n.org" "index.org" "cv.org" "ox.setup")))
+      (make-directory path t)
+      (dolist (f files)
+        (copy-file f path t))
+      (message "created meta tmp dirs"))
+#+end_src
+
+#+RESULTS: meta-tmp
+: created meta tmp dirs
+
+*** pub
+:PROPERTIES:
+:ID:       e350dd4f-eab2-477b-9ce7-c39e4e4d75e0
+:CUSTOM_ID: pub-el
+:END:
+- Org has integrated [[https://orgmode.org/manual/Exporting.html][exporting]] powered by [[https://orgmode.org/worg/exporters/ox-docstrings.html][ox.el]] - an
+  emacs-lisp script is all that is needed to generate conventional
+  formats like HTML, Markdown, PDF, and txt.
+- Exported files are saved in separate directories
+#+name: meta-pub
+#+begin_src elisp
+  (require 'ox-publish)
+  (require 'org-refile)
+  (require 'htmlize "~/shed/src/contrib/el/htmlize/htmlize.el")
+  (require 'org-id)
+
+  (load-theme 'modus-operandi)
+  (setq org-html-validation-link nil
+        org-export-with-author nil)
+  (setq org-publish-project-alist
+        '(("org-html"
+           :author "ellis"
+           :email "ellis@rwest.io"
+           :base-directory "~/shed/src/meta/o/org"
+           :base-extension "org"
+           :with-date (current-time)
+           :publishing-directory "~/shed/src/meta/o/html"
+           :publishing-function org-html-publish-to-html
+           :htmlize-source t
+           :auto-sitemap nil)
+          ("org-md"
+           :author "ellis"
+           :email "ellis@rwest.io"
+           :base-directory "~/shed/src/meta/o/org"
+           :base-extension "org"
+           :with-date (current-time)
+           :publishing-directory "~/shed/src/meta/o/md"
+           :recursive t
+           :publishing-function org-md-publish-to-md
+           :auto-sitemap nil)
+          ("org-pdf"
+           :author "ellis"
+           :email "ellis@rwest.io"
+           :base-directory "~/shed/src/meta/o/org"
+           :base-extension "org"
+           :with-date (current-time)
+           :publishing-directory "~/shed/src/meta/o/pdf"
+           :recursive t
+           :publishing-function org-latex-publish-to-pdf
+           :auto-sitemap nil)
+          ("org-txt"
+           :author "ellis"
+           :email "ellis@rwest.io"
+           :base-directory "~/shed/src/meta/o/org"
+           :base-extension "org"
+           :with-date (current-time)
+           :publishing-directory "~/shed/src/meta/o/txt"
+           :recursive t
+           :publishing-function org-ascii-publish-to-ascii
+           :auto-sitemap nil)
+          ("all" :components ("org-html" "org-md" "org-pdf" "org-txt"))))
+
+  (org-publish-remove-all-timestamps)
+  (org-refile-cache-clear)
+  (org-publish "all" t)
+  #+end_src
+
+  #+RESULTS: meta-pub
+
+*** pack
+:PROPERTIES:
+:ID:       8530e126-6fbf-41bb-bd48-2bd06f1ae5ab
+:END:
+First we clean some of the junk latex produced by the PDF export.
+#+name: meta-clean-latex-clutter
+#+begin_src sh :var o=meta-vt(idx=3)
+cd $o/org && rm -rf *.pdf *.tex
+#+end_src
+
+#+RESULTS: meta-clean-latex-clutter
+
+Now we can compress our exports to =.tz= (tar.zst) archives.
+#+name: meta-pack
+#+begin_src sh
+  cd o/
+  for i in $(find ./* -maxdepth 0 -type d);
+  do
+      shc pack $i
+  done
+  #+end_src
+
+#+RESULTS: meta-pack
+
+*** docs
+:PROPERTIES:
+:ID:       58c7f49f-b095-4d0d-adcd-e5cba7ccadd7
+:END:
+Generate API docs for all Rust projects
+#+name: shed-gen-rust-docs
+#+begin_src sh
+WD=$SHED/src
+O=$WD/meta/o/d
+cd $WD
+for i in rlib tenex shed; do # shed
+    cd $i
+    cargo +nightly doc --target-dir $O --no-deps --all-features --workspace --release --message-format short
+    cd ..
+done
+cd $O
+mv doc/* ./ && rm -r doc release
+#+end_src
+
+*** deploy
+:PROPERTIES:
+:ID:       80226a3c-8866-4c35-ab3e-5a5d5d35b9c9
+:END:
+- all build artifacts are transferred over SSH to a public web server
+- New content can now be viewed online at [[https://rwest.io][rwest.io]] and downloaded at
+  [[https://rwest.io/x][rwest.io/x]] which includes archives and individual files in all
+  formats.
+#+name: meta-deploy
+#+begin_src emacs-lisp :var o="o/" rh="/sshx:hyde:/mnt/w/" files='("m.html" "n.html" "index.html")
+  (copy-file o (concat rh "x/") 1)
+  (dolist (f files)
+    (copy-file (concat o "html/" f) rh 1))
+  (copy-file (concat o "pdf/cv.pdf") rh 1)
+#+end_src
+
+#+RESULTS: meta-deploy
+
+#+name: meta-deploy-rust-docs
+#+begin_src elisp
+(copy-file "o/d" "/sshx:hyde:/mnt/w/d" 1)
+#+end_src
+*** clean
+#+name: meta-clean
+#+begin_src shell
+rm -rf o
+#+end_src
+
+#+RESULTS: meta-clean
+
+*** readme-gen                                                   :noexport:
+:PROPERTIES:
+:ID:       9ca529ee-50b6-4beb-9b46-042d4b2a521c
+:END:
+#+name: meta-readme-gen
+#+begin_src emacs-lisp
+  (org-export-headings-to-org)
+#+end_src
+
+#+name: meta-readme-commit
+#+begin_src shell
+  for i in shed rlib tenex babel cfg demo; do
+      cd ~/shed/src/$i && hg ci -m 'readme.org update'
+  done
+#+end_src
+
+#+RESULTS: meta-readme-commit
+
+*** makefile                                                     :noexport:
+:PROPERTIES:
+:ID:       c27a67be-7b8b-47c5-9578-5acc71e27c53
+:header-args: :results silent :eval no-export
+:END:
+#+begin_src makefile :tangle makefile :shebang "#!/usr/bin/make -f -j8"
+PUB := ./pub.el
+OX_SETUP := ./ox.setup
+
+HD ?= dmz
+P ?= html md txt pdf org
+
+MD = mkdir -p $(@)
+
+.PHONY: c
+
+o:o/x;shed pack $< $<.tz;
+	$(foreach p,$(P), shed pack $</${p} $@/${p}.tz;)
+
+w:o;ssh $(HD) rm -rf dmz/w/*.html;\
+	scp -r $</x/html/*.html $(HD):dmz/w;\
+	scp -r $</*.tz $(HD):dmz/w/x
+
+c:;rm -rf o
+
+o/x:$(OX_SETUP) $(PUB);$(MD)/org;cp ./*.org $< o/x/org;$(PUB);\
+	ssh $(HD) rm -rf dmz/w/*.html; scp -r $@/html/*.html $(HD):dmz/w/;\
+	shed pack $@ o/x.tz;scp -r $@ $(HD):dmz/w
+  #+end_src
+
+** syntax
+:PROPERTIES:
+:ID:       93185ce3-7b16-4f9b-8e59-39127869ac45
+:CUSTOM_ID: elements
+:END:
+The source files assume some familiarity with org syntax. Org syntax
+is covered [[https://orgmode.org/worg/dev/org-syntax.html][online]] in detail and high-level info about document
+structure can be found in the [[info:emacs#Top][Emacs manual]].
+
+#+attr_html: :width 600
+#+attr_latex: :width 600
+[[cdn:img/org-mode-features_display.png]]
+
+All docs are fully compliant with org, with the addition of some
+special *elements*:
+
+- props :: \\
+  - All nodes have an optional number of =props= which are simply list
+    items starting with =+= followed by the =prop-key= an assignment
+    operator (=--=, =<-=, =->=), and a =prop-val=.
+    #+begin_example
+    # [+] [KEY] [OP] [VAL]
+    + what -- an example
+    #+end_example
+  - the =prop-val= type is determined by the operator. It can be a
+    string =--=, list =->=, or empty =<-=.
+  - =props= can appear anywhere in the =section= element of a node
+    (not just immediately following properties drawer). With the
+    condition that they can't be embedded (props in =prop-val=).
+- drawers :: \\
+  Org-mode has a feature called drawers, which are collapsible
+  sections of text starting with =:DRAWER_NAME:= and ending with
+  =:END:=. The most common one seen in our docs is the PROPERTIES
+  drawer, but there are a few special ones we use, especially in
+  =n.org=: =note=, =opinion=, =props= =boris=.
+- links ::
+  In addition to the default links, we use a few custom links, most
+  notably =yt= which embeds a video from youtube.
+  :note:
+  This is not good for users, since the embedded youtube links include
+  tracking and other nasty bits from Google. In the future these links
+  will be migrated to =cdn= to avoid that, increasing user privacy and
+  greatly improving page load time.
+  :end:
+  =cdn=, =src=, and =rw= links all point to =rwest.io=.
+
+* babel
+:PROPERTIES:
+:ID:       1b363810-26ea-4dae-b689-6e050756bfae
+:CATEGORY: lib
+:EXPORT_FILE_NAME: ../babel/readme
+:END:
++ what ← scripts[sc], snippets[sn], and templates[tm]
++ status ← IN_PROGRESS
++ [[src:babel][src]] ⇐ 
+
+Re-using code is an important part of software development. We re-use
+code when importing a library module, using macros, writing classes,
+and [[https://stackoverflow.blog/2021/04/19/how-often-do-people-actually-copy-and-paste-from-stack-overflow-now-we-know/][copying code from Stack Overflow]]. As such, programmers have often
+come up with systems for collecting code that they can re-use in other
+contexts.
+
+=babel= is one of these systems. It is highly integrated with [[#shed][shed]] and
+[[file:n.org::#gnu-emacs][GNU Emacs]] which are used to modify, organize, and implement our
+collections.
+
+Collections are described by three categories:
+- sn :: common domain-specific code snippets
+- sc :: generalized scripts in a variety of languages
+- tm :: project templates
+
+Each category provides its own methods of interaction available to the
+user for different types of meta-programming activities. There are
+also high-level interfaces for composing ephemerial hacking sessions
+and configuration.
+
+This project is an extension of the [[https://orgmode.org/manual/Library-of-Babel.html][Library of Babel]] - which allows
+you to define blocks of code in an org file, and call them
+remotely. =babel= is in fact just this - a collection of code blocks
+in an org file. Emacs was previously distributed with an initial
+collection; [[https://git.sr.ht/~bzg/worg/tree/master/item/library-of-babel.org][library-of-babel.org]]. This is no longer the case, but the
+powerful functionality of =org-babel= is still there, in all its
+glory.
+
+The goal of =babel= however is not just to build collections, but to
+provide APIs for them. As such a large focus of this project will be
+on exporting (i.e. [[id:b297c4d5-9d42-4618-9ab6-e8134d7587a0][Weaving and Tangling]]) and parsing collections built
+in Emacs so that they can be used by other processes. Our intention is
+to mimick the powerful meta-programming capabilities of =org-babel=
+(specifically, the ability to mix and match functions /from any
+language/).
+
+** Literate Programming
+:PROPERTIES:
+:ID:       b8372c87-ff6a-4d31-baa8-23ad66514d4e
+:CUSTOM_ID: literate-programming
+:END:
+
+Literate programming was first introduced by Donald Knuth in 1984 via
+his documentation and programming system =WEB=. The approach involves
+writing the logic of a program in /natural language/ interspersed with
+snippets, macros, and other source code, from which a compilable
+computer program can be generated.
+
+The concept can be applied widely but is typically reserved for the
+domains of Academia/Research, where it is a popular method of creating
+reproducible research.
+
+Knuth's =WEB= was originally built for Pascal + LaTex *only*, but in
+1989 a new language-agnostic tool called =noweb= was released. This
+model, that is capable of working with multiple programming languages
+and documentation backends, is what we commonly refer to as Literate
+Programming today.
+
+*** Weaving and Tangling
+:PROPERTIES:
+:ID:       b297c4d5-9d42-4618-9ab6-e8134d7587a0
+:CUSTOM_ID: weaving-and-tangling
+:END:
+[[cdn:img/literate_c.jpg]]
+
+Weaving and Tangling are the core operations that are performed on
+some raw source, which should include both prose and code. The raw
+source is written in =org= in our case, but the same concepts apply to
+other mediums.
+
+LP tools are used to perform these two operations.
+
+- *Weaving* is associated with the /publishing/ and /exporting/
+  pipeline for the source, which is meant to enhance the
+  human-readable aspects.
+
+- *Tangling* is associated with the /compilation/ nand /build/ pipeline
+  for source. It creates machine-friendly artifacts which can be
+  distributed for use by tools and services.
+
+** Dependencies
+:PROPERTIES:
+:ID:       b3146122-3109-45ce-b155-97d52701a0ca
+:END:
+- *Emacs 28* \\
+  The editor integration doesn't depend on any external packages
+  outside of vanilla Emacs. The following built-in packages are used
+  to provide functionality:
+  - =org.el=
+  - =ob.el=
+  - =skeleton.el=
+  - =autoinsert.el=
+  - =abbrev.el=
+  - =dabbrev.el=
+  All of the above features should be available in the default Emacs
+  distribution for your OS.
+- *GNU Make* \\
+  =optional=
+  
+** Example
+:PROPERTIES:
+:ID:       d46704c3-829b-4f46-b487-915ed5304638
+:END:
+* cfg
+:PROPERTIES:
+:ID:       9d7999d3-b66e-4ea2-8586-2ef9c27e8f4b
+:CUSTOM_ID: cfg
+:EXPORT_FILE_NAME: ../cfg/readme
+:END:
+This repo contains [[https://wiki.archlinux.org/title/Dotfiles][dotfiles]] for various programs and applications I
+use often.
+
+| category | description                            | apps                |
+|----------+----------------------------------------+---------------------|
+| emacs    | the superior editor                    | emacs               |
+| mail     | gmail local setup                      | offlineimap notmuch |
+| shell    | shell profiles and configs             | bash zsh            |
+| term     | terminal emulation and multiplexing    | urxvt tmux kitty    |
+| vc       | version control                        | hg git              |
+| virt     | machine emulation                      | lxc qemu archiso    |
+| wm       | minimal X11 desktop config and widgets | 2bwm conky          |
+
+The top-level makefile can be used for basic local bootstrap but these
+files are generally intended to be loaded into a user environment via
+the =shed= development tool. I work out of a Linux box 99% of the
+time, but most programs are cross-platform. I don't bother with
+Windows machines, but there is a =powershell= configuration that
+provides some amenities when I need to use one. My default =emacs=
+config also works on Windows but YMMV.
+
+The sections below cover configuration of a certain category or
+individual application such as =shell= or =emacs= respectively.
+
+** emacs
+:PROPERTIES:
+:ID:       903f8087-e0af-48f2-a5a6-f8d7f080464a
+:END:
++ what -- Configuration for the superior editor.
++ version -- 2.1
+
+I've been using Emacs since 2016 as my primary editor. I started with
+[[https://www.spacemacs.org/][Spacemacs]], used [[https://github.com/hlissner/doom-emacs][Doom]] for a while, then started rolling my own
+configurations. Configuring the Emacs editor requires learning the
+Emacs language - [[https://www.gnu.org/software/emacs/manual/html_node/elisp/][Emacs Lisp]] or =elisp=. It is a dialect of Common Lisp
+which can be a bit tricky to adapt to for non-Lisp programmers (such
+as myself), but it is built specifically for Emacs and quite powerful.
+
+This section covers my Emacs packages, configurations, and other code
+written in =elisp=.
+*** default.el
+:PROPERTIES:
+:ID:       673fb426-f80c-4b51-b2a7-27e330051da5
+:END:
+=default.el= provides a package called =default= which is always the
+first package loaded in my init file. Why? because it doesn't require
+/any/ external packages - only packages included with the vanilla GNU
+Emacs distribution. This removes the need to bootstrap a package
+manager, download remote packages, and do other things that can impact
+startup time. It also guarantees my defaults will work on any platform
+that supports vanilla Emacs.
+
+*** hyde.el
+:PROPERTIES:
+:ID:       0366a755-e1c1-4002-a39e-cc9729bd8051
+:END:
+*** config.org
+:PROPERTIES:
+:ID:       6782d0a9-1915-4b3e-85fb-3dd5e7ec917e
+:CUSTOM_ID: config-org
+:END:
+The (old) main configuration file. A lot of this is getting moved to
+our =notes=. The resulting files will be refactored. Despite being
+messy, it's still very effective (see [[id:005d2a6e-d34f-45ee-a169-f26fc264c916][Screenshots]]).
+**** Screenshots
+:PROPERTIES:
+:ID:       005d2a6e-d34f-45ee-a169-f26fc264c916
+:END:
+  - themes \\
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/abyss-theme-emacs.png][https://rwest.io/a/img/abyss-theme-emacs.png]]
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/sanityinc-theme-emacs.png][https://rwest.io/a/img/sanityinc-theme-emacs.png]]
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/wheatgrass-theme-emacs.png][https://rwest.io/a/img/wheatgrass-theme-emacs.png]]
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/leuven-theme-emacs.png][https://rwest.io/a/img/leuven-theme-emacs.png]]
+  - org-mode \\
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/olivetti-emacs.png][https://rwest.io/a/img/olivetti-emacs.png]]
+  - programming \\
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/rust-development-emacs.png][https://rwest.io/a/img/rust-development-emacs.png]]
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/rust-tests-emacs.png][https://rwest.io/a/img/rust-tests-emacs.png]]
+  - email \\
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/email-emacs.png][https://rwest.io/a/img/email-emacs.png]]
+  - eww \\
+    The Emacs Web Wowser
+    #+attr_html: :width 600
+    #+attr_latex: :width 600
+    [[https://rwest.io/a/img/eww-emacs.png][https://rwest.io/a/img/eww-emacs.png]]
+** mail
+:PROPERTIES:
+:ID:       f3d16b98-d848-46a4-a7a6-fc6014ebef76
+:END:
++ what -- mail configs
+  - notmuch
+  - offlineimap
+** shell
+:PROPERTIES:
+:ID:       217423f6-ab17-457a-a35c-04678d4b71c3
+:END:
++ what -- shell configs
+  - bash
+  - zsh
+** term
+:PROPERTIES:
+:ID:       4c4a3209-a71c-4f94-9900-c1fd50f9b186
+:END:
++ what -- terminal emulator configs
+  - kitty
+** tmux
+:PROPERTIES:
+:ID:       33726d69-2c43-453e-808e-78cfb126dc05
+:END:
++ what -- tmux config
+** vc
+:PROPERTIES:
+:ID:       f8ce8509-e360-4d1c-936f-37aae0537684
+:END:
+- mercurial
+- git
+** virt
+:PROPERTIES:
+:ID:       c240a030-7e6b-4061-8c13-a5764169eb35
+:END:
++ what -- virtual machine and container configs
+  - lxc
+  - qemu
+  - archiso
+** wm
+:PROPERTIES:
+:ID:       3eafb844-4684-48af-ac2b-4660df2c2ab4
+:END:
+- 2bwm
+- conky
+- lemonbar
+** nix                                                 :deprecated:noexport:
+:PROPERTIES:
+:ID:       e2f62a1e-8f54-4bf6-ab88-86872e49f71d
+:END:
+Poorman's distributed =nix= config has fallen into disrepair, but I
+keep it around for old-time's sake. It might come in handy in the
+future, depending on how the Nix ecosystem progresses.
+* shed                                                                 :rust:
+:PROPERTIES:
+:ID: 205131fc-ff48-4e0b-a3e8-ab52d5b6ca19
+:CATEGORY: bin
+:CUSTOM_ID: shed
+:EXPORT_FILE_NAME: ../shed/readme
+:END:
++ what -- A Self-hosted Development Environment
++ status -- ALPHA
++ version -- 0.0.1
++ [[src:shed][src]] <-
++ [[https://docs.rwest.io/shed][docs]] <-
+
+#+BEGIN_export html
+<a href="https://asciinema.org/a/445161" target="_blank"><img src="https://asciinema.org/a/445161.svg" /></a>
+#+END_export
+
+** Roadmap
+:PROPERTIES:
+:ID:       169e6a06-9260-4f12-95de-aeb2afa17fd1
+:END:
+*** NEXT Registry
+:PROPERTIES:
+:ID:       b157b0bd-da91-4f0a-925f-39acfed569a7
+:END:
+:LOGBOOK:
+- State "NEXT"       from              [2021-10-23 Sat 03:38]
+:END:
+- Domain -> Namespace -> ID
+- [Domain/Namespace]:ID index tables for quick DHT-style lookups of resource
+- Namespaces sharing the same Domain share the same Registry
+- For a similar concept, see [[https://doc.redox-os.org/book/ch04-04-urls.html][RedoxOS URLs]]
+*** HACK Commands
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "HACK"       from "TODO"       [2021-10-23 Sat 03:41]
+- State "TODO"       from              [2021-10-23 Sat 03:38]
+:END:
+**** TODO clean
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-24 Sun 07:06]
+:END:
+- =shed clean= ::
+  - if CWD is a project directory, perform clean script from config.
+  - elif INPUT is a project name, perform clean script from config.
+  - elif cache !empty clean global cache.
+  - else say 'nothing to clean'.
+- ARGS
+  - =--lab [LAB]= :: clean the specified lab environment
+  - =--project [PROJECT]= :: clean the specified project
+  - =--stash= :: clean the stash
+  - =--store= :: clean the store
+  - =--all= :: clean everything
+**** TODO test
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-24 Sun 07:07]
+:END:
+- =shed test= ::
+  - if CWD is project directory, perform test script from config.
+  - elif INPUT is project name, perform test script from config.
+  - else say 'nothing to test'
+- ARGS
+  -  =--all= :: test everything
+**** TODO list
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-24 Sun 07:07]
+:END:
+- =shed list= ::
+  - =INPUT= :: projects, labs, stash, store
+  - else list service stats
+*** TODO Krypt
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-23 Sat 03:38]
+:END:
+- 
+- based on intuitions from [[https://nacl.cr.yp.to/box.html][crypto_box]] 
+*** TODO Babel
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-23 Sat 03:43]
+:END:
+
+*** TODO shed.el
+:PROPERTIES:
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2021-10-23 Sat 03:39]
+:END:
+- daemon <-> process IPC
+- bindat protocol definitions
+- network daemon messages and packets
+** Features
+:PROPERTIES:
+:ID:       83a9750a-bb30-4272-b1f3-23d85806cbb8
+:END:
+- *Src*
+  - Mercurial VCS
+    - Bundle support
+    - HTTP client/server
+    - Git import/export
+  - Build tools (=cargo=, =clang=, =Makefile=, =scripts=)
+- *X*
+  - programming environments (REPLs)
+    - embedded Python (RustPython)
+    - APLs (BQN, k6/9, Gnu/Dyalog APL)
+    - Elisp (ielm.el)
+    - Erlang (erl)
+    - Lua
+- *Babel*
+  - File templates
+  - scripts and snippets
+  - meta-programming primitives
+- *Stash*
+  - temp storage (=tmp=)
+  - music library (=music=)
+  - configs (=cfg=)
+  - library of babel (=babel=)
+  - tasks, journal, inbox, ops (=org=)
+- *Store*
+  - archive (=arch=)
+  - data (=data=)
+  - media (=media=)
+    - audio (=aud=)
+    - video (=vid=)
+  - virt (=virt=)
+    - OS images (=img=)
+    - FS images (=fs=)
+- *Lab*
+  - Virtual system management (=lxd= and =qemu=)
+    - configurable fs and network sharing for guests
+  - Bootstrap projects from =babel=, use local data from =stash= and
+    =store=
+- *Krypt*
+  - reasonably safe secret storage
+    - Wireguard, SSH, TLS, plaintext
+  - isolated access to OAuth2 and JWT authenticated API services
+    - Google, AWS, Discord, Github
+** Installation
+:PROPERTIES:
+:ID:       803d215d-18da-499b-a2fd-01e15a152e13
+:END:
+Once the binary is installed, run =shc init -p= to bootstrap a via
+prompts. The default config path is determined by the ~$SHED_CFG~
+environment variable or ~$HOME/.config/shed.cfg~.
+
+Some commands run just fine without writing a config to disk - A
+default configuration is supplied when =shed.cfg= can't be
+found. Other commands may panic in the event that a system or internal
+path dependency is missing.
+
+** Configuration
+:PROPERTIES:
+:ID:       0fa1c99b-6452-4b60-be05-6801803600cf
+:END:
+Global configuration is controlled by the [[https://docs.rwest.io/shed/config/struct.Config.html][Config struct]]. The
+specification is non-exhaustive and can be extended by the user at
+runtime or in code at compile.
+#+begin_src rust
+pub struct Config {
+    pub path: PathBuf,
+    pub src: Vec<PackageConfig>,
+    pub bin: Vec<ProgramConfig>,
+    pub net: NetworkConfig,
+    pub hg: MercurialConfig,
+    pub lab: Vec<ProjectConfig>,
+    pub usr: UserConfig,
+}
+#+end_src
+
+Configs can be deserialized from RON, JSON, or Bincode formats. I
+prefer RON for writing local configuration, but feel free to use JSON
+instead. Bincode is intended for =shed= internal processes such as IPC
+and database storage, but exposed to the user for convenience.
+
+- RON
+  #+begin_src ron
+// cfg.ron
+#![enable(implicit_some)]
+(
+  path: "~/shed",
+  src: [],
+  bin: [],
+  net: (
+    socket: "127.0.0.1:0",
+    tunnel: None,
+    engine: Http,
+    peers: None,
+  ),
+  hg: (
+    ui: {},
+    extensions: None,
+    paths: None,
+    web: (
+      name: "",
+      contact: "",
+      description: "",
+      extensions: [],
+      socket: "0.0.0.0:0",
+      paths: {},
+    ),
+  ),
+  lab: [],
+  usr: (
+    shell: (
+      env: {},
+      cmds: {},
+      shell: Bash,
+    ),
+    geo: None,
+    displays: None,
+    packages: [],
+    projects: [],
+    auth: [],
+  ),
+)
+  #+end_src
+- JSON
+  #+begin_src json
+{
+  "path": "/home/ellis/shed",
+  "src": [],
+  "bin": [],
+  "net": {
+    "socket": "127.0.0.1:0",
+    "tunnel": null,
+    "engine": "Http",
+    "peers": null
+  },
+  "hg": {
+    "ui": {},
+    "extensions": null,
+    "paths": null,
+    "web": {
+      "name": "",
+      "contact": "",
+      "description": "",
+      "extensions": [],
+      "socket": "0.0.0.0:0",
+      "paths": {}
+    }
+  },
+  "lab": [],
+  "usr": {
+    "shell": {
+      "env": {},
+      "cmds": {},
+      "shell": "Bash"
+    },
+    "geo": null,
+    "displays": null,
+    "packages": [],
+    "projects": [],
+    "auth": []
+  }
+}
+  #+end_src
+- BIN
+  #+begin_src hexl
+00000000: 1000 0000 0000 0000 2f68 6f6d 652f 656c  ......../home/el
+00000010: 6c69 732f 7368 6564 0000 0000 0000 0000  lis/shed........
+00000020: 0000 0000 0000 0000 0000 0000 7f00 0001  ................
+00000030: 0000 0001 0000 0000 0000 0000 0000 0000  ................
+00000040: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000050: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000060: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000070: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000080: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+00000090: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+000000a0: 0000 0000 0000 0000 0000 0a              ...........
+  #+end_src
+** Commands
+   :PROPERTIES:
+   :ID: a0f0f72d-475a-49a1-a21f-5d8a604099fd
+   :END:
+#+begin_src shell :exports both :results output replace
+shc --help
+#+end_src
+
+#+RESULTS:
+#+begin_example
+shed 0.1.0-0fc01f4e2590+
+
+ellis <ellis@rwest.io>
+
+shed multi-development tool
+
+USAGE:
+    shed [FLAGS] [OPTIONS] [SUBCOMMAND]
+
+FLAGS:
+    -?               set the log level
+    -h, --help       Print help information
+    -V, --version    Print version information
+
+OPTIONS:
+    -c, --config <RON|JSON|BIN>    override configuration values
+
+SUBCOMMANDS:
+    build       build scripts
+    clean       clean stuff up
+    download    fetch resources
+    edit        edit all the things
+    help        Print this message or the help of the given subcommand(s)
+    init        initialize the shed
+    krypt       blackbox
+    pack        create packages from file or directory
+    pull        fetch resources
+    push        commit changes to upstream
+    serve       network services
+    stash       local storage
+    status      print basic info
+    store       shared block storage
+    unpack      unpack .z or .tz files
+    x           do things with runtimes
+#+end_example
+
+** contrib
+:PROPERTIES:
+:ID:       23172369-1d5e-425c-8ffb-78a152c28670
+:CUSTOM_ID: contrib
+:END:
++ what -- Third-party code and dependencies with mirrored source trees
++ why -- isolation of external dependencies
++ [[src:contrib][src]]
+** crater
+:PROPERTIES:
+:ID:       39a1d49f-b477-4e19-8b54-d223168c5703
+:CUSTOM_ID: crater
+:END:
++ what -- a private crate registry for the Rust programming language.
++ [[src:crater][src]]
+The [[https://crates.io][crates.io]] package registry provides a number of excellent crates,
+integrates well with the =cargo= development tool, and should be
+preferred in all cases. I use =crater= when I need to:
+- import my unpublished crates
+- import the master branch of a published crate
+- import a local or patched version of a published crate
+- import a non-git crate (hg)
+
+=crater= also works well in intranet/local environments, and can be
+deployed for use in the following ways:
+- remote :: same as crates.io, registry index is publicly hosted on GitHub (default)
+- local :: registry index is stored locally, crates are retrieved remotely
+- static :: registry index and crate sources are stored locally, no
+  network requests are required
+
+* rlib                                                                 :rust:
+:PROPERTIES:
+:ID: 7e0d54ee-d3f7-468a-b0cf-664bba4df675
+:CATEGORY: lib
+:CUSTOM_ID: rlib
+:EXPORT_FILE_NAME: ../rlib/readme
+:END:
++ what -- a Rust system library
++ why -- develop next-gen applications and services
++ how -- a common interface for low-level modules
++ status -- EXPERIMENTAL
++ [[src:rlib][src]] <-
++ [[https://docs.rwest.io/rlib][docs]] <-
+** Usage
+:PROPERTIES:
+:ID:       89920d82-42dd-402c-8eb7-efdcc71007e5
+:END:
+This crate is not (yet) published on crates.io. To get started you'll need
+to clone the [[src:rlib][repo]] and add it as a dependency to your project like so:
+#+begin_src toml
+[package]
+name = "foo"
+#...
+[dependencies]
+rlib = { version = "0.1.0", path = "../rlib", features = ["cli","kala","anyhow"]} #include some features
+#+end_src
+
+then just use the modules in your code:
+#+begin_src rust
+use rlib::{ctx, logger, kala};
+use rlib::util::Result;
+#[ctx::main]
+async fn main() -> Result<()> {
+  logger::flexi("debug")?;
+  println!("greetings stranger!");
+  kala::cmd::sys::describe_host();
+  Ok(())
+}
+#+end_src
+
+Once our local cargo package registry is complete, instructions will
+be included for how to use this crate from within a =shed= development
+environment.
+
+** Crates
+:PROPERTIES:
+:ID:       bb740861-e7b9-4730-bd34-622f7ae53ce8
+:END:
+
+=rlib= is split into separate crates with a single [[https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html][workspace]]
+library.
+
+- obj
+  - [[https://docs.rwest.io/rlib/doc/obj][API docs]]
+  =Objects= are pre-defined Rust structs that can easily encode to RON,
+  JSON or Bincode, and tagged with metadata such as an =Id=, for easy
+  indexing. They implement a few traits, namely =Objective= and
+  =Identity= which define common functions.
+
+  Objects can be initialized using the =Objective= methods, which allows
+  all fields in their type definition to be decoded from JSON, RON, or
+  bincode. Some Objects also provide methods used to parse the
+  underlying type itself, such as =Wav= for .wav audio files and =Org=
+  for .org text files.
+- ctx
+  - [[https://docs.rwest.io/rlib/doc/ctx][API docs]]
+  Async runtime context(s).
+- eve
+  - [[https://docs.rwest.io/rlib/doc/eve][API docs]]
+  Async event queue (io_uring). Linux only and very experimental
+- net
+  - [[https://docs.rwest.io/rlib/doc/net][API docs]]
+  Network modules for building clients/servers.
+- db
+  - [[https://docs.rwest.io/rlib/doc/db][API docs]]
+  Database modules
+- alch
+  - [[https://docs.rwest.io/rlib/doc/alch][API docs]]
+  Allocator implementations for the niche.
+- hash
+  - [[https://docs.rwest.io/rlib/doc/hash][API docs]]
+  Hash algorithms. (re-exported in =crypto= too)
+- logger
+  - [[https://docs.rwest.io/rlib/doc/logger][API docs]]
+  Logging essentials including a runtime context and macros from the =log= crate
+- math
+  - [[https://docs.rwest.io/rlib/doc/math][API docs]]
+  TBD
+- flate
+  - [[https://docs.rwest.io/rlib/doc/flate][API docs]]
+  Compression module swiss-army knife built around =zstd=.
+- crypto
+  Crypto /primitives/.
+  - [[https://ed25519.cr.yp.to/][ed25519]] and [[https://github.com/dalek-cryptography/ed25519-dalek][ed25519-dalek]] public-key signatures
+  - [[https://cr.yp.to/snuffle.html][Salsa20]] stream cipher + [[https://cr.yp.to/snuffle/xsalsa-20081128.pdf][XSalsa20]]
+  - [[https://nacl.cr.yp.to/secretbox.html][NaCl]] (TBD)
+  - [[https://docs.rwest.io/rlib/doc/crypto][API docs]]
+- audio
+  - [[https://docs.rwest.io/rlib/doc/audio][API docs]]
+  Cross-platform audio device detection and playback.
+- kala
+  Handy /offline/ functions.
+  - [[https://docs.rwest.io/rlib/doc/kala][API docs]]
+- dmc
+  TBD
+  - [[https://docs.rwest.io/rlib/doc/dmc][API docs]]
+- dts
+  - [[https://docs.rwest.io/rlib/doc/dts][API docs]]
+  Experimental types (Monads and GATs and such)
+- ui
+  - [[https://docs.rwest.io/rlib/doc/ui][API docs]]
+  TBD
+- util
+  - [[https://docs.rwest.io/rlib/doc/util][API docs]]
+  Utilities and development tools designed to reduce boilerplate code
+  for build scripts and binaries. Includes wrappers for =anyhow=,
+  =clap=, =chrono=, and some other useful things.
+
+* tenex                                                                :rust:
+:PROPERTIES:
+:ID: 0480aced-777f-4f30-ae05-189500fb6903
+:CATEGORY: lib
+:CUSTOM_ID: tenex
+:EXPORT_FILE_NAME: ../tenex/readme
+:END:
++ what -> A Rust HTTP Client library
+  - ergonomic wrappers for foreign APIs
+  - features -> {google, AWS, discord, openAI, ipapi, NWS}
++ why -> isolation of vendor-specific network calls
+  - apps ->
+    - cloud management tools (google_drive, gmail, EC2, discord_bots)
+    - basic API requests (IP_info, weather_forecast[US only])
+    - async task pools (cross_API_chaining, chatbots_with_triggers, deployment_pipelines)
+    - FFI (WASM/Python/C)
++ status -- ALPHA
++ [[src:tenex][src]] <-
++ [[https://docs.rwest.io/tenex][docs]] <-
+** Features
+:PROPERTIES:
+:ID:       81958264-5117-4120-9be7-5493c5ae14b8
+:END:
+- Clients
+   - [X] NWS (US Weather)
+   - [X] ipapi (public IP lookup)
+   - [ ] openai (beta API)
+   - [ ] Google Cloud
+   - [ ] AWS
+   - [X] SMTPS (smtp.gmail.com)
+- [ ] Authentication
+   - [ ] JWT
+   - [ ] OAuth
+
+* demo                                                                 :rust:
+:PROPERTIES:
+:ID: cbe16e7d-6d73-4e34-a0fc-13a34abe65ba
+:CATEGORY: bin
+:CUSTOM_ID: demo
+:EXPORT_FILE_NAME: ../demo/readme
+:END:
++ what -- demos and examples relating to [[id:7e0d54ee-d3f7-468a-b0cf-664bba4df675][rlib]] and [[id:0480aced-777f-4f30-ae05-189500fb6903][tenex]].
++ status -- ALPHA
++ [[src:demo][src]] <-
+** Examples
+:PROPERTIES:
+:ID:       04580557-8e76-49b6-ad36-731464a527dd
+:END:
+*** hgsub-sort.rs
+:PROPERTIES:
+:ID:       c313a484-e72b-4f41-b9ab-44c3d69727c1
+:CUSTOM_ID: hgsub-sort-rs
+:END:
+Sorts a Mercurial Subrepos file (=.hgsub=) alphabetically.
+*** hi.rs
+:PROPERTIES:
+:ID:       01bf673a-4179-43bc-9281-00d01be97bfd
+:CUSTOM_ID: hi-rs
+:END:
+A startup script I run after logging in to my desktop. It does a few things:
+- print my public IP
+- print a weather report
+- print list of connected USB devices
+- build a tmux session and attach to it (Unix only + =tmux=)
+- configure desktop displays with xrandr (Linux only + =x11=)
+- spawn some desktop widgets (Linux only + =conky=)
+- set my desktop background (Linux only + =fehbg=)
+
+Conditional compilation flags are used - so this program will only
+print IP, weather, and USB devices on Windows.
+#+attr_html: :width 600
+#+attr_latex: :width 600
+[[https://rwest.io/a/img/hi-windows-demo.png][https://rwest.io/a/img/hi-windows-demo.png]]
+
+*** wg-keygen.rs
+:PROPERTIES:
+:ID:       0cfaf940-b3d9-4566-bbbf-8c19ea556d14
+:CUSTOM_ID: wg-keygen-rs
+:END:
+
+*** chatter
+:PROPERTIES:
+:ID:       d61ebbcc-5154-4616-8c37-fbf836493030
+:CUSTOM_ID: chatter
+:END:
+OpenAI API examples (NOTE: requires an OpenAI beta access key)
+
+* music                                                            :noexport:
+:PROPERTIES:
+:ID: 29e8cd23-f49c-47a8-b685-e96b3fbe36e3
+:CATEGORY: art
+:CUSTOM_ID: 0d9fdd16-0e05-4835-a7de-9e2545b41221
+:END:
+I make music sometimes, because I enjoy the process. There are so many
+things to appreciate in sound and it's easy to let yourself become
+absorbed.
+
+Most of the time I just jam with my synths and drum machines and hit
+the record button. It's a good time.
+- [[https://soundcloud.com/ellisaudio][soundcloud1]] | [[https://soundcloud.com/2pldn][soundcloud2]]
+- [[https://cdn.rwest.io/media/audio][audio loops]] \\
+  I have a bunch of loops and other soundbytes I've created over the
+  years - they're all in an Ableton project so that I can mix and
+  arrange them for on-the-fly jam seshes.
+- keyboard clips
+   - [[https://cdn.rwest.io/media/video/joined_video_971d629fa80c4660b1e8b8abf89b1015.mp4][light rhodes jam]]
+   - [[https://cdn.rwest.io/media/video/20170704_204759_1.mp4][electro rhodes jam]]
+   - [[https://cdn.rwest.io/media/video/20170706_213623.mp4][classical practice]]
+     working out Resignation by Brad Mehldau
+- [[https://cdn.rwest.io/media/video/shader_example.mp4][Main Thing (Remix) shader demo]]
+  GLSL shader in Max/MSP + House Music
+
+** computer_music
+:PROPERTIES:
+:ID:       de3060ce-5d70-486e-bd54-caf6be79f034
+:END:
+- I'm slowly preparing some tools for music composition, now that the
+  RustAudio ecosystem is approaching maturity.
+- cool things are on their way, and I'm excited to be getting back
+  into the creative flow.
+- possibilities:
+  - MIDI server for analog hardware
+  - OSC server for Max/MSP, PureData, SuperCollider integrations
+  - Multi-track arrangement, recording, and mixing
+  - sample-level DSP with Oscillators, Effects, and Synth Engines

@@ -1,0 +1,38 @@
+#+TITLE: rwest.io
+#+SETUPFILE: ox.setup
+#+begin_center
+=who= -- Richard Westhaver <[[mailto:ellis@rwest.io][ellis@rwest.io]]>
+=what= -- a humble hacker
+=where= -- some laptop -- USA
+=why= -- sharing is caring
+#+end_center
+
+| link |             |
+|------+-------------|
+| [[file:m.org][m]]    | metas       |
+| [[file:n.org][n]]    | notes       |
+|------+-------------|
+| [[rw:a][a]]    | attachments |
+| [[rw:x][x]]    | exports     |
+| [[rw:y][y]]    | data_1      |
+| [[rw:z][z]]    | data_2      |
+|------+-------------|
+| [[src:][hg]]   | source code |
+
+#+CALL: get-emacs-version() :eval yes
+#+RESULTS:
+: GNU Emacs 29.0.50 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.30, cairo version 1.17.4)
+:  of 2021-10-29
+: Org v9.5
+
+#+CALL: shc-hg-summary() :eval yes
+#+RESULTS:
+: parent: 63:d3291677e8c8 tip
+:  toc update
+: branch: default
+: commit: 4 modified
+: update: (current)
+: M index.org
+: M m.org
+: M n.org
+: M ox.setup
