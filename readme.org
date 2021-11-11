@@ -1,4 +1,4 @@
-# Created 2021-11-08 Mon 21:16
+# Created 2021-11-11 Thu 04:27
 #+title: meta
 - what -- \\
   This project contains documents I've written in plain-text used to

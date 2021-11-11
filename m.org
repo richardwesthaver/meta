@@ -226,6 +226,9 @@ rm -rf o
   (org-export-headings-to-org)
 #+end_src
 
+#+RESULTS: meta-readme-gen
+
+
 #+name: meta-readme-commit
 #+begin_src shell
   for i in shed rlib tenex babel cfg demo; do
