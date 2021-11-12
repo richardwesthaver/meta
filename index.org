@@ -1,23 +1,25 @@
 #+TITLE: rwest.io
 #+SETUPFILE: ox.setup
 #+begin_center
-=who= -- Richard Westhaver <[[mailto:ellis@rwest.io][ellis@rwest.io]]>
-=what= -- a humble hacker
-=where= -- some laptop -- USA
-=why= -- sharing is caring
+=who= -- Richard Westhaver <[[mailto:ellis@rwest.io][ellis@rwest.io]]> \\
+=what= -- a humble hacker \\
+=where= -- some laptop -- USA \\
+=why= -- sharing is caring \\
 #+end_center
 
-| link |             |
-|------+-------------|
-| [[file:m.org][m]]    | metas       |
-| [[file:n.org][n]]    | notes       |
-|------+-------------|
-| [[rw:a][a]]    | attachments |
-| [[rw:x][x]]    | exports     |
-| [[rw:y][y]]    | data_1      |
-| [[rw:z][z]]    | data_2      |
-|------+-------------|
-| [[src:][hg]]   | source code |
+|--------+-------------+---------------------------------------+------------------------------------------|
+| path   | ?           |                                       |                                          |
+|--------+-------------+---------------------------------------+------------------------------------------|
+| /      | <           |                                       |                                          |
+| [[file:m.org][m]]      | metas       | project info                          | [[[file:m.org::#meta][meta]] [[file:m.org::#babel][babel]] [[file:m.org::#cfg][cfg]] [[file:m.org::#shed][shed]] [[file:m.org::#rlib][rlib]] [[file:m.org::#tenex][tenex]]]         |
+| [[file:n.org][n]]      | notes       | notes, research, etc                  | [[[file:n.org::#art][art]] [[file:n.org::#computers][computers]] [[file:n.org::#economics][econ]] [[file:n.org::#language][lang]] [[file:n.org::#math][math]] [[file:n.org::#philosophy][phil]] [[file:n.org::#misc][misc]]] |
+| r(TBD) |             |                                       |                                          |
+|--------+-------------+---------------------------------------+------------------------------------------|
+| [[rw:a][a]]      | attachments | images, audio, docs, and other medias |                                          |
+| [[rw:x][x]]      | exports     | alternative formats of this site      |                                          |
+| [[rw:y][y]]      | data_1      | distribution resources                |                                          |
+| [[rw:z][z]](TBD) | data_2      | datasets                              |                                          |
+|--------+-------------+---------------------------------------+------------------------------------------|
 
 #+CALL: get-emacs-version() :eval yes
 #+RESULTS:
