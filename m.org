@@ -20,7 +20,7 @@
 :PROPERTIES:
 :ID:       60bed781-3a70-4435-9df0-097b799539e4
 :CUSTOM_ID: meta
-:EXPORT_FILE_NAME: o/readme
+:EXPORT_FILE_NAME: readme
 :END:
 
 #+name: meta-info
@@ -254,21 +254,16 @@ rm -rf o
 :ID:       9ca529ee-50b6-4beb-9b46-042d4b2a521c
 :END:
 #+name: meta-readme-gen
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :results silent
   (org-export-headings-to-org)
 #+end_src
 
-#+RESULTS: meta-readme-gen
-
-
 #+name: meta-readme-commit
-#+begin_src shell
+#+begin_src shell :results silent
   for i in shed rlib tenex babel cfg demo; do
       cd ~/shed/src/$i && hg ci -m 'readme.org update'
   done
 #+end_src
-
-#+RESULTS: meta-readme-commit
 
 *** makefile                                                     :noexport:
 :PROPERTIES:
