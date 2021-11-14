@@ -1,24 +1,7 @@
 #+TITLE: metas
-#+STARTUP: overview
 #+SETUPFILE: ox.setup
-#+CATEGORY: metas
-#+name: metas
-|---+-------+-----------------------------+------+-----------------+-------+--------------------------+---|
-|   | meta  | info                        |      |                 | stats |                          |   |
-|---+-------+-----------------------------+------+-----------------+-------+--------------------------+---|
-| / |       | <                           |      |                 | <     |                          |   |
-| ! | name  | info                        | type | version         | stats | count                    |   |
-| # | meta  | project information         | org  | alpha-0.2:%U:%R |       | [l:# f:#, v:#, t:%, d:%] |   |
-| # | shed  | self-hosted dev environment | rust |                 |       |                          |   |
-| # | rlib  | Richard's Rust Library      | rust |                 |       |                          |   |
-| # | tenex | HTTP API clients            | rust |                 |       |                          |   |
-| # | cfg   | dotfiles                    | etc  |                 |       |                          |   |
-| # | babel | meta-programming library    | etc  |                 |       |                          |   |
-|---+-------+-----------------------------+------+-----------------+-------+--------------------------+---|
-
 * meta
 :PROPERTIES:
-:ID:       60bed781-3a70-4435-9df0-097b799539e4
 :CUSTOM_ID: meta
 :EXPORT_FILE_NAME: readme
 :END:
@@ -52,12 +35,11 @@
 #+RESULTS: files
 | file       | size |          updated |
 | cv.org     | 3.8K | 2021-10-27-20:37 |
-| index.org  | 2.4K | 2021-11-12-02:32 |
-| m.org      | 35K  | 2021-11-12-02:34 |
+| index.org  | 2.0K | 2021-11-12-18:38 |
+| m.org      | 36K  | 2021-11-12-23:17 |
 | n.org      | 229K | 2021-11-12-02:18 |
-| o          | 90   | 2021-11-12-00:29 |
-| ox.setup   | 244  | 2021-10-31-04:43 |
-| readme.org | 6.7K | 2021-11-11-04:27 |
+| ox.setup   | 270  | 2021-11-12-19:01 |
+| readme.org | 7.5K | 2021-11-12-02:49 |
 
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readmes for code hosted at [[src:/][hg.rwest.io]].
@@ -103,12 +85,12 @@ with sensitive info, but I prefer the copy method for public projects.
 
 #+name: meta-tmp 
 #+begin_src emacs-lisp :var o=meta-vt(idx=3) :results silent
-      (let ((path (concat o "org/"))
-            (files (list "m.org" "n.org" "index.org" "cv.org" "ox.setup")))
-        (make-directory path t)
-        (dolist (f files)
-          (copy-file f path t))
-        (message "created meta-tmp dir"))
+  (let ((path (concat o "org/"))
+        (files (list "m.org" "n.org" "index.org" "cv.org" "ox.setup")))
+    (make-directory path t)
+    (dolist (f files)
+      (copy-file f path t))
+    (message "created meta-tmp dir"))
 #+end_src
 
 *** pub
@@ -243,12 +225,9 @@ mv doc/* ./ && rm -r doc release
 #+end_src
 *** clean
 #+name: meta-clean
-#+begin_src shell
+#+begin_src shell :results silent
 rm -rf o
 #+end_src
-
-#+RESULTS: meta-clean
-
 *** readme-gen                                                   :noexport:
 :PROPERTIES:
 :ID:       9ca529ee-50b6-4beb-9b46-042d4b2a521c
