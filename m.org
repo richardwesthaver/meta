@@ -6,35 +6,33 @@
 :EXPORT_FILE_NAME: readme
 :END:
 This project contains documents I've written in plain-text used to
-generate my [[https://rwest.io][website]] and readme files for code hosted at [[src:/][hg.rwest.io]].
+generate my [[https://rwest.io][website]] and readme files for code hosted at [[src:][hg.rwest.io]].
 
 #+name: meta-make-tbl
 #+header: :var name=(org-sbx org-current-heading-title) :var age=hg-log-age()
 #+header: :var rev=(org-sbx hg-rev (path (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
+#+header: :var num=(org-sbx hg-id-num (path (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
+#+header: :var lc=(org-sbx wc-dir-lines (dir (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title)))) wc=(org-sbx wc-dir-words (dir (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
 #+header: :var ver="alpha-0.1"
 #+begin_src emacs-lisp :exports results :eval no-export
-  (let* ((nf (format "[[https://rwest.io/m#%s][%s]]" name name))
-         (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s]]" name rev rev))
-         (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
-         (vf (format "%s, %s" rf gf)))
-    `(("name" ,nf)
-      ("version" ,ver)
-      ("vc" ,vf)
-      ("updated" ,age)))
+        (let* ((nf (format "[[https://rwest.io/m#%s][%s]]" name name))
+               (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s:%s]]" name rev num rev))
+               (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
+               (vf (format "%s, %s" rf gf))
+               (cf (format "%s lines, %s words" lc wc)))
+          `(("name" ,nf)
+            ("version" ,ver)
+            ("vc" ,vf)
+            ("updated" ,age)
+            ("count" ,cf)))
 #+end_src
 
 #+RESULTS: meta-make-tbl
-| name    | [[https://rwest.io/m#meta][meta]]                 |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/meta/rev/e7fc3c34a2fd][e7fc3c34a2fd]], [[https://github.com/richardwesthaver/meta][github]] |
-| updated | 22 hours ago         |
-
-#+name: meta-stats
-| lines |  7061 |
-| words | 31656 |
-#+TBLFM: @1$2='(org-sbe "wc-dir-lines")
-#+TBLFM: @2$2='(org-sbe "wc-dir-words")
-
+| name    | [[https://rwest.io/m#meta][meta]]                     |
+| version | alpha-0.1                |
+| vc      | [[https://hg.rwest.io/meta/rev/e7fc3c34a2fd][72+:e7fc3c34a2fd]], [[https://github.com/richardwesthaver/meta][github]] |
+| updated | 22 hours ago             |
+| count   | 7063 lines, 31741 words  |
 #+name: _meta-files
 #+begin_src sh :results silent :exports none
   ls -lh --time-style=long-iso \
@@ -49,11 +47,11 @@ ft
 | file       | size |          updated |
 |------------+------+------------------|
 | cv.org     | 3.8K | 2021-10-27-20:37 |
-| index.org  | 4.4K | 2021-11-17-03:45 |
-| m.org      | 36K  | 2021-11-17-22:05 |
+| index.org  | 4.6K | 2021-11-17-22:42 |
+| m.org      | 38K  | 2021-11-17-23:51 |
 | n.org      | 229K | 2021-11-14-17:37 |
 | ox.setup   | 580  | 2021-11-14-23:06 |
-| readme.org | 8.5K | 2021-11-17-22:00 |
+| readme.org | 8.7K | 2021-11-17-23:25 |
 
 #+CALL: shc-hg-summary() :eval yes
 #+RESULTS:
@@ -100,14 +98,14 @@ This block is the main entry point that gets executed - each call to
 =org-sbx= (a custom function based on =org-sbe=) executes the contents
 of a named code block.
 
-#+name: meta-deploy-thread
+#+name: meta-deploy-main
 #+begin_src emacs-lisp :results silent
   (org-sbx meta-tmp)
   (org-sbx meta-pub)
   (org-sbx meta-pack)
   (org-sbx meta-deploy)
   (org-sbx meta-readme-gen)
-  (org-sbx meta-readme-commit)
+  ;(org-sbx meta-readme-commit)
   (org-sbx meta-clean)
 #+end_src
 
@@ -134,7 +132,7 @@ Markdown, PDF, and txt. Exported files are saved in separate
 directories.
 
 #+name: meta-pub
-#+begin_src elisp :results silent
+#+begin_src emacs-lisp :results silent
   (require 'ox)
   (require 'org-refile)
   (require 'htmlize "~/shed/src/contrib/el/htmlize/htmlize.el")
@@ -189,9 +187,7 @@ directories.
 
   (org-publish-remove-all-timestamps)
   (org-refile-cache-clear)
-  (org-babel-lob-ingest "~/shed/src/babel/lob.org")
   (org-publish "all" t)
-
   (load-theme current-theme)
 #+end_src
 
@@ -387,10 +383,11 @@ using code blocks in various contexts. More on that later.
 
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| name    | [[https://rwest.io/m#babel][babel]]                |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/babel/rev/2afb51f8de22][2afb51f8de22]], [[https://github.com/richardwesthaver/babel][github]] |
-| updated | 22 hours ago         |
+| name    | [[https://rwest.io/m#babel][babel]]                   |
+| version | alpha-0.1               |
+| vc      | [[https://hg.rwest.io/babel/rev/7f8740fdf0a4][74:7f8740fdf0a4]], [[https://github.com/richardwesthaver/babel][github]] |
+| updated | 23 hours ago            |
+| count   | 1031 lines, 3791 words  |
 
 ** Literate Programming
 :PROPERTIES:
@@ -469,10 +466,11 @@ use often.
 
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| name    | [[https://rwest.io/m#cfg][cfg]]                  |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/cfg/rev/6e80eca6a680][6e80eca6a680]], [[https://github.com/richardwesthaver/cfg][github]] |
-| updated | 22 hours ago         |
+| name    | [[https://rwest.io/m#cfg][cfg]]                     |
+| version | alpha-0.1               |
+| vc      | [[https://hg.rwest.io/cfg/rev/1a841ba8c7ae][39:1a841ba8c7ae]], [[https://github.com/richardwesthaver/cfg][github]] |
+| updated | 23 hours ago            |
+| count   | 101 lines, 530 words    |
 
 | category | description                            | apps                |
 |----------+----------------------------------------+---------------------|
@@ -643,10 +641,11 @@ future, depending on how the Nix ecosystem progresses.
 
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| name    | [[https://rwest.io/m#shed][shed]]                 |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/shed/rev/cff2de401302][cff2de401302]], [[https://github.com/richardwesthaver/shed][github]] |
-| updated | 22 hours ago         |
+| name    | [[https://rwest.io/m#shed][shed]]                    |
+| version | alpha-0.1               |
+| vc      | [[https://hg.rwest.io/shed/rev/8147771c6b85][61:8147771c6b85]], [[https://github.com/richardwesthaver/shed][github]] |
+| updated | 23 hours ago            |
+| count   | 4922 lines, 9886 words  |
 
 ** Roadmap
 :PROPERTIES:
@@ -991,25 +990,36 @@ deployed for use in the following ways:
 :CUSTOM_ID: rlib
 :EXPORT_FILE_NAME: ../rlib/readme
 :END:
-+ what -- a Rust system library
-+ why -- develop next-gen applications and services
-+ how -- a common interface for low-level modules
-+ status -- EXPERIMENTAL
-+ [[src:rlib][src]] <-
-+ [[https://docs.rwest.io/rlib][docs]] <-
+=rlib= is a Rust Library. It provides a loose collection of /modules/
+which are conditionally compiled via [[https://doc.rust-lang.org/cargo/reference/features.html][features]]. Modules include
+boiler-plate, wrappers, errors, helper functions, and some custom
+interfaces.
+
+One thing this library does *not* do is re-export an [[https://rust-lang.github.io/async-book/08_ecosystem/00_chapter.html#async-runtimes][async runtime]]. In
+earlier versions it re-exported both [[https://github.com/rayon-rs/rayon][rayon]] and [[https://github.com/tokio-rs/tokio][tokio]] as a convenience
+to the programmer but this has been phased out. There are however many
+=async= functions available in this library, so you should come
+equipped with your own runtime if you plan to =.await=.
+
+This is a /personal/ library which is unfit for production use as it
+is quite bloated, some of the individual modules are useful on their
+own though.
++ [[src:rlib][src]] 
++ [[https://docs.rwest.io/rlib][docs]] 
 
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| name    | [[https://rwest.io/m#rlib][rlib]]                 |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/rlib/rev/ed86cbe6f206][ed86cbe6f206]], [[https://github.com/richardwesthaver/rlib][github]] |
-| updated | 22 hours ago         |
+| name    | [[https://rwest.io/m#rlib][rlib]]                     |
+| version | alpha-0.1                |
+| vc      | [[https://hg.rwest.io/rlib/rev/b90f4fe279ef][93+:b90f4fe279ef]], [[https://github.com/richardwesthaver/rlib][github]] |
+| updated | 23 hours ago             |
+| count   | 5719 lines, 11036 words  |
 
 ** Usage
 :PROPERTIES:
 :CUSTOM_ID: rlib-usage
 :END:
-This crate is not (yet) published on crates.io. To get started you'll need
+This crate is not published on crates.io. To get started you'll need
 to clone the [[src:rlib][repo]] and add it as a dependency to your project like so:
 #+begin_src toml
   [package]
@@ -1131,10 +1141,11 @@ library.
 
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| name    | [[https://rwest.io/m#tenex][tenex]]                |
-| version | alpha-0.1            |
-| vc      | [[https://hg.rwest.io/tenex/rev/51be643df8a8][51be643df8a8]], [[https://github.com/richardwesthaver/tenex][github]] |
-| updated | 22 hours ago         |
+| name    | [[https://rwest.io/m#tenex][tenex]]                   |
+| version | alpha-0.1               |
+| vc      | [[https://hg.rwest.io/tenex/rev/0990bf704fee][47:0990bf704fee]], [[https://github.com/richardwesthaver/tenex][github]] |
+| updated | 23 hours ago            |
+| count   | 2955 lines, 5616 words  |
 
 ** Features
 :PROPERTIES:
