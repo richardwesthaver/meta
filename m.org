@@ -1,60 +1,89 @@
 #+TITLE: metas
 #+SETUPFILE: ox.setup
-* meta
+* meta                                                             :org:docs:
 :PROPERTIES:
 :CUSTOM_ID: meta
 :EXPORT_FILE_NAME: readme
 :END:
+This project contains documents I've written in plain-text used to
+generate my [[https://rwest.io][website]] and readme files for code hosted at [[src:/][hg.rwest.io]].
 
-#+name: meta-info
-|----------+-------|
-| release  |       |
-| status   |       |
-| revision |       |
-| tags     |       |
-| updated  |       |
-| license  | wtfpl |
-|          |       |
-|----------+-------|
+#+name: meta-make-tbl
+#+header: :var name=(org-sbx org-current-heading-title) :var age=hg-log-age()
+#+header: :var rev=(org-sbx hg-rev (path (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
+#+header: :var ver="alpha-0.1"
+#+begin_src emacs-lisp :exports results :eval no-export
+  (let* ((nf (format "[[https://rwest.io/m#%s][%s]]" name name))
+         (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s]]" name rev rev))
+         (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
+         (vf (format "%s, %s" rf gf)))
+    `(("name" ,nf)
+      ("version" ,ver)
+      ("vc" ,vf)
+      ("updated" ,age)))
+#+end_src
 
+#+RESULTS: meta-make-tbl
+| name    | [[https://rwest.io/m#meta][meta]]                 |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/meta/rev/e7fc3c34a2fd][e7fc3c34a2fd]], [[https://github.com/richardwesthaver/meta][github]] |
+| updated | 22 hours ago         |
 
 #+name: meta-stats
-|-------+---|
-| lines |   |
-|       |   |
+| lines |  7061 |
+| words | 31656 |
+#+TBLFM: @1$2='(org-sbe "wc-dir-lines")
+#+TBLFM: @2$2='(org-sbe "wc-dir-words")
 
-
-#+name: files
-#+begin_src sh :results table :exports both
+#+name: _meta-files
+#+begin_src sh :results silent :exports none
   ls -lh --time-style=long-iso \
     |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
     |awk 'BEGIN{print "file size updated"}{print $0}'
 #+end_src
-
-#+name: meta-files
-#+RESULTS: files
+#+name: meta-files 
+#+begin_src emacs-lisp :var ft=_meta-files :results table :colnames yes :hlines yes :exports results
+ft
+#+end_src
+#+RESULTS: meta-files
 | file       | size |          updated |
+|------------+------+------------------|
 | cv.org     | 3.8K | 2021-10-27-20:37 |
-| index.org  | 2.0K | 2021-11-12-18:38 |
-| m.org      | 36K  | 2021-11-12-23:17 |
-| n.org      | 229K | 2021-11-12-02:18 |
-| ox.setup   | 270  | 2021-11-12-19:01 |
-| readme.org | 7.5K | 2021-11-12-02:49 |
+| index.org  | 4.4K | 2021-11-17-03:45 |
+| m.org      | 36K  | 2021-11-17-22:05 |
+| n.org      | 229K | 2021-11-14-17:37 |
+| ox.setup   | 580  | 2021-11-14-23:06 |
+| readme.org | 8.5K | 2021-11-17-22:00 |
 
-This project contains documents I've written in plain-text used to
-generate my [[https://rwest.io][website]] and readmes for code hosted at [[src:/][hg.rwest.io]].
+#+CALL: shc-hg-summary() :eval yes
+#+RESULTS:
+: parent: 72:e7fc3c34a2fd tip
+:  meta fixes
+: branch: default
+: commit: 3 modified
+: update: (current)
+: M index.org
+: M m.org
+: M readme.org
 
-+ [[src:meta][src]] <-
-
-- =m.org= contains formal docs for projects
-- =n.org= contains informal notes
-- =cv.org= is my resume (hire me!)
 ** scripts
 :PROPERTIES:
-:ID:       d0e37437-8959-4692-9b7f-9245073042e2
+:CUSTOM_ID: meta-scripts
+:END:
+*** index
+:PROPERTIES:
+:CUSTOM_ID: meta-index
+:END:
+*** deploy
+:PROPERTIES:
+:CUSTOM_ID: meta-deploy
 :END:
 
-#+name: meta-tbl
+This is the script for deploying metas. It usually takes a few minutes
+to run and chains together a bunch of code blocks, but is otherwise
+fully automated.
+
+#+name: meta-prod-vars
 | key   | val              | notes             |
 |-------+------------------+-------------------|
 | wd    | ~/shed/src/meta/ | working directory |
@@ -62,29 +91,35 @@ generate my [[https://rwest.io][website]] and readmes for code hosted at [[src:/
 | rh    | /sshx:hyde:      | remote host       |
 | o     | o/               | output directory  |
 
-#+name: meta-vt
-#+begin_src emacs-lisp :results value :var tbl=meta-tbl idx=0
-(nth idx (mapcar (lambda (x) (cadr x)) tbl))
+#+name: meta-val
+#+begin_src emacs-lisp :results value :var tbl=meta-prod-vars idx=0 :exports none
+  (nth idx (mapcar (lambda (x) (cadr x)) tbl))
 #+end_src
 
-#+RESULTS: meta-vt
-: ~/shed/src/meta/
+This block is the main entry point that gets executed - each call to
+=org-sbx= (a custom function based on =org-sbe=) executes the contents
+of a named code block.
 
-*** tmp
-:PROPERTIES:
-:ID:       a3e61646-3d9f-4186-9187-cc826b3e9392
-:END:
-First we generate the output directory and copy the source files
-there. This ensures the root project directory isn't polluted on
-export.
+#+name: meta-deploy-thread
+#+begin_src emacs-lisp :results silent
+  (org-sbx meta-tmp)
+  (org-sbx meta-pub)
+  (org-sbx meta-pack)
+  (org-sbx meta-deploy)
+  (org-sbx meta-readme-gen)
+  (org-sbx meta-readme-commit)
+  (org-sbx meta-clean)
+#+end_src
 
-You could also do an initial export to generate pre-parsed files (with
+First we generate the output directory and copy source files there.
+This ensures the root project directory isn't polluted on export. You
+could also do an initial export to generate pre-parsed files (with
 comments and headings tagged with =noexport= removed) in the output
 directory instead of copying the raw source. This is great for docs
 with sensitive info, but I prefer the copy method for public projects.
 
 #+name: meta-tmp 
-#+begin_src emacs-lisp :var o=meta-vt(idx=3) :results silent
+#+begin_src emacs-lisp :var o=meta-val(idx=3) :results silent
   (let ((path (concat o "org/"))
         (files (list "m.org" "n.org" "index.org" "cv.org" "ox.setup")))
     (make-directory path t)
@@ -93,24 +128,19 @@ with sensitive info, but I prefer the copy method for public projects.
     (message "created meta-tmp dir"))
 #+end_src
 
-*** pub
-:PROPERTIES:
-:ID:       e350dd4f-eab2-477b-9ce7-c39e4e4d75e0
-:CUSTOM_ID: pub-el
-:END:
-- Org has integrated [[https://orgmode.org/manual/Exporting.html][exporting]] powered by [[https://orgmode.org/worg/exporters/ox-docstrings.html][ox.el]] - an
-  emacs-lisp script is all that is needed to generate conventional
-  formats like HTML, Markdown, PDF, and txt.
-- Exported files are saved in separate directories
+Org has integrated [[https://orgmode.org/manual/Exporting.html][exporting]] powered by [[https://orgmode.org/worg/exporters/ox-docstrings.html][ox.el]] - an emacs-lisp script
+is all that is needed to generate conventional formats like HTML,
+Markdown, PDF, and txt. Exported files are saved in separate
+directories.
+
 #+name: meta-pub
 #+begin_src elisp :results silent
   (require 'ox)
   (require 'org-refile)
   (require 'htmlize "~/shed/src/contrib/el/htmlize/htmlize.el")
   (require 'org-id)
-
   (setq org-html-validation-link nil
-;;        org-html-htmlize-output-type 'css
+        ;;        org-html-htmlize-output-type 'css
         org-export-with-author nil)
 
   (load-theme 'modus-operandi)
@@ -159,58 +189,31 @@ with sensitive info, but I prefer the copy method for public projects.
 
   (org-publish-remove-all-timestamps)
   (org-refile-cache-clear)
+  (org-babel-lob-ingest "~/shed/src/babel/lob.org")
   (org-publish "all" t)
 
   (load-theme current-theme)
-  #+end_src
-*** pack
-:PROPERTIES:
-:ID:       8530e126-6fbf-41bb-bd48-2bd06f1ae5ab
-:END:
-
-First we clean some of the junk latex produced by the PDF export.
-
-#+name: meta-clean-latex-clutter
-#+begin_src sh :var o=meta-vt(idx=3) :results silent
-cd $o/org && rm -rf *.pdf *.tex
 #+end_src
 
-Now we can compress our exports to =.tz= (tar.zst) archives.
+First we clean some of the junk latex produced by the PDF export, then
+compress our exports to =.tz= (tar.zst) archives.
 
 #+name: meta-pack
-#+begin_src sh :results silent
-  cd o/
+#+begin_src sh :var o=meta-val(idx=3) :results silent
+  cd $o/org
+  rm -rf *.pdf *.tex
+  cd ..
   for i in $(find ./* -maxdepth 0 -type d);
   do
       shc pack $i
   done
-  #+end_src
-*** docs
-:PROPERTIES:
-:ID:       58c7f49f-b095-4d0d-adcd-e5cba7ccadd7
-:END:
-Generate API docs for all Rust projects
-#+name: shed-gen-rust-docs
-#+begin_src sh
-WD=$SHED/src
-O=$WD/meta/o/d
-cd $WD
-for i in rlib tenex shed; do # shed
-    cd $i
-    cargo +nightly doc --target-dir $O --no-deps --all-features --workspace --release --message-format short
-    cd ..
-done
-cd $O
-mv doc/* ./ && rm -r doc release
 #+end_src
-*** deploy
-:PROPERTIES:
-:ID:       80226a3c-8866-4c35-ab3e-5a5d5d35b9c9
-:END:
-- all build artifacts are transferred over SSH to a public web server
-- New content can now be viewed online at [[https://rwest.io][rwest.io]] and downloaded at
-  [[https://rwest.io/x][rwest.io/x]] which includes archives and individual files in all
-  formats.
+
+All build artifacts are transferred over SSH to a public web
+server. New content can now be viewed online at [[https://rwest.io][rwest.io]] and
+downloaded at [[https://rwest.io/x][rwest.io/x]] which includes archives and individual files
+in all formats.
+
 #+name: meta-deploy
 #+begin_src emacs-lisp :var o="o/" rh="/sshx:hyde:/mnt/w/" files='("m.html" "n.html" "index.html") :results silent
   (copy-file o (concat rh "x/") 1)
@@ -219,24 +222,33 @@ mv doc/* ./ && rm -r doc release
   (copy-file (concat o "pdf/cv.pdf") rh 1)
 #+end_src
 
-#+name: meta-deploy-rust-docs
-#+begin_src elisp :results silent
-(copy-file "o/d" "/sshx:hyde:/mnt/w/d" 1)
-#+end_src
-*** clean
-#+name: meta-clean
-#+begin_src shell :results silent
-rm -rf o
-#+end_src
-*** readme-gen                                                   :noexport:
-:PROPERTIES:
-:ID:       9ca529ee-50b6-4beb-9b46-042d4b2a521c
-:END:
+
+Next we execute a helper function from my [[#cfg-emacs][emacs config]]. This function
+scans the current file (=m.org=) and generates individual =readme.org=
+files for our projects.
+
 #+name: meta-readme-gen
 #+begin_src emacs-lisp :results silent
   (org-export-headings-to-org)
 #+end_src
 
+Here's the docstring for =org-export-headings-to-org=:
+#+begin_quote
+Export all subtrees that are *not* tagged with :noexport: to
+separate files.
+
+Subtrees that do not have the :EXPORT_FILE_NAME: property set
+are exported to a filename derived from the headline text.
+#+end_quote
+
+What's going on here? Well to start, we are indeed using the
+=:EXPORT_FILE_NAME:= property in our headlines. This allows us to
+generate the same 'filename' (=readme.org=) in respective project
+directories. They also look quite nice on GitHub without any
+additional configuration ;).
+
+Before we talk about github stuff, let's commit the readme changes for
+our projects.
 #+name: meta-readme-commit
 #+begin_src shell :results silent
   for i in shed rlib tenex babel cfg demo; do
@@ -244,40 +256,75 @@ rm -rf o
   done
 #+end_src
 
-*** makefile                                                     :noexport:
+We can also remove the output directory clutter we created earlier.
+
+#+name: meta-clean
+#+begin_src shell :results silent
+  rm -rf o
+#+end_src
+
+**** docs                                                       :noexport:
 :PROPERTIES:
-:ID:       c27a67be-7b8b-47c5-9578-5acc71e27c53
+:CUSTOM_ID: meta-prod-docs
+:END:
+Generate API docs for all Rust projects
+#+name: shed-gen-rust-docs
+#+begin_src sh
+  WD=$SHED/src
+  O=$WD/meta/o/d
+  cd $WD
+  for i in rlib tenex shed; do # shed
+      cd $i
+      cargo +nightly doc --target-dir $O --no-deps --all-features --workspace --release --message-format short
+      cd ..
+  done
+  cd $O
+  mv doc/* ./ && rm -r doc release
+#+end_src
+
+#+name: meta-deploy-rust-docs
+#+begin_src elisp :results silent
+  (copy-file "o/d" "/sshx:hyde:/mnt/w/d" 1)
+#+end_src
+
+**** hg-export-github                                           :noexport:
+:PROPERTIES:
+:CUSTOM_ID: meta-prod-hg-export-github
+:END:
+
+**** makefile                                                   :noexport:
+:PROPERTIES:
+:CUSTOM_ID: meta-prod-makefile
 :header-args: :results silent :eval no-export
 :END:
 #+begin_src makefile :tangle makefile :shebang "#!/usr/bin/make -f -j8"
-PUB := ./pub.el
-OX_SETUP := ./ox.setup
+  PUB := ./pub.el
+  OX_SETUP := ./ox.setup
 
-HD ?= dmz
-P ?= html md txt pdf org
+  HD ?= dmz
+  P ?= html md txt pdf org
 
-MD = mkdir -p $(@)
+  MD = mkdir -p $(@)
 
-.PHONY: c
+  .PHONY: c
 
-o:o/x;shed pack $< $<.tz;
-	$(foreach p,$(P), shed pack $</${p} $@/${p}.tz;)
+  o:o/x;shed pack $< $<.tz;
+  $(foreach p,$(P), shed pack $</${p} $@/${p}.tz;)
 
-w:o;ssh $(HD) rm -rf dmz/w/*.html;\
-	scp -r $</x/html/*.html $(HD):dmz/w;\
-	scp -r $</*.tz $(HD):dmz/w/x
+  w:o;ssh $(HD) rm -rf dmz/w/*.html;\
+  scp -r $</x/html/*.html $(HD):dmz/w;\
+  scp -r $</*.tz $(HD):dmz/w/x
 
-c:;rm -rf o
+  c:;rm -rf o
 
-o/x:$(OX_SETUP) $(PUB);$(MD)/org;cp ./*.org $< o/x/org;$(PUB);\
-	ssh $(HD) rm -rf dmz/w/*.html; scp -r $@/html/*.html $(HD):dmz/w/;\
-	shed pack $@ o/x.tz;scp -r $@ $(HD):dmz/w
-  #+end_src
+  o/x:$(OX_SETUP) $(PUB);$(MD)/org;cp ./*.org $< o/x/org;$(PUB);\
+  ssh $(HD) rm -rf dmz/w/*.html; scp -r $@/html/*.html $(HD):dmz/w/;\
+  shed pack $@ o/x.tz;scp -r $@ $(HD):dmz/w
+#+end_src
 
 ** syntax
 :PROPERTIES:
-:ID:       93185ce3-7b16-4f9b-8e59-39127869ac45
-:CUSTOM_ID: elements
+:CUSTOM_ID: meta-syntax
 :END:
 The source files assume some familiarity with org syntax. Org syntax
 is covered [[https://orgmode.org/worg/dev/org-syntax.html][online]] in detail and high-level info about document
@@ -320,7 +367,7 @@ special *elements*:
   :end:
   =cdn=, =src=, and =rw= links all point to =rwest.io=.
 
-* babel
+* babel                                                            :org:prog:
 :PROPERTIES:
 :ID:       1b363810-26ea-4dae-b689-6e050756bfae
 :CUSTOM_ID: babel
@@ -338,9 +385,16 @@ case, but the powerful functionality of =org-babel= is still there.
 extensions to built-in packages, a minor-mode, and a framework for
 using code blocks in various contexts. More on that later.
 
+#+CALL: meta-make-tbl()
+#+RESULTS:
+| name    | [[https://rwest.io/m#babel][babel]]                |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/babel/rev/2afb51f8de22][2afb51f8de22]], [[https://github.com/richardwesthaver/babel][github]] |
+| updated | 22 hours ago         |
+
 ** Literate Programming
 :PROPERTIES:
-:ID:       838554e2-7987-4649-9b6d-430b67b193e3
+:CUSTOM_ID: babel-lp
 :END:
 Literate Programming (LP) was first introduced by Donald Knuth in 1984 via
 his documentation and programming system =WEB=. The approach involves
@@ -360,7 +414,7 @@ Programming today.
 
 *** Weaving and Tangling
 :PROPERTIES:
-:ID:       9c673bfa-a8a4-4a9d-990a-2d141a6037ae
+:CUSTOM_ID: lp-weave-tangle
 :END:
 
 [[https://rwest.io/a/img/literate_c.jpg]]
@@ -393,7 +447,7 @@ machine-readable formats of source blocks.
 
 ** Dependencies
 :PROPERTIES:
-:ID:       aca42323-7eac-4ccd-b338-4d78b3407923
+:CUSTOM_ID: babel-deps
 :END:
 - *Emacs 28* \\
   The editor integration doesn't depend on any external packages
@@ -405,14 +459,20 @@ machine-readable formats of source blocks.
   - =abbrev.el=
   - =dabbrev.el=
 
-* cfg
+* cfg                                                                   :etc:
 :PROPERTIES:
-:ID:       9d7999d3-b66e-4ea2-8586-2ef9c27e8f4b
 :CUSTOM_ID: cfg
 :EXPORT_FILE_NAME: ../cfg/readme
 :END:
 This repo contains [[https://wiki.archlinux.org/title/Dotfiles][dotfiles]] for various programs and applications I
 use often.
+
+#+CALL: meta-make-tbl()
+#+RESULTS:
+| name    | [[https://rwest.io/m#cfg][cfg]]                  |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/cfg/rev/6e80eca6a680][6e80eca6a680]], [[https://github.com/richardwesthaver/cfg][github]] |
+| updated | 22 hours ago         |
 
 | category | description                            | apps                |
 |----------+----------------------------------------+---------------------|
@@ -437,7 +497,7 @@ individual application such as =shell= or =emacs= respectively.
 
 ** emacs
 :PROPERTIES:
-:ID:       903f8087-e0af-48f2-a5a6-f8d7f080464a
+:CUSTOM_ID: cfg-emacs
 :END:
 + what -- Configuration for the superior editor.
 + version -- 2.1
@@ -480,73 +540,73 @@ messy, it's still very effective (see [[#emacs_screenshots][Screenshots]]).
 :CUSTOM_ID: emacs_screenshots
 :ID:       0b7b8c46-e783-4adb-8b37-56fe8578df72
 :END:
-  - themes \\
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/abyss-theme-emacs.png][https://rwest.io/a/img/abyss-theme-emacs.png]]
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/sanityinc-theme-emacs.png][https://rwest.io/a/img/sanityinc-theme-emacs.png]]
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/wheatgrass-theme-emacs.png][https://rwest.io/a/img/wheatgrass-theme-emacs.png]]
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/leuven-theme-emacs.png][https://rwest.io/a/img/leuven-theme-emacs.png]]
-  - org-mode \\
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/olivetti-emacs.png][https://rwest.io/a/img/olivetti-emacs.png]]
-  - programming \\
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/rust-development-emacs.png][https://rwest.io/a/img/rust-development-emacs.png]]
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/rust-tests-emacs.png][https://rwest.io/a/img/rust-tests-emacs.png]]
-  - email \\
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/email-emacs.png][https://rwest.io/a/img/email-emacs.png]]
-  - eww \\
-    The Emacs Web Wowser
-    #+attr_html: :width 600
-    #+attr_latex: :width 600
-    [[https://rwest.io/a/img/eww-emacs.png][https://rwest.io/a/img/eww-emacs.png]]
+- themes \\
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/abyss-theme-emacs.png][https://rwest.io/a/img/abyss-theme-emacs.png]]
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/sanityinc-theme-emacs.png][https://rwest.io/a/img/sanityinc-theme-emacs.png]]
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/wheatgrass-theme-emacs.png][https://rwest.io/a/img/wheatgrass-theme-emacs.png]]
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/leuven-theme-emacs.png][https://rwest.io/a/img/leuven-theme-emacs.png]]
+- org-mode \\
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/olivetti-emacs.png][https://rwest.io/a/img/olivetti-emacs.png]]
+- programming \\
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/rust-development-emacs.png][https://rwest.io/a/img/rust-development-emacs.png]]
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/rust-tests-emacs.png][https://rwest.io/a/img/rust-tests-emacs.png]]
+- email \\
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/email-emacs.png][https://rwest.io/a/img/email-emacs.png]]
+- eww \\
+  The Emacs Web Wowser
+  #+attr_html: :width 600
+  #+attr_latex: :width 600
+  [[https://rwest.io/a/img/eww-emacs.png][https://rwest.io/a/img/eww-emacs.png]]
 ** mail
 :PROPERTIES:
-:ID:       f3d16b98-d848-46a4-a7a6-fc6014ebef76
+:CUSTOM_ID: cfg-mail
 :END:
 + what -- mail configs
   - notmuch
   - offlineimap
 ** shell
 :PROPERTIES:
-:ID:       217423f6-ab17-457a-a35c-04678d4b71c3
+:CUSTOM_ID: cfg-shell
 :END:
 + what -- shell configs
   - bash
   - zsh
 ** term
 :PROPERTIES:
-:ID:       4c4a3209-a71c-4f94-9900-c1fd50f9b186
+:CUSTOM_DI: cfg-term
 :END:
 + what -- terminal emulator configs
   - kitty
 ** tmux
 :PROPERTIES:
-:ID:       33726d69-2c43-453e-808e-78cfb126dc05
+:CUSTOM_ID: cfg-tmux
 :END:
 + what -- tmux config
 ** vc
 :PROPERTIES:
-:ID:       f8ce8509-e360-4d1c-936f-37aae0537684
+:CUSTOM_ID: cfg-vc
 :END:
 - mercurial
 - git
 ** virt
 :PROPERTIES:
-:ID:       c240a030-7e6b-4061-8c13-a5764169eb35
+:CUSTOM_ID: cfg-virt
 :END:
 + what -- virtual machine and container configs
   - lxc
@@ -554,22 +614,20 @@ messy, it's still very effective (see [[#emacs_screenshots][Screenshots]]).
   - archiso
 ** wm
 :PROPERTIES:
-:ID:       3eafb844-4684-48af-ac2b-4660df2c2ab4
+:CUSTOM_ID: cfg-wm
 :END:
 - 2bwm
 - conky
 - lemonbar
 ** nix                                                 :deprecated:noexport:
 :PROPERTIES:
-:ID:       e2f62a1e-8f54-4bf6-ab88-86872e49f71d
+:CUSTOM_ID: cfg-nix
 :END:
 Poorman's distributed =nix= config has fallen into disrepair, but I
 keep it around for old-time's sake. It might come in handy in the
 future, depending on how the Nix ecosystem progresses.
-* shed                                                                 :rust:
+* shed                                                             :rust:dev:
 :PROPERTIES:
-:ID: 205131fc-ff48-4e0b-a3e8-ab52d5b6ca19
-:CATEGORY: bin
 :CUSTOM_ID: shed
 :EXPORT_FILE_NAME: ../shed/readme
 :END:
@@ -583,9 +641,16 @@ future, depending on how the Nix ecosystem progresses.
 <a href="https://asciinema.org/a/445161" target="_blank"><img src="https://asciinema.org/a/445161.svg" /></a>
 #+END_export
 
+#+CALL: meta-make-tbl()
+#+RESULTS:
+| name    | [[https://rwest.io/m#shed][shed]]                 |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/shed/rev/cff2de401302][cff2de401302]], [[https://github.com/richardwesthaver/shed][github]] |
+| updated | 22 hours ago         |
+
 ** Roadmap
 :PROPERTIES:
-:ID:       169e6a06-9260-4f12-95de-aeb2afa17fd1
+:CUSTOM_ID: shed-roadmap
 :END:
 *** NEXT Registry
 :PROPERTIES:
@@ -669,7 +734,7 @@ future, depending on how the Nix ecosystem progresses.
 - network daemon messages and packets
 ** Features
 :PROPERTIES:
-:ID:       83a9750a-bb30-4272-b1f3-23d85806cbb8
+:CUSTOM_ID: shed-features
 :END:
 - *Src*
   - Mercurial VCS
@@ -715,7 +780,7 @@ future, depending on how the Nix ecosystem progresses.
     - Google, AWS, Discord, Github
 ** Installation
 :PROPERTIES:
-:ID:       803d215d-18da-499b-a2fd-01e15a152e13
+:CUSTOM_ID: shed-installation
 :END:
 Once the binary is installed, run =shc init -p= to bootstrap a via
 prompts. The default config path is determined by the ~$SHED_CFG~
@@ -728,13 +793,13 @@ path dependency is missing.
 
 ** Configuration
 :PROPERTIES:
-:ID:       0fa1c99b-6452-4b60-be05-6801803600cf
+:CUSTOM_ID: shed-configuration
 :END:
 Global configuration is controlled by the [[https://docs.rwest.io/shed/config/struct.Config.html][Config struct]]. The
 specification is non-exhaustive and can be extended by the user at
 runtime or in code at compile.
 #+begin_src rust
-pub struct Config {
+  pub struct Config {
     pub path: PathBuf,
     pub src: Vec<PackageConfig>,
     pub bin: Vec<ProgramConfig>,
@@ -742,7 +807,7 @@ pub struct Config {
     pub hg: MercurialConfig,
     pub lab: Vec<ProjectConfig>,
     pub usr: UserConfig,
-}
+  }
 #+end_src
 
 Configs can be deserialized from RON, JSON, or Bincode formats. I
@@ -752,45 +817,45 @@ and database storage, but exposed to the user for convenience.
 
 - RON
   #+begin_src ron
-// cfg.ron
-#![enable(implicit_some)]
-(
-  path: "~/shed",
-  src: [],
-  bin: [],
-  net: (
-    socket: "127.0.0.1:0",
-    tunnel: None,
-    engine: Http,
-    peers: None,
-  ),
-  hg: (
-    ui: {},
-    extensions: None,
-    paths: None,
-    web: (
-      name: "",
-      contact: "",
-      description: "",
-      extensions: [],
-      socket: "0.0.0.0:0",
-      paths: {},
-    ),
-  ),
-  lab: [],
-  usr: (
-    shell: (
-      env: {},
-      cmds: {},
-      shell: Bash,
-    ),
-    geo: None,
-    displays: None,
-    packages: [],
-    projects: [],
-    auth: [],
-  ),
-)
+    // cfg.ron
+    #![enable(implicit_some)]
+    (
+      path: "~/shed",
+      src: [],
+      bin: [],
+      net: (
+        socket: "127.0.0.1:0",
+        tunnel: None,
+        engine: Http,
+        peers: None,
+      ),
+      hg: (
+        ui: {},
+        extensions: None,
+        paths: None,
+        web: (
+          name: "",
+          contact: "",
+          description: "",
+          extensions: [],
+          socket: "0.0.0.0:0",
+          paths: {},
+        ),
+      ),
+      lab: [],
+      usr: (
+        shell: (
+          env: {},
+          cmds: {},
+          shell: Bash,
+        ),
+        geo: None,
+        displays: None,
+        packages: [],
+        projects: [],
+        auth: [],
+      ),
+    )
   #+end_src
 - JSON
   #+begin_src json
@@ -834,24 +899,24 @@ and database storage, but exposed to the user for convenience.
   #+end_src
 - BIN
   #+begin_src hexl
-00000000: 1000 0000 0000 0000 2f68 6f6d 652f 656c  ......../home/el
-00000010: 6c69 732f 7368 6564 0000 0000 0000 0000  lis/shed........
-00000020: 0000 0000 0000 0000 0000 0000 7f00 0001  ................
-00000030: 0000 0001 0000 0000 0000 0000 0000 0000  ................
-00000040: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000050: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000060: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000070: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000080: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-00000090: 0000 0000 0000 0000 0000 0000 0000 0000  ................
-000000a0: 0000 0000 0000 0000 0000 0a              ...........
+    00000000: 1000 0000 0000 0000 2f68 6f6d 652f 656c  ......../home/el
+    00000010: 6c69 732f 7368 6564 0000 0000 0000 0000  lis/shed........
+    00000020: 0000 0000 0000 0000 0000 0000 7f00 0001  ................
+    00000030: 0000 0001 0000 0000 0000 0000 0000 0000  ................
+    00000040: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000050: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000060: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000070: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000080: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    00000090: 0000 0000 0000 0000 0000 0000 0000 0000  ................
+    000000a0: 0000 0000 0000 0000 0000 0a              ...........
   #+end_src
 ** Commands
-   :PROPERTIES:
-   :ID: a0f0f72d-475a-49a1-a21f-5d8a604099fd
-   :END:
+:PROPERTIES:
+:CUSTOM_ID: shed-commands
+:END:
 #+begin_src shell :exports both :results output replace
-shc --help
+  shc --help
 #+end_src
 
 #+RESULTS:
@@ -894,16 +959,14 @@ SUBCOMMANDS:
 
 ** contrib
 :PROPERTIES:
-:ID:       23172369-1d5e-425c-8ffb-78a152c28670
-:CUSTOM_ID: contrib
+:CUSTOM_ID: shed-contrib
 :END:
 + what -- Third-party code and dependencies with mirrored source trees
 + why -- isolation of external dependencies
 + [[src:contrib][src]]
 ** crater
 :PROPERTIES:
-:ID:       39a1d49f-b477-4e19-8b54-d223168c5703
-:CUSTOM_ID: crater
+:CUSTOM_ID: shed-crater
 :END:
 + what -- a private crate registry for the Rust programming language.
 + [[src:crater][src]]
@@ -922,9 +985,8 @@ deployed for use in the following ways:
 - static :: registry index and crate sources are stored locally, no
   network requests are required
 
-* rlib                                                                 :rust:
+* rlib                                                             :rust:sys:
 :PROPERTIES:
-:ID: 7e0d54ee-d3f7-468a-b0cf-664bba4df675
 :CATEGORY: lib
 :CUSTOM_ID: rlib
 :EXPORT_FILE_NAME: ../rlib/readme
@@ -935,31 +997,39 @@ deployed for use in the following ways:
 + status -- EXPERIMENTAL
 + [[src:rlib][src]] <-
 + [[https://docs.rwest.io/rlib][docs]] <-
+
+#+CALL: meta-make-tbl()
+#+RESULTS:
+| name    | [[https://rwest.io/m#rlib][rlib]]                 |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/rlib/rev/ed86cbe6f206][ed86cbe6f206]], [[https://github.com/richardwesthaver/rlib][github]] |
+| updated | 22 hours ago         |
+
 ** Usage
 :PROPERTIES:
-:ID:       89920d82-42dd-402c-8eb7-efdcc71007e5
+:CUSTOM_ID: rlib-usage
 :END:
 This crate is not (yet) published on crates.io. To get started you'll need
 to clone the [[src:rlib][repo]] and add it as a dependency to your project like so:
 #+begin_src toml
-[package]
-name = "foo"
-#...
-[dependencies]
-rlib = { version = "0.1.0", path = "../rlib", features = ["cli","kala","anyhow"]} #include some features
+  [package]
+  name = "foo"
+  #...
+  [dependencies]
+  rlib = { version = "0.1.0", path = "../rlib", features = ["cli","kala","anyhow"]} #include some features
 #+end_src
 
 then just use the modules in your code:
 #+begin_src rust
-use rlib::{ctx, logger, kala};
-use rlib::util::Result;
-#[ctx::main]
-async fn main() -> Result<()> {
-  logger::flexi("debug")?;
-  println!("greetings stranger!");
-  kala::cmd::sys::describe_host();
-  Ok(())
-}
+  use rlib::{ctx, logger, kala};
+  use rlib::util::Result;
+  #[ctx::main]
+  async fn main() -> Result<()> {
+    logger::flexi("debug")?;
+    println!("greetings stranger!");
+    kala::cmd::sys::describe_host();
+    Ok(())
+  }
 #+end_src
 
 Once our local cargo package registry is complete, instructions will
@@ -968,7 +1038,7 @@ environment.
 
 ** Crates
 :PROPERTIES:
-:ID:       bb740861-e7b9-4730-bd34-622f7ae53ce8
+:CUSTOM_ID: rlib-crates
 :END:
 
 =rlib= is split into separate crates with a single [[https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html][workspace]]
@@ -1040,9 +1110,8 @@ library.
   for build scripts and binaries. Includes wrappers for =anyhow=,
   =clap=, =chrono=, and some other useful things.
 
-* tenex                                                                :rust:
+* tenex                                                            :rust:net:
 :PROPERTIES:
-:ID: 0480aced-777f-4f30-ae05-189500fb6903
 :CATEGORY: lib
 :CUSTOM_ID: tenex
 :EXPORT_FILE_NAME: ../tenex/readme
@@ -1059,18 +1128,26 @@ library.
 + status -- ALPHA
 + [[src:tenex][src]] <-
 + [[https://docs.rwest.io/tenex][docs]] <-
+
+#+CALL: meta-make-tbl()
+#+RESULTS:
+| name    | [[https://rwest.io/m#tenex][tenex]]                |
+| version | alpha-0.1            |
+| vc      | [[https://hg.rwest.io/tenex/rev/51be643df8a8][51be643df8a8]], [[https://github.com/richardwesthaver/tenex][github]] |
+| updated | 22 hours ago         |
+
 ** Features
 :PROPERTIES:
-:ID:       81958264-5117-4120-9be7-5493c5ae14b8
+:CUSTOM_ID: tenex-features
 :END:
 - Clients
-   - [X] NWS (US Weather)
-   - [X] ipapi (public IP lookup)
-   - [ ] openai (beta API)
-   - [ ] Google Cloud
-   - [ ] AWS
-   - [X] SMTPS (smtp.gmail.com)
+  - [X] NWS (US Weather)
+  - [X] ipapi (public IP lookup)
+  - [ ] openai (beta API)
+  - [ ] Google Cloud
+  - [ ] AWS
+  - [X] SMTPS (smtp.gmail.com)
 - [ ] Authentication
-   - [ ] JWT
-   - [ ] OAuth
+  - [ ] JWT
+  - [ ] OAuth
 
