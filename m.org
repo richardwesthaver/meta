@@ -304,7 +304,7 @@ Generate API docs for all Rust projects
 :CUSTOM_ID: meta-prod-hg-export-github
 :END:
 this script requires =STAMP= and =SHED= env vars.
-#+begin_src shell
+#+begin_src shell :results value
   REPOS=("meta" "shed" "babel" "cfg" "tenex")
   WD=$STAMP
   for r in $REPOS; do
