@@ -43,7 +43,7 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 | version | alpha-0.1                |
 | vc      | [[https://hg.rwest.io/meta/rev/09a7c7a6ad64][73+:09a7c7a6ad64]], [[https://github.com/richardwesthaver/meta][github]] |
 | updated | 26 hours ago             |
-| lines   | 6944 = λ:6438 #:29 _:477 |
+| lines   | 6946 = λ:6440 #:29 _:477 |
 | langs   | (Org)                    |
 |---------+--------------------------|
 
@@ -75,9 +75,10 @@ ft
 : parent: 73:09a7c7a6ad64 tip
 :  script refinement
 : branch: default
-: commit: 1 modified
+: commit: 2 modified
 : update: (current)
 : M m.org
+: M readme.org
 
 ** scripts
 :PROPERTIES:
@@ -990,7 +991,7 @@ own though.
 | version | alpha-0.1                 |
 | vc      | [[https://hg.rwest.io/rlib/rev/c3465cc34930][95+:c3465cc34930]], [[https://github.com/richardwesthaver/rlib][github]]  |
 | updated | 26 hours ago              |
-| lines   | 6935 = λ:6180 #:253 _:952 |
+| lines   | 6946 = λ:6183 #:253 _:952 |
 | langs   | (Org RON Rust Text Toml)  |
 |---------+---------------------------|
 
@@ -1005,18 +1006,17 @@ to clone the [[src:rlib][repo]] and add it as a dependency to your project like 
   name = "foo"
   #...
   [dependencies]
-  rlib = { version = "0.1.0", path = "../rlib", features = ["kala","anyhow","logger"]} #include some features
+  rlib = { version = "0.1.0", path = "../rlib", features = ["kala","logger"]} #include some features
 #+end_src
 
 then just use the modules in your code:
 #+begin_src rust
   use rlib::{logger, kala};
   use rlib::util::Result;
-  async fn main() -> Result<()> {
-    logger::flexi("debug")?;
+  fn main() {
+    logger::flexi("debug").expect("logger init failed");
     println!("greetings stranger!");
     kala::cmd::sys::describe_host();
-    Ok(())
   }
 #+end_src
 * tenex                                                            :rust:net:
