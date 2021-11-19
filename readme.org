@@ -1,4 +1,4 @@
-# Created 2021-11-19 Fri 01:33
+# Created 2021-11-19 Fri 02:43
 #+title: meta
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[https://hg.rwest.io/][hg.rwest.io]].
@@ -7,20 +7,21 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 | name    | [[https://rwest.io/m#meta][meta]]                                                                                     |
 | version | alpha-0.1                                                                                                             |
 | vc      | [[https://hg.rwest.io/meta/rev/09a7c7a6ad64][73+:09a7c7a6ad64]], [[https://github.com/richardwesthaver/meta][github]] |
-| updated | 24 hours ago                                                                                                          |
-| lines   | 6917 = λ:6416 #:29 _:472                                                                                              |
+| updated | 25 hours ago                                                                                                          |
+| lines   | 6935 = λ:6429 #:29 _:477                                                                                              |
 | langs   | (Org)                                                                                                                 |
+
 
 #+results: meta-files
 | file       | size |          updated |
 |------------+------+------------------|
 | cv.org     | 3.8K | 2021-10-27-20:37 |
 | index.org  | 4.6K | 2021-11-17-23:56 |
-| m.org      | 34K  | 2021-11-19-01:32 |
+| m.org      | 34K  | 2021-11-19-02:42 |
 | n.org      | 229K | 2021-11-14-17:37 |
-| o          | 90   | 2021-11-19-01:33 |
+| o          | 90   | 2021-11-19-02:43 |
 | ox.setup   | 580  | 2021-11-14-23:06 |
-| readme.org | 8.7K | 2021-11-18-01:30 |
+| readme.org | 9.1K | 2021-11-19-02:36 |
 
 #+results: 
 : parent: 73:09a7c7a6ad64 tip
