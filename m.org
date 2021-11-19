@@ -121,8 +121,9 @@ of a named code block.
   (org-sbx meta-pack)
   (org-sbx meta-deploy)
   (org-sbx meta-readme-gen)
-  ;(org-sbx meta-readme-commit)
+  (org-sbx meta-readme-commit)
   (org-sbx meta-clean)
+  (org-sbx meta-github-push)
 #+end_src
 
 First we generate the output directory and copy source files there.
@@ -275,6 +276,39 @@ We can also remove the output directory clutter we created earlier.
   rm -rf o
 #+end_src
 
+Ok, now let's push our changes to github. Note that this creates lots
+of commits, but we don't really care since it's a mirror. I'm just
+testing this as an alternative approach to a 'pure' VC mirror which
+would include all commits, branches, etc. I'll probably just switch
+back to the [[https://hg-git.github.io/][hg-git]] 'pure' solution soon.
+
+#+name: meta-github-push
+#+begin_src bash :results silent :eval no-export
+  REPOS=("meta" "shed" "babel" "cfg" "tenex")
+  WD=$STAMP
+  for r in ${REPOS[@]}; do
+      src=$SHED/src/$r
+      gh=git@github.com:richardwesthaver/$r.git
+
+      rm -rf $WD/$r
+      git clone $gh $WD/$r
+
+      pushd $WD/$r
+      case $r in
+          meta) cp -rf $src/{m.org,n.org,cv.org,index.org,ox.setup,readme.org} ./ ;;
+          shed) cp -rf $src/{Cargo.toml,build.rs,lisp,makefile,src,readme.org,rustfmt.toml} ./ ;;
+          babel) cp -rf $src/{babel.el,lob.org,readme.org,makefile,sc} ./ ;;
+          rlib) cp -rf $src/{Cargo.toml,.cargo,rustfmt.toml,src,alch,audio,crypto,db,eve,flate,fu,hash,kala,logger,math,net,obj,organ,tests,ui,util,readme.org} ./ ;;
+          cfg) cp -rf $src/{emacs,mail,shell,term,tmux,vc,virt,wm,readme.org} ./ ;;
+          tenex) cp -rf $src/{src,aws,google,readme.org,rustfmt.toml,Cargo.toml} ./ ;;
+      esac
+      git add .
+      git commit -m "from https://hg.rwest.io/$r"
+      git push
+      popd
+  done
+#+end_src
+
 **** docs                                                       :noexport:
 :PROPERTIES:
 :CUSTOM_ID: meta-prod-docs
@@ -299,59 +333,10 @@ Generate API docs for all Rust projects
   (copy-file "o/d" "/sshx:hyde:/mnt/w/d" 1)
 #+end_src
 
-**** hg-export-github                                           :noexport:
+**** hg-export-github
 :PROPERTIES:
-:CUSTOM_ID: meta-prod-hg-export-github
+:CUSTOM_ID: meta-deploy-hg-export-github
 :END:
-this script requires =STAMP= and =SHED= env vars.
-#+begin_src bash :results output
-  REPOS=("meta" "shed" "babel" "cfg" "tenex")
-  WD=$STAMP
-  for r in ${REPOS[@]}; do
-      src=$SHED/src/$r
-      gh=git@github.com:richardwesthaver/$r.git
-
-      rm -rf $WD/$r
-      git clone $gh $WD/$r
-
-      pushd $WD/$r
-      case $r in
-          meta) cp -rf $src/{m.org,n.org,cv.org,index.org,ox.setup,readme.org} ./ ;;
-          shed) cp -rf $src/{Cargo.toml,build.rs,lisp,makefile,src,readme.org,rustfmt.toml} ./ ;;
-          babel) cp -rf $src/{babel.el,lob.org,readme.org,makefile,sc} ./ ;;
-          rlib) cp -rf $src/{Cargo.toml,.cargo,rustfmt.toml,src,alch,audio,crypto,db,eve,flate,fu,hash,kala,logger,math,net,obj,organ,tests,ui,util,readme.org} ./ ;;
-          cfg) cp -rf $src/{emacs,mail,shell,term,tmux,vc,virt,wm,readme.org} ./ ;;
-          tenex) cp -rf $src/{src,aws,google,readme.org,rustfmt.toml,Cargo.toml} ./ ;;
-      esac
-      echo "ok"
-      git add .
-      git commit -m "from https://hg.rwest.io/$r"
-      git push
-      popd
-  done
-#+end_src
-
-#+RESULTS:
-#+begin_example
-~/shed/stash/tmp/meta ~/shed/src/meta
-ok
-[default 6c90355] from https://hg.rwest.io/meta
- Committer: ellis <ellis@lab.zor>
-Your name and email address were configured automatically based
-on your username and hostname. Please check that they are accurate.
-You can suppress this message by setting them explicitly. Run the
-following command and follow the instructions in your editor to edit
-your configuration file:
-
-    git config --global --edit
-
-After doing this, you may fix the identity used for this commit with:
-
-    git commit --amend --reset-author
-
- 1 file changed, 1 insertion(+), 4 deletions(-)
-~/shed/src/meta
-#+end_example
 
 **** makefile                                                   :noexport:
 :PROPERTIES:
