@@ -304,7 +304,7 @@ Generate API docs for all Rust projects
 :CUSTOM_ID: meta-prod-hg-export-github
 :END:
 this script requires =STAMP= and =SHED= env vars.
-#+begin_src shell :results value
+#+begin_src shell :results output
   REPOS=("meta" "shed" "babel" "cfg" "tenex")
   WD=$STAMP
   for r in $REPOS; do
@@ -323,12 +323,16 @@ this script requires =STAMP= and =SHED= env vars.
           cfg) cp -rf $src/{emacs,mail,shell,term,tmux,vc,virt,wm,readme.org} ./ ;;
           tenex) cp -rf $src/{src,aws,google,readme.org,rustfmt.toml,Cargo.toml} ./ ;;
       esac
+      echo "ok"
       git add .
       git commit -m "from https://hg.rwest.io/$r"
       git push
       popd
   done
 #+end_src
+
+#+RESULTS:
+: 0
 
 **** makefile                                                   :noexport:
 :PROPERTIES:
