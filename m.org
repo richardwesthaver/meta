@@ -121,8 +121,8 @@ of a named code block.
   (org-sbx meta-pack)
   (org-sbx meta-deploy)
   (org-sbx meta-readme-gen)
-  (org-sbx meta-readme-commit)
   (org-sbx meta-clean)
+  (org-sbx meta-commit)
   (org-sbx meta-github-push)
 #+end_src
 
@@ -261,19 +261,19 @@ directories. They also look quite nice on GitHub without any
 additional configuration ;).
 
 Before we talk about github stuff, let's commit the readme changes for
-our projects.
-#+name: meta-readme-commit
-#+begin_src shell :results silent
-  for i in shed rlib tenex babel cfg demo; do
-      cd ~/shed/src/$i && hg ci -m 'readme.org update'
-  done
-#+end_src
-
-We can also remove the output directory clutter we created earlier.
-
+our projects - first let's clean up build artifacts.
 #+name: meta-clean
 #+begin_src shell :results silent
   rm -rf o
+#+end_src
+
+Now we can commit without being skeptical about the repo state.
+
+#+name: meta-commit
+#+begin_src shell :results silent
+  for i in shed rlib tenex babel cfg demo meta; do
+      cd ~/shed/src/$i && hg ci -m 'meta-commit update'
+  done
 #+end_src
 
 Ok, now let's push our changes to github. Note that this creates lots
@@ -283,8 +283,8 @@ would include all commits, branches, etc. I'll probably just switch
 back to the [[https://hg-git.github.io/][hg-git]] 'pure' solution soon.
 
 #+name: meta-github-push
-#+begin_src bash :results silent :eval no-export
-  REPOS=("meta" "shed" "babel" "cfg" "tenex")
+#+begin_src bash :results value silent :eval no-export
+  REPOS=("meta" "shed" "babel" "cfg" "tenex" "rlib")
   WD=$STAMP
   for r in ${REPOS[@]}; do
       src=$SHED/src/$r
