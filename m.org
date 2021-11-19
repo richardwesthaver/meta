@@ -307,7 +307,7 @@ this script requires =STAMP= and =SHED= env vars.
 #+begin_src bash :results output
   REPOS=("meta" "shed" "babel" "cfg" "tenex")
   WD=$STAMP
-  for r in $REPOS; do
+  for r in ${REPOS[@]}; do
       src=$SHED/src/$r
       gh=git@github.com:richardwesthaver/$r.git
 
@@ -330,6 +330,28 @@ this script requires =STAMP= and =SHED= env vars.
       popd
   done
 #+end_src
+
+#+RESULTS:
+#+begin_example
+~/shed/stash/tmp/meta ~/shed/src/meta
+ok
+[default 6c90355] from https://hg.rwest.io/meta
+ Committer: ellis <ellis@lab.zor>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+~/shed/src/meta
+#+end_example
 
 **** makefile                                                   :noexport:
 :PROPERTIES:
