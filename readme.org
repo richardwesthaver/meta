@@ -1,4 +1,4 @@
-# Created 2021-11-20 Sat 02:55
+# Created 2021-11-20 Sat 03:05
 #+title: meta
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[https://hg.rwest.io/][hg.rwest.io]].
@@ -9,7 +9,7 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 | name    | [[https://rwest.io/m#meta][meta]]                                                                                     |
 | version | alpha-0.1                                                                                                             |
 | vc      | [[https://hg.rwest.io/meta/rev/267dd04e90d7][78+:267dd04e90d7]], [[https://github.com/richardwesthaver/meta][github]] |
-| updated | 2 hours ago                                                                                                           |
+| updated | 3 hours ago                                                                                                           |
 | lines   | 7069 = λ:6561 #:29 _:479                                                                                              |
 | langs   | (Org)                                                                                                                 |
 |---------+-----------------------------------------------------------------------------------------------------------------------|
@@ -27,9 +27,10 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 : parent: 78:267dd04e90d7 tip
 :  meta-files
 : branch: default
-: commit: 1 modified
+: commit: 2 modified
 : update: (current)
 : M m.org
+: M readme.org
 * scripts
 ** index
 ** deploy
