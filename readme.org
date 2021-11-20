@@ -1,4 +1,4 @@
-# Created 2021-11-19 Fri 23:40
+# Created 2021-11-19 Fri 23:59
 #+title: meta
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[https://hg.rwest.io/][hg.rwest.io]].
@@ -10,7 +10,7 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 | version | alpha-0.1                                                                                                             |
 | vc      | [[https://hg.rwest.io/meta/rev/28da45474da5][77+:28da45474da5]], [[https://github.com/richardwesthaver/meta][github]] |
 | updated | 18 hours ago                                                                                                          |
-| lines   | 13787 = λ:12797 #:56 _:934                                                                                            |
+| lines   | 7076 = λ:6562 #:29 _:485                                                                                              |
 | langs   | (Org)                                                                                                                 |
 |---------+-----------------------------------------------------------------------------------------------------------------------|
 
@@ -19,12 +19,10 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 |------------+------+------------------|
 | cv.org     | 3.8K | 2021-10-27-20:37 |
 | index.org  | 4.6K | 2021-11-17-23:56 |
-| m.org      | 39K  | 2021-11-19-23:34 |
+| m.org      | 39K  | 2021-11-19-23:57 |
 | n.org      | 229K | 2021-11-14-17:37 |
-| o          | 6    | 2021-11-19-23:09 |
 | ox.setup   | 580  | 2021-11-14-23:06 |
-| readme.org | 11K  | 2021-11-19-05:14 |
-
+| readme.org | 11K  | 2021-11-19-23:40 |
 #+results: 
 : parent: 77:28da45474da5 tip
 :  readme added
@@ -33,7 +31,6 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 : update: (current)
 : M m.org
 : M readme.org
-
 * scripts
 ** index
 ** deploy
