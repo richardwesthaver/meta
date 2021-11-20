@@ -9,7 +9,7 @@ This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[src:][hg.rwest.io]].
 
 #+name: meta-make-tbl
-#+header: :var name=(org-sbx org-current-heading-title) :var age=hg-log-age()
+#+header: :var name=(org-sbx org-current-heading-title) :var age=hg-log-age(path=(concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title)))
 #+header: :var rev=(org-sbx hg-rev (path (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
 #+header: :var num=(org-sbx hg-id-num (path (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
 #+header: :var lc=(org-sbx wc-dir-lines (dir (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
@@ -17,32 +17,32 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 #+header: :var cc2=(org-sbx tokei-dir-langs (dir (concat "/home/ellis/shed/src/" (org-sbx org-current-heading-title))))
 #+header: :var ver="alpha-0.1"
 #+begin_src emacs-lisp :exports results :results table :eval no-export
-    (let* ((nf (format "[[https://rwest.io/m#%s][%s]]" name name))
-           (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s:%s]]" name rev num rev))
-           (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
-           (vf (format "%s, %s" rf gf))
-           (lsum (org-sbe sum-str-nums ('x 'cc1)))
-           (l (split-string cc1))
-           (lang (split-string cc2))
-           (cf (format "%s = λ:%s #:%s _:%s" lsum (pop l) (pop l) (pop l))))
-      `(("info", "")
-        hline
-        ("name" ,nf)
-        ("version" ,ver)
-        ("vc" ,vf)
-        ("updated" ,age)
-        ("lines" ,cf)
-        ("langs" ,lang)
-        hline))
+  (let* ((nf (format "[[https://rwest.io/m#%s][%s]]" name name))
+         (rf (format "[[https://hg.rwest.io/%s/rev/%s][%s:%s]]" name rev num rev))
+         (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
+         (vf (format "%s, %s" rf gf))
+         (lsum (org-sbe sum-str-nums ('x 'cc1)))
+         (l (split-string cc1))
+         (lang (split-string cc2))
+         (cf (format "%s = λ:%s #:%s _:%s" lsum (pop l) (pop l) (pop l))))
+    `(("info", "")
+      hline
+      ("name" ,nf)
+      ("version" ,ver)
+      ("vc" ,vf)
+      ("updated" ,age)
+      ("lines" ,cf)
+      ("langs" ,lang)
+      hline))
 #+end_src
 #+RESULTS: meta-make-tbl
 | info    |                          |
 |---------+--------------------------|
 | name    | [[https://rwest.io/m#meta][meta]]                     |
 | version | alpha-0.1                |
-| vc      | [[https://hg.rwest.io/meta/rev/28da45474da5][77+:28da45474da5]], [[https://github.com/richardwesthaver/meta][github]] |
-| updated | 18 hours ago             |
-| lines   | 7076 = λ:6562 #:29 _:485 |
+| vc      | [[https://hg.rwest.io/meta/rev/267dd04e90d7][78+:267dd04e90d7]], [[https://github.com/richardwesthaver/meta][github]] |
+| updated | 2 hours ago              |
+| lines   | 7069 = λ:6561 #:29 _:479 |
 | langs   | (Org)                    |
 |---------+--------------------------|
 
@@ -68,13 +68,12 @@ src
 | readme.org | 11K  | 2021-11-19-23:40 |
 #+CALL:shc-hg-summary() :eval yes
 #+RESULTS:
-: parent: 77:28da45474da5 tip
-:  readme added
+: parent: 78:267dd04e90d7 tip
+:  meta-files
 : branch: default
-: commit: 2 modified
+: commit: 1 modified
 : update: (current)
 : M m.org
-: M readme.org
 ** scripts
 :PROPERTIES:
 :CUSTOM_ID: meta-scripts
@@ -117,7 +116,7 @@ of a named code block.
   (org-sbx meta-deploy)
   (org-sbx meta-readme-gen)
   (org-sbx meta-clean)
-;  (org-sbx meta-commit)
+  ;(org-sbx meta-commit)
   (org-sbx meta-mirror)
 #+end_src
 
@@ -425,8 +424,8 @@ using code blocks in various contexts. More on that later.
 | name    | [[https://rwest.io/m#babel][babel]]                                             |
 | version | alpha-0.1                                         |
 | vc      | [[https://hg.rwest.io/babel/rev/757c6dccfd53][79+:757c6dccfd53]], [[https://github.com/richardwesthaver/babel][github]]                          |
-| updated | 18 hours ago                                      |
-| lines   | 13786 = λ:4703 #:798 _:828                        |
+| updated | 21 hours ago                                      |
+| lines   | 7068 = λ:4712 #:798 _:829                         |
 | langs   | (Elisp Haskell Makefile Org PowerShell Python Sh) |
 |---------+---------------------------------------------------|
 
@@ -436,10 +435,10 @@ using code blocks in various contexts. More on that later.
 | file       | size |          updated |
 |------------+------+------------------|
 | babel.el   | 8.0K | 2021-11-17-03:11 |
-| lob.org    | 20K  | 2021-11-19-01:28 |
+| lob.org    | 20K  | 2021-11-20-02:35 |
 | makefile   | 186  | 2021-10-27-02:21 |
 | o          | 54   | 2021-10-27-02:28 |
-| readme.org | 4.3K | 2021-11-19-05:14 |
+| readme.org | 4.6K | 2021-11-19-23:59 |
 | sc         | 730  | 2021-11-19-05:09 |
 
 ** Literate Programming
@@ -524,8 +523,8 @@ use often.
 | name    | [[https://rwest.io/m#cfg][cfg]]                                   |
 | version | alpha-0.1                             |
 | vc      | [[https://hg.rwest.io/cfg/rev/ae5302ec1e29][45+:ae5302ec1e29]], [[https://github.com/richardwesthaver/cfg][github]]              |
-| updated | 18 hours ago                          |
-| lines   | 13786 = λ:1974 #:445 _:259            |
+| updated | 21 hours ago                          |
+| lines   | 7068 = λ:1985 #:445 _:260             |
 | langs   | (CHeader Elisp Lua Makefile Org Yaml) |
 |---------+---------------------------------------|
 
@@ -546,7 +545,7 @@ use often.
 |------------+------+------------------|
 | emacs      |   64 | 2021-11-11-18:36 |
 | mail       |   30 | 2021-11-08-16:55 |
-| readme.org | 4.7K | 2021-11-19-05:14 |
+| readme.org | 5.3K | 2021-11-19-23:59 |
 | shell      |   86 | 2021-10-23-19:12 |
 | term       |   28 | 2021-11-08-16:45 |
 | vc         |    8 | 2021-10-23-00:10 |
@@ -677,30 +676,34 @@ that supports vanilla Emacs.
 SelfHostED
 #+CALL: meta-make-tbl()
 #+RESULTS:
-| info    |                                                          |
-|---------+----------------------------------------------------------|
-| name    | [[https://rwest.io/m#shed][shed]]                                                     |
-| version | alpha-0.1                                                |
-| vc      | [[https://hg.rwest.io/shed/rev/d1517402826d][67+:d1517402826d]], [[https://github.com/richardwesthaver/shed][github]]                                 |
-| updated | 18 hours ago                                             |
-| lines   | 13786 = λ:105202 #:5426 _:9698                           |
-| langs   | (C CHeader Cpp D Elisp LLVM Makefile Org Rust Text Toml) |
-|---------+----------------------------------------------------------|
+| info    |                                                                          |
+|---------+--------------------------------------------------------------------------|
+| name    | [[https://rwest.io/m#shed][shed]]                                                                     |
+| version | alpha-0.1                                                                |
+| vc      | [[https://hg.rwest.io/shed/rev/d1517402826d][67+:d1517402826d]], [[https://github.com/richardwesthaver/shed][github]]                                                 |
+| updated | 21 hours ago                                                             |
+| lines   | 7068 = λ:282674 #:15540 _:25172                                          |
+| langs   | (Bash C CHeader Cpp D Elisp LLVM Makefile Org PowerShell Rust Text Toml) |
+|---------+--------------------------------------------------------------------------|
 
 #+CALL: meta-files()
 
 #+RESULTS:
 | file         | size |          updated |
 |--------------+------+------------------|
-| build.rs     |  809 | 2021-11-05-16:18 |
+| build.rs     |  796 | 2021-11-20-02:24 |
 | Cargo.lock   | 107K | 2021-11-17-20:15 |
 | Cargo.toml   | 1.4K | 2021-11-11-00:11 |
 | lisp         |   14 | 2021-11-15-00:35 |
-| makefile     |  413 | 2021-11-17-06:13 |
-| readme.org   | 7.9K | 2021-11-19-23:00 |
+| makefile     |  409 | 2021-11-20-02:06 |
+| o            |   44 | 2021-11-20-02:12 |
+| readme.org   | 9.0K | 2021-11-19-23:59 |
 | rustfmt.toml |   52 | 2021-10-19-02:45 |
-| src          |  176 | 2021-11-19-23:07 |
-| target       |   66 | 2021-11-19-23:05 |
+| _shc         | 6.8K | 2021-11-20-02:26 |
+| shc.bash     |  11K | 2021-11-20-02:26 |
+| _shc.ps1     |  13K | 2021-11-20-02:26 |
+| src          |  176 | 2021-11-20-02:26 |
+| target       |   80 | 2021-11-20-02:06 |
 
 ** Roadmap
 :PROPERTIES:
@@ -1044,9 +1047,9 @@ own though.
 |---------+---------------------------|
 | name    | [[https://rwest.io/m#rlib][rlib]]                      |
 | version | alpha-0.1                 |
-| vc      | [[https://hg.rwest.io/rlib/rev/ea34d1911b80][99:ea34d1911b80]], [[https://github.com/richardwesthaver/rlib][github]]   |
-| updated | 4 minutes ago             |
-| lines   | 7004 = λ:6182 #:253 _:952 |
+| vc      | [[https://hg.rwest.io/rlib/rev/597b9e0018fd][100+:597b9e0018fd]], [[https://github.com/richardwesthaver/rlib][github]] |
+| updated | 2 hours ago               |
+| lines   | 7068 = λ:6196 #:253 _:953 |
 | langs   | (Org RON Rust Text Toml)  |
 |---------+---------------------------|
 
@@ -1070,7 +1073,7 @@ own though.
 | net          |   26 | 2021-11-02-23:09 |
 | obj          |   46 | 2021-11-02-22:37 |
 | organ        |   42 | 2021-10-19-03:16 |
-| readme.org   | 2.8K | 2021-11-19-05:14 |
+| readme.org   | 3.8K | 2021-11-19-23:59 |
 | rustfmt.toml |  105 | 2021-10-31-03:48 |
 | src          |   12 | 2021-11-02-23:31 |
 | tests        |   28 | 2021-11-02-23:00 |
@@ -1120,9 +1123,9 @@ A Rust HTTP Client library.
 |---------+---------------------------------|
 | name    | [[https://rwest.io/m#tenex][tenex]]                           |
 | version | alpha-0.1                       |
-| vc      | [[https://hg.rwest.io/tenex/rev/c1ee0399d690][52:c1ee0399d690]], [[https://github.com/richardwesthaver/tenex][github]]         |
-| updated | 4 minutes ago                   |
-| lines   | 7004 = λ:23293 #:155 _:2136     |
+| vc      | [[https://hg.rwest.io/tenex/rev/c1ee0399d690][52+:c1ee0399d690]], [[https://github.com/richardwesthaver/tenex][github]]        |
+| updated | 21 hours ago                    |
+| lines   | 7068 = λ:23309 #:157 _:2138     |
 | langs   | (Markdown Org Python Rust Toml) |
 |---------+---------------------------------|
 
@@ -1134,6 +1137,6 @@ A Rust HTTP Client library.
 | Cargo.lock   |  67K | 2021-11-17-19:05 |
 | Cargo.toml   | 1.3K | 2021-11-08-21:37 |
 | google       |   98 | 2021-11-08-21:37 |
-| readme.org   | 1.6K | 2021-11-19-05:14 |
+| readme.org   | 2.0K | 2021-11-19-23:59 |
 | rustfmt.toml |   53 | 2021-11-08-21:37 |
 | src          |   74 | 2021-11-08-21:37 |
