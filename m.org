@@ -460,7 +460,7 @@ back to the [[https://hg-git.github.io/][hg-git]] 'pure' solution soon.
       git clone $gh $WD/$r
       pushd $WD/$r
       case $r in
-          meta) cp -rf $src/{m.org,n.org,r.org,cv.org,index.org,ox.setup,readme.org} ./ ;;
+          meta) cp -rf $src/{m.org,n.org,r.org,readme.org} ./ ;;
           shed) cp -rf $src/{Cargo.toml,build.rs,lisp,makefile,src,readme.org,rustfmt.toml} ./ ;;
           babel) cp -rf $src/{babel.el,lob.org,readme.org,makefile,sc} ./ ;;
           rlib) cp -rf $src/{Cargo.toml,.cargo,rustfmt.toml,src,alch,audio,crypto,db,eve,flate,fu,hash,kala,logger,math,net,obj,organ,tests,ui,util,readme.org} ./ ;;

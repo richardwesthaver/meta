@@ -8,16 +8,11 @@
 :PROPERTIES:
 :CUSTOM_ID: demo-scripts
 :END:
-- need for demos
-- where they aren't needed
-- CI
 As some of my [[src:shed][tools]] are coming along, I need to start planning how to
 convey what they do and why. Most of that work is trivial - just need
 to write it down. Even better, most of our tools have simple CLIs. We
-can embed their usage in our writing by showing both the input and
-output as text.
-
-For example, here's how to print a weather forecast:
+can embed their input and output as text. For example, here's how to
+print a weather forecast:
 #+begin_src shell :results pp :exports both
 shc s -w
 #+end_src
@@ -34,11 +29,10 @@ shc s -w
 08:00:00-09:00:00 = 42°F :: "Chance Rain Showers"
 09:00:00-10:00:00 = 46°F :: "Chance Rain Showers"
 #+end_example
-
 These sort of 'snippet demos' are important because they are
 self-contained and make documentation portable. We can render them
 anywhere that text is rendered, and they're easy to include thanks to
-[[https://orgmode.org/worg/org-contrib/babel/][org-mode babel]]. The problem is that they can only help us with
+org-mode's [[https://orgmode.org/worg/org-contrib/babel/][babel]]. The problem is that they can only help us with
 /text-based/ interfaces, and need additional context to convey how
 those commands work and why. All that extra reading can make large
 projects more intimidating than they need to be to newcomers.
