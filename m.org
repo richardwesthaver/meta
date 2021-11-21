@@ -400,7 +400,7 @@ downloaded at [[https://rwest.io/x][rwest.io/x]] which includes archives and ind
 in all formats.
 
 #+name: meta-deploy
-#+begin_src emacs-lisp :var o="o/" rh="/sshx:hyde:/mnt/w/" files='("m.html" "n.html" "index.html") :results silent
+#+begin_src emacs-lisp :var o="o/" rh="/sshx:hyde:/mnt/w/" files='("m.html" "n.html" "r.html" "index.html") :results silent
   (copy-file o (concat rh "x/") 1)
   (dolist (f files)
     (copy-file (concat o "html/" f) rh 1))
