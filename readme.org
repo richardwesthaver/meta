@@ -1,4 +1,4 @@
-# Created 2021-11-20 Sat 03:40
+# Created 2021-11-21 Sun 04:59
 #+title: meta
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[https://hg.rwest.io/][hg.rwest.io]].
@@ -8,27 +8,32 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 |---------+-----------------------------------------------------------------------------------------------------------------------|
 | name    | [[https://rwest.io/m#meta][meta]]                                                                                     |
 | version | alpha-0.1                                                                                                             |
-| vc      | [[https://hg.rwest.io/meta/rev/267dd04e90d7][78+:267dd04e90d7]], [[https://github.com/richardwesthaver/meta][github]] |
-| updated | 3 hours ago                                                                                                           |
-| lines   | 7069 = λ:6561 #:29 _:479                                                                                              |
-| langs   | (Org)                                                                                                                 |
+| vc      | [[https://hg.rwest.io/meta/rev/879b9d6b73b3][79+:879b9d6b73b3]], [[https://github.com/richardwesthaver/meta][github]] |
+| updated | 25 hours ago                                                                                                          |
+| lines   | 7323 = λ:6793 #:30 _:500                                                                                              |
+| langs   | (Makefile Org)                                                                                                        |
 |---------+-----------------------------------------------------------------------------------------------------------------------|
 
 #+results: meta-files
 | file       | size |          updated |
 |------------+------+------------------|
-| cv.org     | 3.8K | 2021-10-27-20:37 |
-| index.org  | 4.6K | 2021-11-17-23:56 |
-| m.org      | 39K  | 2021-11-19-23:57 |
+| cv.org     | 3.8K | 2021-11-20-03:37 |
+| index.org  | 3.8K | 2021-11-20-03:37 |
+| makefile   | 497  | 2021-11-20-03:37 |
+| m.org      | 48K  | 2021-11-21-04:57 |
 | n.org      | 229K | 2021-11-14-17:37 |
-| ox.setup   | 580  | 2021-11-14-23:06 |
-| readme.org | 11K  | 2021-11-19-23:40 |
+| ox.setup   | 580  | 2021-11-20-03:37 |
+| readme.org | 11K  | 2021-11-20-03:40 |
+| r.org      | 3.8K | 2021-11-21-04:56 |
 #+results: 
 : parent: 79:879b9d6b73b3 tip
 :  added rambles
 : branch: default
-: commit: (clean)
+: commit: 3 modified
 : update: (current)
+: M m.org
+: M r.org
+: M readme.org
 * scripts
 ** deploy
 This is the script for deploying metas. It usually takes a few minutes
@@ -69,7 +74,7 @@ with sensitive info, but I prefer the copy method for public projects.
 #+name: meta-tmp
 #+begin_src emacs-lisp
   (let ((path (concat o "org/"))
-        (files (list "m.org" "n.org" "index.org" "cv.org" "ox.setup")))
+        (files (list "m.org" "n.org" "r.org" "index.org" "cv.org" "ox.setup")))
     (make-directory path t)
     (dolist (f files)
       (copy-file f path t))
@@ -226,7 +231,7 @@ back to the [[https://hg-git.github.io/][hg-git]] 'pure' solution soon.
       git clone $gh $WD/$r
       pushd $WD/$r
       case $r in
-  	meta) cp -rf $src/{m.org,n.org,cv.org,index.org,ox.setup,readme.org} ./ ;;
+  	meta) cp -rf $src/{m.org,n.org,r.org,cv.org,index.org,ox.setup,readme.org} ./ ;;
   	shed) cp -rf $src/{Cargo.toml,build.rs,lisp,makefile,src,readme.org,rustfmt.toml} ./ ;;
   	babel) cp -rf $src/{babel.el,lob.org,readme.org,makefile,sc} ./ ;;
   	rlib) cp -rf $src/{Cargo.toml,.cargo,rustfmt.toml,src,alch,audio,crypto,db,eve,flate,fu,hash,kala,logger,math,net,obj,organ,tests,ui,util,readme.org} ./ ;;
