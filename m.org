@@ -42,8 +42,8 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 | version | alpha-0.1                |
 | vc      | [[https://hg.rwest.io/meta/rev/879b9d6b73b3][79+:879b9d6b73b3]], [[https://github.com/richardwesthaver/meta][github]] |
 | updated | 25 hours ago             |
-| lines   | 7323 = λ:6793 #:30 _:500 |
-| langs   | (Makefile Org)           |
+| lines   | 6868 = λ:6386 #:27 _:455 |
+| langs   | (Org)                    |
 |---------+--------------------------|
 
 #+name: ls-files-meta-heading
@@ -58,16 +58,11 @@ generate my [[https://rwest.io][website]] and readme files for code hosted at [[
 src
 #+end_src
 #+RESULTS: meta-files
-| file       | size |          updated |
-|------------+------+------------------|
-| cv.org     | 3.8K | 2021-11-20-03:37 |
-| index.org  | 3.8K | 2021-11-20-03:37 |
-| makefile   | 497  | 2021-11-20-03:37 |
-| m.org      | 48K  | 2021-11-21-04:57 |
-| n.org      | 229K | 2021-11-14-17:37 |
-| ox.setup   | 580  | 2021-11-20-03:37 |
-| readme.org | 11K  | 2021-11-20-03:40 |
-| r.org      | 3.8K | 2021-11-21-04:56 |
+| file  | size |          updated |
+|-------+------+------------------|
+| m.org | 48K  | 2021-11-21-05:13 |
+| n.org | 229K | 2021-11-14-17:37 |
+| r.org | 3.8K | 2021-11-21-05:10 |
 #+CALL:shc-hg-summary() :eval yes
 #+RESULTS:
 : parent: 78:267dd04e90d7 tip
@@ -436,7 +431,7 @@ Before we talk about github stuff, let's commit the readme changes for
 our projects - first let's clean up build artifacts.
 #+name: meta-clean
 #+begin_src shell :results silent
-  rm -rf o
+  rm -rf o index.org cv.org makefile ox.setup readme.org
 #+end_src
 
 Now we can commit without being skeptical about the repo state.

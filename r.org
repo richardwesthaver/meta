@@ -39,9 +39,9 @@ These sort of 'snippet demos' are important because they are
 self-contained and make documentation portable. We can render them
 anywhere that text is rendered, and they're easy to include thanks to
 [[https://orgmode.org/worg/org-contrib/babel/][org-mode babel]]. The problem is that they can only help us with
-/text-based/ interfaces, and they need additional /con/-text to convey
-the why. All that extra reading can make large projects more
-intimidating than they need to be to newcomers.
+/text-based/ interfaces, and need additional context to convey how
+those commands work and why. All that extra reading can make large
+projects more intimidating than they need to be to newcomers.
 
 For when such verbosity isn't appropriate, a good solution is to make
 use of a visual medium - image or video. Up until this point I've
