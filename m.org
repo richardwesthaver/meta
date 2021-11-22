@@ -84,7 +84,7 @@ the [[info:org-element][org-element]] api.
   | /       | <           |                                          |
   | [[file:m.org][m]]       | metas       | [[[file:m.org::#meta][meta]] [[file:m.org::#babel][babel]] [[file:m.org::#cfg][cfg]] [[file:m.org::#shed][shed]] [[file:m.org::#rlib][rlib]] [[file:m.org::#tenex][tenex]]]         |
   | [[file:n.org][n]]       | notes       | [[[file:n.org::#art][art]] [[file:n.org::#computers][computers]] [[file:n.org::#economics][econ]] [[file:n.org::#language][lang]] [[file:n.org::#math][math]] [[file:n.org::#philosophy][phil]] [[file:n.org::#misc][misc]]] |
-  | r (TBD) | rambles     |                                          |
+  | [[file:r.org][r]] | rambles     | [[[file:r.org::#demo-scripts][demo scripts]] (WIP)]                                         |
   |         |             |                                          |
   | [[rw:a][a]]       | attachments | [[[cdn:audio][audio]] [[cdn:doc][doc]] [[cdn:img][img]] [[cdn:video][video]]]                    |
   | [[rw:x][x]]       | exports     | [[[rw:x/html][html]] [[rw:x/md][md]] [[rw:x/org][org]] [[rw:x/pdf][pdf]] [[rw:x/txt][txt]]]                    |
