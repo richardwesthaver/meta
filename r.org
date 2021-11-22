@@ -1,10 +1,10 @@
 #+TITLE: rambles
 #+SETUPFILE: ox.setup
-* Org-mode Workflows                                           :org:noexport:
+* OUTLINE Org-mode Workflows                                   :org:noexport:
 :PROPERTIES:
 :CUSTOM_ID: org-mode-workflows
 :END:
-* Demo Scripts                                                           :bs:
+* Demo Scripts                                                         :meta:
 :PROPERTIES:
 :CUSTOM_ID: demo-scripts
 :END:
@@ -18,17 +18,18 @@ shc s -w
 #+end_src
 #+RESULTS:
 #+begin_example
-00:00:00-01:00:00 = 38°F :: "Patchy Frost"
-01:00:00-02:00:00 = 35°F :: "Mostly Cloudy"
-02:00:00-03:00:00 = 35°F :: "Mostly Cloudy"
-03:00:00-04:00:00 = 35°F :: "Cloudy"
-04:00:00-05:00:00 = 35°F :: "Cloudy"
-05:00:00-06:00:00 = 35°F :: "Cloudy"
-06:00:00-07:00:00 = 36°F :: "Cloudy"
-07:00:00-08:00:00 = 38°F :: "Chance Rain Showers"
-08:00:00-09:00:00 = 42°F :: "Chance Rain Showers"
-09:00:00-10:00:00 = 46°F :: "Chance Rain Showers"
+23:00:00-00:00:00 = 51°F :: "Scattered Rain Showers"
+00:00:00-01:00:00 = 51°F :: "Chance Rain Showers"
+01:00:00-02:00:00 = 52°F :: "Chance Rain Showers"
+02:00:00-03:00:00 = 52°F :: "Chance Rain Showers"
+03:00:00-04:00:00 = 52°F :: "Chance Rain Showers"
+04:00:00-05:00:00 = 51°F :: "Rain Showers"
+05:00:00-06:00:00 = 51°F :: "Rain Showers"
+06:00:00-07:00:00 = 52°F :: "Rain Showers"
+07:00:00-08:00:00 = 52°F :: "Rain Showers"
+08:00:00-09:00:00 = 47°F :: "Rain Showers"
 #+end_example
+
 These sort of 'snippet demos' are important because they are
 self-contained and make documentation portable. We can render them
 anywhere that text is rendered, and they're easy to include thanks to
