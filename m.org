@@ -4,6 +4,7 @@
 :PROPERTIES:
 :CUSTOM_ID: meta
 :EXPORT_FILE_NAME: readme
+:ID:       20211122T234615.201004
 :END:
 This project contains documents I've written in plain-text used to
 generate my [[https://rwest.io][website]] and readme files for code hosted at [[src:][hg.rwest.io]].
@@ -52,7 +53,7 @@ M r.org
 :CUSTOM_ID: meta:setup
 :END:
 #+name: meta-setup
-#+begin_src emacs-lisp :results silent :eval no-export
+#+begin_src emacs-lisp :results value silent :eval no-export
   (with-temp-file "ox.setup"
   (insert
    "-*- mode: org; org-footnote-section nil; -*-
@@ -234,35 +235,18 @@ the [[info:org-element][org-element]] api.
 :CUSTOM_ID: meta:deploy
 :END:
 
-This is the script for deploying metas. It usually takes a few minutes
-to run and chains together a bunch of code blocks, but is otherwise
-fully automated.
-
-#+name: meta-prod-vars
-| key   | val              | notes             |
-|-------+------------------+-------------------|
-| wd    | ~/shed/src/meta/ | working directory |
-| files |                  | input files       |
-| rh    | /sshx:hyde:      | remote host       |
-| o     | o/               | output directory  |
-
-#+name: meta-val
-#+begin_src emacs-lisp :results value :var tbl=meta-prod-vars idx=0 :exports none
-  (nth idx (mapcar (lambda (x) (cadr x)) tbl))
-#+end_src
-
-This block is the main entry point that gets executed - each call to
-=org-sbx= (a custom function based on =org-sbe=) executes the contents
-of a named code block.
+This is my deploy script. It usually takes a few minutes to run and
+chains together a bunch of code blocks, but is otherwise fully
+automated.
 
 #+name: meta-deploy-main
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results value silent :exports none
   (org-sbx meta-setup)
   (org-sbx meta-index)
   (org-sbx meta-tmp)
   (org-sbx meta-pub)
   (org-sbx meta-pack)
-  (org-sbx meta-deploy)
+  (org-sbx meta-scp)
   (org-sbx meta-readme-gen)
   (org-sbx meta-clean)
   ;(org-sbx meta-commit)
@@ -277,7 +261,8 @@ directory instead of copying the raw source. This is great for docs
 with sensitive info, but I prefer the copy method for public projects.
 
 #+name: meta-tmp 
-#+begin_src emacs-lisp :var o=meta-val(idx=3) :results silent
+#+begin_src emacs-lisp :var o="o/" :results silent
+  (org-babel-tangle) ; FIX needed for cv
   (let ((path (concat o "org/"))
         (files (list "m.org" "n.org" "r.org" "index.org" "cv.org" "ox.setup")))
     (make-directory path t)
@@ -292,7 +277,7 @@ Markdown, PDF, and txt. Exported files are saved in separate
 directories.
 
 #+name: meta-pub
-#+begin_src emacs-lisp :results silent
+#+begin_src emacs-lisp :results value silent
   (require 'ox)
   (require 'org-refile)
   (require 'htmlize "~/shed/data/emacs/lisp/contrib/htmlize/htmlize.el")
@@ -345,8 +330,6 @@ directories.
            :auto-sitemap nil)
           ("all" :components ("org-html" "org-md" "org-pdf" "org-txt"))))
 
-  (org-publish-remove-all-timestamps)
-  (org-refile-cache-clear)
   (org-publish "all" t)
   (load-theme current-theme)
 #+end_src
@@ -355,7 +338,7 @@ First we clean some of the junk latex produced by the PDF export, then
 compress our exports to =.tz= (tar.zst) archives.
 
 #+name: meta-pack
-#+begin_src sh :var o=meta-val(idx=3) :results silent
+#+begin_src sh :var o="o/" :results silent
   cd $o/org
   rm -rf *.pdf *.tex
   cd ..
@@ -370,7 +353,7 @@ server. New content can now be viewed online at [[https://rwest.io][rwest.io]] a
 downloaded at [[https://rwest.io/x][rwest.io/x]] which includes archives and individual files
 in all formats.
 
-#+name: meta-deploy
+#+name: meta-scp
 #+begin_src emacs-lisp :var o="o/" rh="/sshx:hyde:/mnt/w/" files='("m.html" "n.html" "r.html" "index.html") :results silent
   (copy-file o (concat rh "x/") 1)
   (dolist (f files)
@@ -1092,44 +1075,6 @@ and database storage, but exposed to the user for convenience.
 #+begin_src shell :exports both :results output replace
   shc --help
 #+end_src
-
-#+RESULTS:
-#+begin_example
-shed 0.1.0-0fc01f4e2590+
-
-ellis <ellis@rwest.io>
-
-shed multi-development tool
-
-USAGE:
-    shed [FLAGS] [OPTIONS] [SUBCOMMAND]
-
-FLAGS:
-    -?               set the log level
-    -h, --help       Print help information
-    -V, --version    Print version information
-
-OPTIONS:
-    -c, --config <RON|JSON|BIN>    override configuration values
-
-SUBCOMMANDS:
-    build       build scripts
-    clean       clean stuff up
-    download    fetch resources
-    edit        edit all the things
-    help        Print this message or the help of the given subcommand(s)
-    init        initialize the shed
-    krypt       blackbox
-    pack        create packages from file or directory
-    pull        fetch resources
-    push        commit changes to upstream
-    serve       network services
-    stash       local storage
-    status      print basic info
-    store       shared block storage
-    unpack      unpack .z or .tz files
-    x           do things with runtimes
-#+end_example
 
 ** contrib
 :PROPERTIES:
