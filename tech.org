@@ -1,0 +1,66 @@
+#+title: tech
+#+author: Richard Westhaver
+#+email: ellis@rwest.io
+#+description: The Compiler Company Core Technologies
+#+setupfile: ../../clean.theme
+
+* OS
+We primarily support [[https://unix.org][Unix-based]] Operating Systems. Check
+project-specific docs for officially supported targets.
+
+Development and CI is ran on [[https://archlinux.org/][Arch Linux]] (btw).
+* Core
+** [[https://lisp-lang.org/][Lisp]]
+** [[https://www.rust-lang.org/][Rust]]
+** [[https://www.gnu.org/software/emacs/][Emacs]]
+* Libs
+** [[https://rocksdb.org/][rocksdb]]
+** [[https://archlinux.org/pacman/][pacman]]
+** [[https://docs.kernel.org/filesystems/btrfs.html][btrfs]]
+** [[https://tree-sitter.github.io/tree-sitter/][tree-sitter]]
+** [[https://kernel.dk/io_uring.pdf][uring]]
+** [[https://github.com/BLAKE3-team/BLAKE3-specs/blob/master/blake3.pdf][blake3]]
+* Extras
+** [[https://ngn.codeberg.page/k][k]]
+** [[https://mlochbaum.github.io/BQN/][BQN]]
+
+* Our Software
+The software provided by /The Compiler Company/ is a powerful but
+opinionated programming environment. It consists of a GNU/Linux
+kernel, some vendored programs and libraries, and a suite of custom
+software.
+
+The software is modular by design. You can pick and choose which
+components to embed in your own projects and you are encouraged to
+modify any part of the system to meet your goals. 
+
+In general, our software is designed for:
+- early adoption :: integrate research, protocols, libraries, and
+  hardware features from leading research orgs faster than anyone else
+- rapid development :: interaction, code introspection, tooling, and
+  automation built for prototyping at massive scale
+- power :: using our environment should feel like cheating - macros,
+  DSLs, and unmatched hackability
+
+** Langs
+/The Compiler Company/ is above all, a =Lisp Company=. The most
+powerful software requires the most powerful code.
+
+Lisp isn't enough though. =Rust= is our imperative language of choice
+at the time of writing and generally suited for system-level software
+components.
+
+We make use of the Steel Bank Common Lisp compiler (SBCL) and the
+nightly Rust compiler toolchain.
+
+** OS
+/The Compiler Company/ is a =Linux Company=. There may be minimal
+support for Darwin-based systems, but Microsoft Windows systems will
+never be officially supported.
+
+One of the /anti-goals/ of our software is ~portability~. For all of
+the features we optimize for, portability becomes a burden, especially
+with closed-source OS kernels. We are also explicitly driven to reduce
+consumer dependence on these closed-source systems, especially in a
+distributed network. They are simply unfit for use with the software
+we produce and the systems we build.

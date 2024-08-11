@@ -1,0 +1,12 @@
+#+title: Meta Docs
+#+author: Richard Westhaver
+#+email: ellis@rwest.io
+#+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
+#+EXPORT_FILE_NAME: index
+#+setupfile: ../../clean.theme
+* [[file:ulang.org][ulang]]
+* [[file:style.org][style]]
+* [[file:tech.org][tech]]
+* [[file:business.org][business]]
+* [[file:mindset.org][mindset]]
+* [[file:workflows.org][workflows]]

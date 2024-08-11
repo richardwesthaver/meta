@@ -1,0 +1,17 @@
+#+title: meta/workflows
+#+author: Richard Westhaver
+#+email: ellis@rwest.io
+#+description: Meta Workflows
+#+setupfile: ../../clean.theme
+
+* Task Management
+
+* Project Management
+
+* Roadmap
+
+* Source Code Management
+
+* Data Management
+
+* Resource Management

@@ -1,0 +1,163 @@
+#+title: Universal Languages
+#+author: Richard Westhaver
+#+email: ellis@rwest.io
+#+OPTIONS: toc:t
+#+setupfile: ../../clean.theme
+
+This document describes a *U-Language* as described by the late great
+[[https://iep.utm.edu/haskell-brooks-curry/][Haskell Curry]]:
+
+#+begin_quote
+Every investigation, including the present one, has to be communicated
+from one person to another by means of language. It is expedient to
+begin our study by calling attention to this obvious fact, by giving a
+name to the language being used, and by being explicit about a few of
+its features. We shall call the language being used the
+U-Language. [...] There would be no point in calling attention to it,
+if it were not for the fact that language is more intimately related
+to our job than of most others.
+#+end_quote
+
+In this document, we will be calling attention to our own language -
+examining it, and describing how it works.
+
+Our job is to solve problems. Hard problems preferred. So we ought to
+pay close attention to the language we use because it brings the
+reader and writer /closer/ to the problem at hand.
+
+For starters, we are primarily concerned with /written languages/ like
+the one you're reading now. We will skip past the obvious details -
+English is our primary form of communication for example. The line you
+are reading currently is a sentence which is part of a paragraph.
+
+There are some non-obvious questions which deserve inquiry though.
+
+- *Who is this for?* \\
+  This document is for authors and readers alike. It is a loose
+  specification, but also serves as introductory material into our
+  communication and design philosophy.
+  
+- *What is this for?* \\
+  The purpose of this document is to provide a /standard of
+  communication/.
+
+  All sources we write attempt to conform to this standard but this is
+  not strictly enforced. If there is a reason to not comply with a
+  rule, it is already broken.
+
+* Org Mode
+:PROPERTIES:
+:ID: 98a02bb2-3f39-49c6-898a-68ccd8f3cbe1
+:END:
+[[https://www.gnu.org/software/emacs/][GNU Emacs]] is our text editor, so naturally [[https://orgmode.org/][Org Mode]] is our word
+processor.
+
+If you are already familiar with Emacs and Org-Mode, I recommend
+opening the source of this document in Emacs and following along.
+
+If not, I recommend browsing through the [[https://orgmode.org/worg/][Worg resources]], but we won't
+be getting too deep into tribal hacker knowledge of Emacs.
+
+What's important to know is this: There is /Org Syntax/ and
+/Org-mode/ - these are different things.
+
+Our =ulang= is almost /exclusively/ based on /Org Syntax/ and we are
+not concerned about /Org-mode/ the application in this document.
+
+* ulang
+:PROPERTIES:
+:ID: ulang
+:END:
+As the title suggest we refer to our *U-Language* as *ulang*. Each
+section of this document describes a feature.
+** Outlines
+In Org, headings can be summarize as any line starting with a star: =*
+H1=. Headings can be nested or 'demoted' by prepending another star:
+=** H2=.
+
+This is a useful pattern which we apply outside of Org - most commonly
+in our code comments.
+
+In our source code, we use the comment character instead of a star:
+#+begin_src lisp
+;;; foo
+(print "H1") ;; just an inline comment
+;;;; bar
+(print "H2")
+;;; baz
+(print "H1")
+#+end_src
+
+A collection of /headings/ is what we call an *Outline* - which is
+also the name of the major-mode utilized for this feature and of
+course - what Org itself is derived from.
+
+** Keywords
+:PROPERTIES:
+:ID: 2cadda9a-22a3-4b42-ad4e-d7a774f74cba
+:END:
+
+The following keywords indicate the state of an element. They often
+appear as the first word in a heading to indicate a [[*Tasks][Task]].
+
+- TBD :: A task to be done at a later date.
+- TODO :: A task yet to be done.
+- FIXME :: Item that needs fixing.
+- WIP :: Work In Progress task.
+- WAIT :: A suspended task.
+- DEAD :: Item that will not be completed.
+- DONE :: Completed task.
+- BUG :: Designate a bug item.
+- IDEA :: Designate an idea item.
+- NOTE :: Designates a note item.
+- DRAFT :: Designates a draft item.
+- COMMENT :: A 'commented' item.
+** Tasks
+Tasks as they are known in Org, usually consist of a heading that
+starts with a [[#2cadda9a-22a3-4b42-ad4e-d7a774f74cba][Keyword]]. Here we describe some additional sections and
+metadata which are present in our collection of tasks.
+
+Our task management system is roughly a hybrid of two more
+conventional methods: GTD and Agile. For convenience I will describe
+these styles and how I use them separately, but the concepts may be
+spliced differently in real tasks.
+
+- *GTD* \\
+- *Agile* \\
+  It's a dirty word in some tech circles - the dreaded PIs, daily
+  standups, and still nobody knows what's going on, Oh my! Do not
+  worry. For the most part we just borrow the vocabulary.
+
+  Our /Agile/ workflow consists of roadmaps, features (epics/ARTs),
+  issues (user stories), and of course, tasks.
+** IDs
+We reference two different types of identifiers in documentation:
+- UUID :: ID property
+- User-defined :: CUSTOM_ID property
+
+Most of the time these Ids don't add any information for the reader -
+the UUIDs are used to index and graph documents, CUSTOM_IDs are for
+convenience but are rarely necessary given the many ways of
+identifying a headline.
+** Macros
+:PROPERTIES:
+:ID: cdb4976b-1d0d-49df-bfb1-3dbd5d99590e
+:END:
+Several *global* [[https://orgmode.org/manual/Macro-Replacement.html][Org Macros]] are used throughout our documents. They are listed
+here for convenience.
+
+#+name: ulang-macros
+#+begin_src emacs-lisp :exports both :results replace pp
+  org-export-global-macros
+#+end_src
+
+#+RESULTS: ulang-macros
+: (("header" .
+:   "#+TITLE: $1\n#+AUTHOR: $2\n#+EMAIL: $3\n#+DESCRIPTION: $4\n#+SUBTITLE: $4\n#+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil\n#+HTML_HEAD: <link rel=\"stylesheet\" href=\"https://fonts.xz.style/serve/inter.css\"/>\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.compiler.company/css/new.min.css\"/>\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.compiler.company/css/night.css\"/>\n")
+:  ("opts" . "#+OPTIONS: $1\n"))
+
+Macros /are not expanded/ in source files - you will see them in the
+form ={{{NAME(ARGS)}}}=. You will need the relevant macro definition
+(in =ulang.el=) in order to use some Org-Mode functions (org-export)
+with our docs.
+

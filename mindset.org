@@ -1,0 +1,4 @@
+#+title: mindset
+#+author: Richard Westhaver
+#+description: A Reflection on the CC Mindset
+#+setupfile: ../../clean.theme

@@ -1,0 +1,66 @@
+#+title: The Compiler Company Styleguide
+#+author: Richard Westhaver
+#+email: ellis@rwest.io
+#+setupfile: ../../clean.theme
+As an organization we maintain a styleguide[fn:1] which lists all of
+the style guidelines we use for our code. If you are contributing to
+one of our projects, you should review and understand the relevant
+sections below.
+
+You should also review the [[file:ulang.org][ulang]] document, which may shine some light
+on code comments and developer docs.
+
+[fn:1] https://google.github.io/styleguide/ 
+
+* General Programming
+- indent-offset = 2
+- max-line-width = 80
+- page-length ~ 32
+- module-length ~ 512
+- file-size ~ 1024
+
+- start every source-file with a header comment
+- use outline headings to organize your program
+- use ulang-comments as needed for referencing bugs, notes, etc.
+- inline documentation should be declarative. your code explains your
+  comments for you.
+- variables, imports, and exports belong at the top of a file
+- =main= functions belong at the bottom of a file
+- use LSP wherever possible (eglot, slime)
+* Common Lisp
+- prefer symbol docs to comments
+- use stdin/stdout/stderr correctly - see [[https://zenodo.org/records/3414191][CDR-11]]
+- always prefer =core= libraries over vendored dependencies
+- use the compiler built-ins - if a function or class is generally
+  useful, add it to the core
+- use conditions, restarts, and error handling where appropriate
+- save type declarations and hairy optimizations for when the API is
+  polished
+- don't be afraid of macros
+** Systems
+- define systems using keyword symbols
+- use slash instead of dash for path separation in system names: =:foo/bar=
+- define your test system in the same file with a name of: =:foo/tests=
+- where possible, avoid collisions with systems in Quicklisp
+** Packages
+- declare packages in a file named =pkg.lisp=
+- when multiple packages are being declared, consider a wrapper
+  package
+  - declare with ~UIOP:DEFINE-PACKAGE~ and ~:USE-REEXPORT~
+- package names are either the same as their system name or have the
+  system name as their root path.
+- use ~:NICKNAMES~ to declare alternative names for your package
+** CLOS
+- prefer =:default-initargs= over =:initform=.
+* Rust
+- always prefer =core= libraries to vendored dependencies
+- don't make =mod.rs= files
+  - use the =foo.rs=, =foo/*= pattern instead
+- derive =Debug= and =Clone= always
+- write a sensible =Display= impl
+- derive default methods for =Default=, =Hash=, =Copy=, etc where possible
+- use generics where appropriate: =foo<P:AsRef<Path>>(path:P){p.as_ref();}=
+* Emacs Lisp
+* Org-mode
+* Shell
+* Python
