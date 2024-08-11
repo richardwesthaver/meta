@@ -5,8 +5,26 @@
 #+EXPORT_FILE_NAME: index
 #+setupfile: ../../clean.theme
 * [[file:ulang.org][ulang]]
+:PROPERTIES:
+:ID:       0ecd9330-de4d-4adf-bb7f-75d12f973a0a
+:END:
 * [[file:style.org][style]]
+:PROPERTIES:
+:ID:       f07097d7-afd7-4671-8bbb-386acbf6048f
+:END:
 * [[file:tech.org][tech]]
+:PROPERTIES:
+:ID:       fe8dbc96-ebc2-4461-a6fa-8a90f60a8df9
+:END:
 * [[file:business.org][business]]
+:PROPERTIES:
+:ID:       b46cae62-6f62-4a54-a9aa-f5cbacbf000e
+:END:
 * [[file:mindset.org][mindset]]
+:PROPERTIES:
+:ID:       7a338797-f0bb-46ee-8bc0-81b9c874b7bb
+:END:
 * [[file:workflows.org][workflows]]
+:PROPERTIES:
+:ID:       c7dc2ecf-7655-4ce6-b6e7-52674364e8fc
+:END:

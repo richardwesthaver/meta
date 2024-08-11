@@ -3,15 +3,34 @@
 #+email: ellis@rwest.io
 #+description: Meta Workflows
 #+setupfile: ../../clean.theme
+* Roadmap
+:PROPERTIES:
+:ID:       be90c808-6c3b-4381-a032-af07d54f5907
+:END:
 
 * Task Management
-
+:PROPERTIES:
+:ID:       66333c80-aa6f-43d7-a305-44e218dde045
+:END:
 * Project Management
-
-* Roadmap
-
+:PROPERTIES:
+:ID:       560f4094-e077-4389-9e09-dba1e0d4004e
+:END:
 * Source Code Management
+:PROPERTIES:
+:ID:       81da5e76-2619-42c3-8a2a-dea2b815b261
+:END:
 
 * Data Management
+:PROPERTIES:
+:ID:       e5c4702e-581d-41b7-a484-76730435f056
+:END:
 
-* Resource Management
+* Attachments
+:PROPERTIES:
+:ID:       c179c71d-3ad6-480b-bb52-76307b4a6316
+:END:
+* Archive
+:PROPERTIES:
+:ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:END:

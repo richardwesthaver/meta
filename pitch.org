@@ -2,6 +2,9 @@
 #+author: Richard Westhaver <ellis@rwest.io>
 #+setupfile: ../../clean.theme
 * Get Off of My Cloud
+:PROPERTIES:
+:ID:       6dbb0064-1421-41bb-b2df-36f694efce0a
+:END:
   - industry has moved away from client-side, distributed compute in
     favor of centralized server-side compute resources behind API
     gateways.
@@ -17,6 +20,9 @@
       can collect and profit from
 
 * Death of the Programmer
+:PROPERTIES:
+:ID:       138f4a50-1d52-4e13-bf67-f225ef9f6747
+:END:
   - The role of the programmer is changing
   - programmers are no longer required to understand how computers
     work to have a successful career

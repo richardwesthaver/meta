@@ -1,12 +1,14 @@
-#+title: Universal Languages
+#+title: Universal Language
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
-#+OPTIONS: toc:t
-#+setupfile: ../../clean.theme
-
+#+setupfile: ../clean.theme
+#+infojs_opt: toc:nil home:https://compiler.company up:./ view:showall
+* Introduction
+:PROPERTIES:
+:ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663
+:END:
 This document describes a *U-Language* as described by the late great
 [[https://iep.utm.edu/haskell-brooks-curry/][Haskell Curry]]:
-
 #+begin_quote
 Every investigation, including the present one, has to be communicated
 from one person to another by means of language. It is expedient to
@@ -30,22 +32,14 @@ the one you're reading now. We will skip past the obvious details -
 English is our primary form of communication for example. The line you
 are reading currently is a sentence which is part of a paragraph.
 
-There are some non-obvious questions which deserve inquiry though.
-
-- *Who is this for?* \\
-  This document is for authors and readers alike. It is a loose
+- This document is for authors and curious readers. It is a loose
   specification, but also serves as introductory material into our
   communication and design philosophy.
-  
-- *What is this for?* \\
-  The purpose of this document is to provide a /standard of
-  communication/.
-
-  All sources we write attempt to conform to this standard but this is
+- All sources we write attempt to comply to this standard but it is
   not strictly enforced. If there is a reason to not comply with a
   rule, it is already broken.
 
-* Org Mode
+** Org Mode
 :PROPERTIES:
 :ID: 98a02bb2-3f39-49c6-898a-68ccd8f3cbe1
 :END:
@@ -64,21 +58,61 @@ What's important to know is this: There is /Org Syntax/ and
 Our =ulang= is almost /exclusively/ based on /Org Syntax/ and we are
 not concerned about /Org-mode/ the application in this document.
 
+For the remainder of this document, we assume basic knowledge of Org
+Mode.
+
 * ulang
 :PROPERTIES:
-:ID: ulang
+:CUSTOM_ID: ulang
+:ID:       236227a5-b30c-4548-8cad-360428d74d67
 :END:
-As the title suggest we refer to our *U-Language* as *ulang*. Each
-section of this document describes a feature.
-** Outlines
+Our *U-Language* is colloquially termed *ulang*. Each section of this
+document describes a feature or property of our ulang.
+** Emphasis
+:PROPERTIES:
+:ID:       88bf1177-b5b7-4945-8bdc-5229803e617e
+:END:
+We derive all text emphasis syntax for rich contents from [[https://orgmode.org/manual/Emphasis-and-Monospace.html][Org Mode]].
+#+name: org-emphasis
+#+begin_src org
+  - *bold*
+  - /italic/
+  - _underlined_
+  - =verbatim=
+  - ~code~
+  - +strike-through+
+#+end_src
+- *bold*
+- /italic/
+- _underlined_
+- =verbatim=
+- ~code~
+- +strike-through+
+
+Text emphasis markers may be embedded in any syntax as long as it does
+not cause any conflicts with the host language.
+** Headings
+:PROPERTIES:
+:ID:       ed035298-f7fa-4726-ad58-2d542323bb61
+:END:
 In Org, headings can be summarize as any line starting with a star: =*
 H1=. Headings can be nested or 'demoted' by prepending another star:
 =** H2=.
+
+#+name: org-headings
+#+begin_src org
+,* H1
+,** H2
+,*** H3
+,** H2
+,* H1
+#+end_src
 
 This is a useful pattern which we apply outside of Org - most commonly
 in our code comments.
 
 In our source code, we use the comment character instead of a star:
+#+name: lisp-headings
 #+begin_src lisp
 ;;; foo
 (print "H1") ;; just an inline comment
@@ -88,17 +122,37 @@ In our source code, we use the comment character instead of a star:
 (print "H1")
 #+end_src
 
+#+name: rust-headings
+#+begin_src rust
+  /// foo
+  println!("H1");
+  //// bar
+  println!("H2");
+  /// baz
+  println!("H1");
+#+end_src
+
+** Outlines
+:PROPERTIES:
+:ID:       7b4d3229-d85f-4464-b9d0-6beccb1f7b2e
+:END:
 A collection of /headings/ is what we call an *Outline* - which is
 also the name of the major-mode utilized for this feature and of
 course - what Org itself is derived from.
-
 ** Keywords
 :PROPERTIES:
 :ID: 2cadda9a-22a3-4b42-ad4e-d7a774f74cba
 :END:
 
-The following keywords indicate the state of an element. They often
-appear as the first word in a heading to indicate a [[*Tasks][Task]].
+In Org, TODO keywords are used to key track of the state of a [[https://orgmode.org/manual/TODO-Items.html][TODO
+Item]].
+
+In ulang, they are used for this purpose and [[https://orgmode.org/manual/TODO-Extensions.html][extended]] to support a
+variety of stateful item types beyond just tasks - for example =NOTE=
+and =PROJECT=.
+
+The following keywords indicate the state of a heading element. They
+often appear as the first word in a heading.
 
 - TBD :: A task to be done at a later date.
 - TODO :: A task yet to be done.
@@ -112,9 +166,20 @@ appear as the first word in a heading to indicate a [[*Tasks][Task]].
 - NOTE :: Designates a note item.
 - DRAFT :: Designates a draft item.
 - COMMENT :: A 'commented' item.
-** Tasks
+- PROJECT :: Designates a project item containing a sequence of tasks.
+
+#+begin_src org
+  ,* PROJECT project
+  ,** DONE foo
+  ,** TODO bar
+#+end_src
+
+** COMMENT Tasks
+:PROPERTIES:
+:ID:       0f4c0afd-a774-4b98-900b-1ab44f9fd2ef
+:END:
 Tasks as they are known in Org, usually consist of a heading that
-starts with a [[#2cadda9a-22a3-4b42-ad4e-d7a774f74cba][Keyword]]. Here we describe some additional sections and
+starts with a [[id:2cadda9a-22a3-4b42-ad4e-d7a774f74cba][Keyword]]. Here we describe some additional sections and
 metadata which are present in our collection of tasks.
 
 Our task management system is roughly a hybrid of two more
@@ -130,34 +195,61 @@ spliced differently in real tasks.
 
   Our /Agile/ workflow consists of roadmaps, features (epics/ARTs),
   issues (user stories), and of course, tasks.
-** IDs
+** Properties
+:PROPERTIES:
+:ID:       174a993b-a5dc-4324-b4f8-dda8101a55b7
+:END:
+*** IDs
+:PROPERTIES:
+:ID:       3944c851-e46c-4d75-b8f5-07b5c052177a
+:END:
 We reference two different types of identifiers in documentation:
-- UUID :: ID property
-- User-defined :: CUSTOM_ID property
+- UUID :: =ID= property
+- User-defined :: =CUSTOM_ID= property
 
-Most of the time these Ids don't add any information for the reader -
+Most of the time these IDs don't add any information for the reader -
 the UUIDs are used to index and graph documents, CUSTOM_IDs are for
 convenience but are rarely necessary given the many ways of
 identifying a headline.
-** Macros
+** Tags
 :PROPERTIES:
-:ID: cdb4976b-1d0d-49df-bfb1-3dbd5d99590e
+:ID:       a7ae1b2a-559e-46e9-8cab-33e39a218288
 :END:
-Several *global* [[https://orgmode.org/manual/Macro-Replacement.html][Org Macros]] are used throughout our documents. They are listed
-here for convenience.
+[[https://orgmode.org/manual/Tags.html][Tags]] are used liberally throughout our documents. They are simple
+strings usually following a headline as a =:=-separated list.
 
-#+name: ulang-macros
-#+begin_src emacs-lisp :exports both :results replace pp
-  org-export-global-macros
-#+end_src
-
-#+RESULTS: ulang-macros
-: (("header" .
-:   "#+TITLE: $1\n#+AUTHOR: $2\n#+EMAIL: $3\n#+DESCRIPTION: $4\n#+SUBTITLE: $4\n#+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil\n#+HTML_HEAD: <link rel=\"stylesheet\" href=\"https://fonts.xz.style/serve/inter.css\"/>\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.compiler.company/css/new.min.css\"/>\n#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.compiler.company/css/night.css\"/>\n")
-:  ("opts" . "#+OPTIONS: $1\n"))
-
-Macros /are not expanded/ in source files - you will see them in the
-form ={{{NAME(ARGS)}}}=. You will need the relevant macro definition
-(in =ulang.el=) in order to use some Org-Mode functions (org-export)
-with our docs.
-
+A tag can be any text without newlines, although it is recommended to
+treat them as unique identifiers and usage of whitespace is
+discouraged (but not disallowed).
+*** Tag Types
+:PROPERTIES:
+:ID:       b686dbc5-3505-49d7-b66a-0772bcf1a726
+:END:
+Tags may be prefixed with one of the following characters, indicating
+a special tag type:
+- =@= :: location-tag \\
+  A /location tag/ refers to some context-dependent named point in
+  space, such as a user's home address, a popular fast food
+  restaurant, or a specific room found in most houses.
+  - =@home=, =@taco-bell=, =@bedroom=
+- =!= :: timestamp-tag \\
+  /Timestamp tags/ refer to some point in time, often named for
+  convenience. You may use literal [[https://orgmode.org/manual/Timestamps.html][Timestamps]] too. Timestamp tags
+  should not /directly reference/ scheduling information, doing so is
+  often a code-smell.
+  - =!now=, =!christmas=, =!someday=
+- =#= :: anchor-tag \\
+  An /anchor tag/ implies a link to the object identified by some [[id:3944c851-e46c-4d75-b8f5-07b5c052177a][ID]].
+  - =#readme=, =#a7ae1b2a-559e-46e9-8cab-33e39a218288=, =#custom-id=
+*** Tag Lists
+:PROPERTIES:
+:ID:       805862be-ba2b-4288-a2e3-791c0aa3802f
+:END:
+** Links
+:PROPERTIES:
+:ID:       7ecaec5d-c656-44e1-8fad-185915655cee
+:END:
+*** Link Types
+:PROPERTIES:
+:ID:       6aedc026-36d0-4763-adc8-8ae1a79f1b3e
+:END:

@@ -13,6 +13,9 @@ on code comments and developer docs.
 [fn:1] https://google.github.io/styleguide/ 
 
 * General Programming
+:PROPERTIES:
+:ID:       5cee979a-3732-45ed-87f5-cadf591cac42
+:END:
 - indent-offset = 2
 - max-line-width = 80
 - page-length ~ 32
@@ -28,6 +31,9 @@ on code comments and developer docs.
 - =main= functions belong at the bottom of a file
 - use LSP wherever possible (eglot, slime)
 * Common Lisp
+:PROPERTIES:
+:ID:       d4c25810-ce35-411e-a371-67ab7e814260
+:END:
 - prefer symbol docs to comments
 - use stdin/stdout/stderr correctly - see [[https://zenodo.org/records/3414191][CDR-11]]
 - always prefer =core= libraries over vendored dependencies
@@ -38,11 +44,17 @@ on code comments and developer docs.
   polished
 - don't be afraid of macros
 ** Systems
+:PROPERTIES:
+:ID:       2a323c4c-362c-429f-9849-587e2a7311f5
+:END:
 - define systems using keyword symbols
 - use slash instead of dash for path separation in system names: =:foo/bar=
 - define your test system in the same file with a name of: =:foo/tests=
 - where possible, avoid collisions with systems in Quicklisp
 ** Packages
+:PROPERTIES:
+:ID:       f735b4b5-4818-408b-a244-e2fb506c7ded
+:END:
 - declare packages in a file named =pkg.lisp=
 - when multiple packages are being declared, consider a wrapper
   package
@@ -51,8 +63,14 @@ on code comments and developer docs.
   system name as their root path.
 - use ~:NICKNAMES~ to declare alternative names for your package
 ** CLOS
+:PROPERTIES:
+:ID:       5068e164-764a-4843-be8f-126754938ef9
+:END:
 - prefer =:default-initargs= over =:initform=.
 * Rust
+:PROPERTIES:
+:ID:       8e414073-36b6-45d4-9a11-e6de8a0a65e9
+:END:
 - always prefer =core= libraries to vendored dependencies
 - don't make =mod.rs= files
   - use the =foo.rs=, =foo/*= pattern instead
@@ -61,6 +79,18 @@ on code comments and developer docs.
 - derive default methods for =Default=, =Hash=, =Copy=, etc where possible
 - use generics where appropriate: =foo<P:AsRef<Path>>(path:P){p.as_ref();}=
 * Emacs Lisp
+:PROPERTIES:
+:ID:       8b17f8a3-74f2-44cd-a5ce-7df540e2544c
+:END:
 * Org-mode
+:PROPERTIES:
+:ID:       ea4fa698-7a46-46d6-a7a0-5b497119edf2
+:END:
 * Shell
+:PROPERTIES:
+:ID:       10904e36-e4ac-4841-b602-d4dc68a54c71
+:END:
 * Python
+:PROPERTIES:
+:ID:       5b402ced-2329-4a16-b512-76859157a9d6
+:END:
