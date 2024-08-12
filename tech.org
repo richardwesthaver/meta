@@ -2,7 +2,7 @@
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
 #+description: The Compiler Company Core Technologies
-#+setupfile: ../../clean.theme
+#+setupfile: ../clean.theme
 
 * OS
 :PROPERTIES:

@@ -2,3 +2,5 @@
 #+author: Richard Westhaver
 #+description: A Reflection on the CC Mindset
 #+setupfile: ../../clean.theme
+#+glossary_sources: acronyms
+[[gls:WRT]]

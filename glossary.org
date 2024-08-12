@@ -1,0 +1,26 @@
+#+title: glossary
+#+author: Richard Westhaver
+#+description: CC Glossary
+#+setupfile: ../clean.theme
+* Terms
+:PROPERTIES:
+:ID:       755feacc-24d1-4e6d-aff7-dd46270ee0b6
+:CUSTOM_ID: terms
+:END:
+- GNU/Linux :: An Operating System that is free software, consisting
+  of GNU packages released by the [[https://www.gnu.org/home.en.html][GNU Project]].
+- Linux :: A free and open-source Kernel. Not to be confused with
+  GNU/Linux the Operating System
+* Acronyms
+:PROPERTIES:
+:ID:       6ea8f879-29f1-4a52-8e39-4d0920318f8a
+:CUSTOM_ID: acronyms
+:END:
+- WRT :: With Respect To
+- EC :: Emacs Client
+- GNU :: A recursive acronym for "GNU's Not Unix", usually in
+  reference to Linux.
+- OS :: Operating System
+- DB :: Database
+- KV :: Key:Value
+- IFF :: If and Only If

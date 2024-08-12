@@ -1,6 +1,6 @@
 #+title: the big picture
 #+author: Richard Westhaver <ellis@rwest.io>
-#+setupfile: ../../clean.theme
+#+setupfile: ../clean.theme
 * Get Off of My Cloud
 :PROPERTIES:
 :ID:       6dbb0064-1421-41bb-b2df-36f694efce0a

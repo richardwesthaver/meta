@@ -2,21 +2,38 @@
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
 #+description: Meta Workflows
-#+setupfile: ../../clean.theme
+#+setupfile: ../clean.theme
 * Roadmap
 :PROPERTIES:
 :ID:       be90c808-6c3b-4381-a032-af07d54f5907
 :END:
+The [[https://compiler.company/plan/roadmap.html][roadmap]] is a high-level document which describes the strategic
+plan associated with some pre-determined period of time, such as a
+year, month, or quarter.
 
+* Archive
+:PROPERTIES:
+:ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:END:
+When an item is archived, it is moved to a file under version-control
+in the [[vc:comp/archive][archive]] project.
 * Task Management
 :PROPERTIES:
 :ID:       66333c80-aa6f-43d7-a305-44e218dde045
 :END:
+Tasks are most often found as headings with some additional metadata
+such as scheduling info, priority, clock info, and special properties.
+
+Task keywords are always part of a sequence with at least one =TODO=
+state and one =DONE= state.
 * Project Management
 :PROPERTIES:
 :ID:       560f4094-e077-4389-9e09-dba1e0d4004e
 :END:
-* Source Code Management
+Projects are denoted by the special keyword =PROJECT= and act as
+formal units of organization.
+
+* Code Management
 :PROPERTIES:
 :ID:       81da5e76-2619-42c3-8a2a-dea2b815b261
 :END:
@@ -25,12 +42,19 @@
 :PROPERTIES:
 :ID:       e5c4702e-581d-41b7-a484-76730435f056
 :END:
-
-* Attachments
+** Tables
 :PROPERTIES:
-:ID:       c179c71d-3ad6-480b-bb52-76307b4a6316
+:ID:       8433beaf-59de-4b13-a066-8d3e636066a1
 :END:
-* Archive
+* Knowledge Management
 :PROPERTIES:
-:ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:ID:       ad28e021-657d-4073-b541-336df389c9fb
+:END:
+** Notes
+:PROPERTIES:
+:ID:       6ebed997-12c0-4a20-88ef-df8cf424b198
+:END:
+** Documentation
+:PROPERTIES:
+:ID:       03e13d7e-6cda-46d4-830f-5671518bd32f
 :END:

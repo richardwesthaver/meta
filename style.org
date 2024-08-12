@@ -1,7 +1,8 @@
 #+title: The Compiler Company Styleguide
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
-#+setupfile: ../../clean.theme
+#+glossary_sources: acronyms terms
+#+setupfile: ../clean.theme
 As an organization we maintain a styleguide[fn:1] which lists all of
 the style guidelines we use for our code. If you are contributing to
 one of our projects, you should review and understand the relevant

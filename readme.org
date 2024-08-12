@@ -1,9 +1,10 @@
-#+title: Meta Docs
+#+title: Meta
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
+#+description: CC Meta
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
-#+setupfile: ../../clean.theme
+#+setupfile: ../clean.theme
 * [[file:ulang.org][ulang]]
 :PROPERTIES:
 :ID:       0ecd9330-de4d-4adf-bb7f-75d12f973a0a
@@ -24,7 +25,19 @@
 :PROPERTIES:
 :ID:       7a338797-f0bb-46ee-8bc0-81b9c874b7bb
 :END:
+* [[file:pitch.org][pitch]]
+:PROPERTIES:
+:ID:       84f7ffcf-061c-4461-aca9-236097a7b575
+:END:
 * [[file:workflows.org][workflows]]
 :PROPERTIES:
 :ID:       c7dc2ecf-7655-4ce6-b6e7-52674364e8fc
+:END:
+* [[file:babel.org][babel]]
+:PROPERTIES:
+:ID:       182030df-f6ba-4749-958a-f28cb510866e
+:END:
+* [[file:glossary.org][glossary]]
+:PROPERTIES:
+:ID:       280de24a-a9df-4f0b-96a1-47341e8095ff
 :END:

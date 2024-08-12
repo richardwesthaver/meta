@@ -1,0 +1,336 @@
+#+title: babel
+#+author: Richard Westhaver
+#+description: Core Library of Babel
+#+setupfile: ../clean.theme
+#+property: header-args :exports both
+Welcome to the Core [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a
+collection of code blocks used throughout our Org documents.
+
+To load the library use ~C-c C-v i~.
+
+* systemd-list-units                                                     :os:
+:PROPERTIES:
+:ID:       3b23c98d-a286-4988-846d-2dab3d25803d
+:END:
+#+name: systemd-list-units
+#+begin_src sh :results replace
+systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
+#+end_src
+
+* wc-dir-lines                                                           :fs:
+:PROPERTIES:
+:ID:       70008815-9634-48ca-b672-b8dcf2a44074
+:END:
+#+name: wc-dir-lines
+#+begin_src shell :var dir="."
+cd $dir && cat * | wc -l
+#+end_src
+
+* wc-dir-words                                                           :fs:
+:PROPERTIES:
+:ID:       be755790-f367-4654-87e5-cd2927bfef45
+:END:
+#+name: wc-dir-words
+#+begin_src shell :var dir="."
+cd $dir && cat * | wc -w
+#+end_src
+
+* tokei-dir-lines                                                        :fs:
+:PROPERTIES:
+:ID:       670e9855-f8d2-43eb-86af-3ef7292f90b9
+:END:
+#+name: tokei-dir-lines
+#+begin_src shell :var src=(org-sbe org-current-h1-title) :results output replace
+  cd ~/comp/$src
+  input=`tokei -C -o json`
+  echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
+#+end_src
+
+* tokei-dir-langs                                                        :fs:
+:PROPERTIES:
+:ID:       ff9682f0-bb64-427f-a87d-e0c655f9fdc9
+:END:
+#+name: tokei-dir-langs
+#+begin_src shell :var src=(org-sbe org-current-h1-title) :results output replace
+  cd ~/comp/$src
+  input=`tokei -C -o json`
+  echo $input | jq -r '.["Total"].children | keys[]'
+#+end_src
+
+* sum-str-nums                                                         :util:
+:PROPERTIES:
+:ID:       d3c4ac69-337f-430b-a4db-760504f099ea
+:END:
+#+name: sum-str-nums
+#+begin_src emacs-lisp :var s=tokei-dir-lines
+  (let ((tot 0))
+    (cl-loop
+     with tot = 0
+     for i in (split-string s) do
+     (setf tot (+ tot (string-to-number i)))
+     finally return tot))
+#+end_src
+
+* org-task-tbl                                                          :org:
+:PROPERTIES:
+:ID:       0ee5b499-6f0b-4e15-8c6e-4876e90c20a9
+:END:
+#+name: org-task-tbl
+#+begin_src emacs-lisp
+  (let* ((ast (org-element-parse-buffer)) ;; built up the abstract syntax tree of the org buffer
+         item-types ; all occuring item types. It could be that some task has more item types than another.
+         tasks ; accumulation list for the tasks
+         current-task ; name of the current task (header of level 1)
+         task-items) ; items of the current task
+    (org-element-map ast 'headline
+      (lambda (hl)
+        (cl-case (org-element-property :level hl)
+          (1 ; We assume here that headers of level 1 are tasks.
+           (when current-task ; registering the old task
+             (setq tasks (cons (cons current-task (nreverse task-items)) tasks)))
+           (setq current-task (org-element-property :raw-value hl) ; preparing the new task
+                 task-items nil))
+          (2 ; item
+           (let ((item-type (org-element-property :raw-value hl)))
+             (setq item-types (cons item-type item-types))
+             (setq task-items (cons (cons item-type (org-element-property :todo-keyword hl))
+                                    task-items)))))))
+    (setq tasks (nreverse (cons (cons current-task (nreverse task-items)) tasks)) ;add the last task
+          item-types (sort (cl-remove-duplicates (nreverse item-types) :test 'string-equal) ; list of unique item types
+                           #'string<)) ;;Sorting the items lexicographical. Other criteria could be applied.
+      ;;;;;;;;;;
+    ;; generating the output table:
+    (apply
+     #'list
+     (cons "Item" (mapcar #'car tasks)) ; header
+     'hline
+     ;; rows:
+     (mapcar
+      ;; mapping the items to the todo states associated to the tasks:
+      (lambda (item-type)
+        (cons item-type
+              (mapcar
+               (lambda (task)
+                 (let ((todo-status (cdr (assoc-string item-type task))))
+                   todo-status))
+               tasks)))
+      item-types)))
+#+end_src
+
+* org-headlines-map                                                     :org:
+:PROPERTIES:
+:ID:       05955228-ca76-48bc-b769-f648b4310a9c
+:END:
+#+name: org-headlines-map
+#+begin_src elisp
+  (org-element-map (org-element-parse-buffer 'headline )
+      'headline
+    (lambda(hl)
+      (let ((parent (org-element-property :parent hl )))
+        (and (eq (org-element-type parent) 'headline)
+             (list (org-element-property :title parent) (org-element-property :title hl))))))
+
+#+end_src
+
+* make-info-tbl                                                   :org:fs:vc:
+:PROPERTIES:
+:ID:       d5ba2f3d-fc2d-4db6-8bbd-7ca440ff0e8c
+:END:
+#+name: make-info-tbl
+#+header: :var version="0.1.0"
+#+header: :var name=(org-sbe org-current-h1-title)
+#+header: :var dir="/home/ellis/comp/"
+#+begin_src emacs-lisp :results table replace
+  (let* ((src (concat dir name))
+         (age (org-sbe "hg-log-age" ''(dir src)))
+         (rev (org-sbe "hg-rev" ''(dir src)))
+         (num (org-sbe "hg-id-num" ''(dir src)))
+         (cc1 (org-sbe "tokei-dir-lines" ''((dir src))))
+         (cc2 (org-sbe "tokei-dir-langs" ''((dir src))))
+         (nf (format "[[comp:docs/%s][%s]]" name name))
+         (rf (format "[[vc:comp/%s][%s:%s]]" name num rev))
+         ;; (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
+         (vf (format "%s" rf))
+         (lsum (org-sbe sum-str-nums ('s 'cc1)))
+         (l (split-string cc1))
+         (lang (split-string cc2))
+         (cf (format "%s = λ:%s #:%s _:%s" lsum (pop l) (pop l) (pop l))))
+    `(hline
+      (name ,nf)
+      (version ,version)
+      (vc ,vf)
+      (updated ,age)
+      (lines ,cf)
+      (langs ,lang)
+      hline))
+  #+end_src
+
+  #+RESULTS: make-info-tbl
+  |---------+----------------------------|
+  | name    | [[https://compiler.company/docs/org][org]]                        |
+  | version | 0.1.0                      |
+  | vc      | [[https://vc.compiler.company/comp/org][41+:0f4d1a0415d5]]           |
+  | updated | 3 hours ago                |
+  | lines   | 13143 = λ:12268 #:46 _:829 |
+  | langs   | (Html Org Svg)             |
+  |---------+----------------------------|
+
+* make-files-tbl                                                     :org:fs:
+:PROPERTIES:
+:ID:       e2ff9dcf-8340-48b8-a1a6-e0036cbcc495
+:END:
+#+name: ls-files
+#+begin_src sh :results silent :var dir=(expand-file-name "~/comp") name=(org-sbe org-current-h1-title)
+  ls -lh $dir/$name --time-style=long-iso \
+    |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
+    |awk 'BEGIN{print "file size updated"}{print $0}'
+#+end_src
+
+#+name: make-files-tbl
+#+begin_src python :var tab=ls-files() :results table :colnames yes :hlines yes :exports results :eval no-export
+return tab
+#+end_src
+
+* org-current-h1-title                                                  :org:
+:PROPERTIES:
+:ID:       ae61e7ed-c9ed-414c-8a5f-12b1702f018e
+:END:
+#+name: org-current-h1-title
+#+begin_src emacs-lisp :results value
+  (org-element-property :title (save-excursion (org-up-heading-safe) (org-element-at-point)))
+#+end_src
+
+#+RESULTS: org-current-h1-title
+: org
+
+* get-emacs-version                                                   :emacs:
+:PROPERTIES:
+:ID:       af3d83a1-31bd-41b4-be35-c1f33507fd8d
+:END:
+#+name: get-emacs-version
+#+begin_src elisp :results output
+  (princ (concat (format "%s\n" (emacs-version))
+		 (format "Org v%s" (org-version))))
+#+end_src
+
+* hg-rev                                                                 :vc:
+:PROPERTIES:
+:ID:       8119cf43-f2e7-4829-939c-fc4e8531ae6c
+:END:
+#+name: hg-rev
+#+begin_src sh :var src=(org-sbe org-current-h1-title)
+cd ~/comp/$src && hg log -l 1 --template '{node|short}'
+#+end_src
+
+#+RESULTS: hg-rev
+: 4de12ceca1c7
+
+* hg-id-num                                                              :vc:
+:PROPERTIES:
+:ID:       9602faee-5522-445b-a568-be603e20a978
+:END:
+#+name: hg-id-num
+#+begin_src shell :var src=(org-sbe org-current-h1-title)
+cd ~/comp/$src && hg id -n
+#+end_src
+
+#+RESULTS: hg-id-num
+: 36+
+
+* hg-log-age                                                             :vc:
+:PROPERTIES:
+:ID:       8492f4fb-51a6-4221-8705-a15eb5a50ed4
+:END:
+#+name: hg-log-age
+#+begin_src shell :var src=(org-sbe org-current-h1-title)
+  cd ~/comp/$src && hg log -l1 --template "{date|age}"
+#+end_src
+
+#+RESULTS: hg-log-age
+: 4 days ago
+
+* sh-ob-tangle                                                          :org:
+:PROPERTIES:
+:ID:       7b311df4-83a3-489d-89a0-929928bce051
+:END:
+#+name: sh-ob-tangle
+#+begin_src sh
+  emacs -Q --batch --eval "
+      (progn
+	(require 'ob-tangle)
+	(dolist (file command-line-args-left)
+	  (with-current-buffer (find-file-noselect file)
+	    (org-babel-tangle))))
+    " "$@"
+#+end_src
+
+* make-dot-tree                                                         :dot:
+:PROPERTIES:
+:ID:       5588f446-2d7a-4261-b829-68effd3778ac
+:END:
+#+name: make-dot-tree
+#+begin_src emacs-lisp :var table=org-headlines-map :results output
+  (mapcar #'(lambda (x)
+		(princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
+	  table)
+#+end_src
+
+* gen-dot-tree                                                          :dot:
+:PROPERTIES:
+:ID:       a51c943d-0f01-4c8f-96ec-db28ae7fef26
+:END:
+#+name: gen-dot-tree
+#+begin_src dot :file /tmp/tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree :eval no-export
+digraph {
+   rankdir=TB;
+   splines=true;
+   node [shape=box];
+   $input
+  }
+#+end_src
+
+* user-slime                                                           :lisp:
+:PROPERTIES:
+:ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
+:END:
+#+name: user-slime
+#+begin_src emacs-lisp :results silent :eval no-export
+  (unless (slime-connected-p) (slime))
+  (slime-eval '(ql:quickload :user))
+  (slime-eval '(cl:in-package :user))
+#+end_src
+* std-slime                                                            :lisp:
+:PROPERTIES:
+:ID:       334dae41-5c35-48bd-8368-71d79f5e48d8
+:END:
+#+name: std-slime
+#+begin_src emacs-lisp :results silent :eval no-export
+  (slime)
+  (slime-eval '(ql:quickload :std))
+  (slime-eval '(in-package :std-user))
+#+end_src
+
+* cargo-update-dir                                                     :rust:
+:PROPERTIES:
+:ID:       67dc87bb-a27b-46e4-a02f-58daac514630
+:END:
+#+name: cargo-update-dir
+#+begin_src sh :var dir=()
+# update all crates in dir
+set -eu
+case $0 in
+   (/*) dir=${0%/*}/;;
+   (*/*) dir=./${0%/*};;
+   (*) dir=.;;
+esac
+
+find "$dir/.." -name Cargo.toml -execdir cargo update \;
+#+end_src
+** rust-target-triple
+:PROPERTIES:
+:ID:       02f96ff2-c607-4889-979c-943203b8ad65
+:END:
+ #+name: rust-target-triple
+ #+begin_src shell
+ rustc -vV | sed -n -e 's/^host: //p'
+ #+end_src
