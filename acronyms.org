@@ -1,6 +1,0 @@
-#+title: acronyms
-#+author: Richard Westhaver
-#+description: CC Acronyms
-#+setupfile: ../clean.theme
-#+glossary_sources: terms
-#+print_glossary:

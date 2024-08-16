@@ -3,6 +3,7 @@
 #+email: ellis@rwest.io
 #+description: The Compiler Company Business Model
 #+setupfile: ../../clean.theme
+#+glossary_sources: glossary.org
 In short, this document describes the business aspects of The Compiler
 Company LLC. We are designed to be small, fast, and agile. We
 infiltrate a market, apply our methodology, and develop solutions that

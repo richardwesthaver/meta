@@ -3,6 +3,7 @@
 #+email: ellis@rwest.io
 #+description: Meta Workflows
 #+setupfile: ../clean.theme
+#+glossary_sources: glossary.org
 * Roadmap
 :PROPERTIES:
 :ID:       be90c808-6c3b-4381-a032-af07d54f5907
