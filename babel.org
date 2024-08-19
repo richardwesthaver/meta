@@ -3,10 +3,15 @@
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
 #+property: header-args :exports both
-Welcome to the Core [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a
-collection of code blocks used throughout our Org documents.
+Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
+code blocks which may be used by authors throughout our public
+documentation.
 
-To load the library use ~C-c C-v i~.
+This library depends on the [[vc:comp/core][core]] being properly installed and the
+=core/emacs= init system loaded in emacs. See [[vc:comp/home][home]] for details.
+
+To load the library itself use ~C-c C-v i~ while visiting this file in
+an org-mode buffer or =org-babel-lob-ingest= from elisp.
 
 * systemd-list-units                                                     :os:
 :PROPERTIES:
@@ -40,7 +45,7 @@ cd $dir && cat * | wc -w
 :ID:       670e9855-f8d2-43eb-86af-3ef7292f90b9
 :END:
 #+name: tokei-dir-lines
-#+begin_src shell :var src=(org-sbe org-current-h1-title) :results output replace
+#+begin_src shell :var src="" :results output replace
   cd ~/comp/$src
   input=`tokei -C -o json`
   echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
@@ -51,7 +56,7 @@ cd $dir && cat * | wc -w
 :ID:       ff9682f0-bb64-427f-a87d-e0c655f9fdc9
 :END:
 #+name: tokei-dir-langs
-#+begin_src shell :var src=(org-sbe org-current-h1-title) :results output replace
+#+begin_src shell :var src="org" :results output replace
   cd ~/comp/$src
   input=`tokei -C -o json`
   echo $input | jq -r '.["Total"].children | keys[]'
@@ -138,15 +143,15 @@ cd $dir && cat * | wc -w
 :END:
 #+name: make-info-tbl
 #+header: :var version="0.1.0"
-#+header: :var name=(org-sbe org-current-h1-title)
+#+header: :var name="org"
 #+header: :var dir="/home/ellis/comp/"
 #+begin_src emacs-lisp :results table replace
   (let* ((src (concat dir name))
-         (age (org-sbe "hg-log-age" ''(dir src)))
-         (rev (org-sbe "hg-rev" ''(dir src)))
-         (num (org-sbe "hg-id-num" ''(dir src)))
-         (cc1 (org-sbe "tokei-dir-lines" ''((dir src))))
-         (cc2 (org-sbe "tokei-dir-langs" ''((dir src))))
+         (age (org-sbe "hg-log-age" ''(src name)))
+         (rev (org-sbe "hg-rev" ''(src name)))
+         (num (org-sbe "hg-id-num" ''(src name)))
+         (cc1 (org-sbe "tokei-dir-lines" ''(src name)))
+         (cc2 (org-sbe "tokei-dir-langs" ''(src name)))
          (nf (format "[[comp:docs/%s][%s]]" name name))
          (rf (format "[[vc:comp/%s][%s:%s]]" name num rev))
          ;; (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
@@ -169,9 +174,9 @@ cd $dir && cat * | wc -w
   |---------+----------------------------|
   | name    | [[https://compiler.company/docs/org][org]]                        |
   | version | 0.1.0                      |
-  | vc      | [[https://vc.compiler.company/comp/org][41+:0f4d1a0415d5]]           |
-  | updated | 3 hours ago                |
-  | lines   | 13143 = λ:12268 #:46 _:829 |
+  | vc      | [[https://vc.compiler.company/comp/org][44+:2b6f731f3684]]           |
+  | updated | nil                        |
+  | lines   | 14812 = λ:13917 #:45 _:850 |
   | langs   | (Html Org Svg)             |
   |---------+----------------------------|
 
@@ -180,7 +185,7 @@ cd $dir && cat * | wc -w
 :ID:       e2ff9dcf-8340-48b8-a1a6-e0036cbcc495
 :END:
 #+name: ls-files
-#+begin_src sh :results silent :var dir=(expand-file-name "~/comp") name=(org-sbe org-current-h1-title)
+#+begin_src sh :results silent :var dir=(expand-file-name "~/comp") name="org"
   ls -lh $dir/$name --time-style=long-iso \
     |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
     |awk 'BEGIN{print "file size updated"}{print $0}'
@@ -190,6 +195,29 @@ cd $dir && cat * | wc -w
 #+begin_src python :var tab=ls-files() :results table :colnames yes :hlines yes :exports results :eval no-export
 return tab
 #+end_src
+
+* env-table                                                              :os:
+:PROPERTIES:
+:ID:       4c824478-0eaa-49b9-905f-2c9a6d4220eb
+:END:
+#+begin_src sh :results table replace
+  for i in $(env);
+  do
+      echo "$i|" | sed '0,/=/s//|/'
+  done
+#+end_src
+
+* get-env                                                                :os:
+:PROPERTIES:
+:ID:       8c1ecc68-ca25-4e72-81d8-415a43e59ae4
+:END:
+#+name: get-env
+#+begin_src elisp :results output :var key="HOME"
+(princ (getenv key))
+#+end_src
+
+#+RESULTS: get-env
+: /home/ellis
 
 * org-current-h1-title                                                  :org:
 :PROPERTIES:
@@ -201,7 +229,7 @@ return tab
 #+end_src
 
 #+RESULTS: org-current-h1-title
-: org
+: org-current-h1-title
 
 * get-emacs-version                                                   :emacs:
 :PROPERTIES:
@@ -218,19 +246,19 @@ return tab
 :ID:       8119cf43-f2e7-4829-939c-fc4e8531ae6c
 :END:
 #+name: hg-rev
-#+begin_src sh :var src=(org-sbe org-current-h1-title)
+#+begin_src sh :var src="org"
 cd ~/comp/$src && hg log -l 1 --template '{node|short}'
 #+end_src
 
 #+RESULTS: hg-rev
-: 4de12ceca1c7
+: 2b6f731f3684
 
 * hg-id-num                                                              :vc:
 :PROPERTIES:
 :ID:       9602faee-5522-445b-a568-be603e20a978
 :END:
 #+name: hg-id-num
-#+begin_src shell :var src=(org-sbe org-current-h1-title)
+#+begin_src shell :var src="org"
 cd ~/comp/$src && hg id -n
 #+end_src
 
@@ -242,12 +270,11 @@ cd ~/comp/$src && hg id -n
 :ID:       8492f4fb-51a6-4221-8705-a15eb5a50ed4
 :END:
 #+name: hg-log-age
-#+begin_src shell :var src=(org-sbe org-current-h1-title)
+#+begin_src shell :var src="."
   cd ~/comp/$src && hg log -l1 --template "{date|age}"
 #+end_src
 
 #+RESULTS: hg-log-age
-: 4 days ago
 
 * sh-ob-tangle                                                          :org:
 :PROPERTIES:
@@ -289,6 +316,9 @@ digraph {
   }
 #+end_src
 
+#+RESULTS: gen-dot-tree
+[[file:/tmp/tree.png]]
+
 * user-slime                                                           :lisp:
 :PROPERTIES:
 :ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
@@ -326,7 +356,7 @@ esac
 
 find "$dir/.." -name Cargo.toml -execdir cargo update \;
 #+end_src
-** rust-target-triple
+* rust-target-triple                                                   :rust:
 :PROPERTIES:
 :ID:       02f96ff2-c607-4889-979c-943203b8ad65
 :END:

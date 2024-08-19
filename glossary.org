@@ -37,3 +37,4 @@
 - TAOMOP :: The Art Of The Meta Object Protocol
 - PCL :: Practical Common Lisp
 - LOL :: Let Over Lambda
+- LOB :: Library of Babel

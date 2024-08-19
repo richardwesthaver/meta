@@ -71,9 +71,21 @@ Mode.
 Our *U-Language* is colloquially termed *ulang*. Each section of this
 document describes a feature or property of our ulang.
 ** Glossary
+:PROPERTIES:
+:ID:       cf237775-6e69-4554-999d-7c9cc4445f77
+:END:
 *** Terms
+:PROPERTIES:
+:ID:       e808e546-65fb-4470-a21f-27eb9a7b50ee
+:END:
 *** Acronyms
+:PROPERTIES:
+:ID:       c04c4524-a3d6-495d-98be-8ca291c5db08
+:END:
 ** Dictionary
+:PROPERTIES:
+:ID:       689826b6-0df4-4f0e-944a-b96fa4f8599e
+:END:
 compiler.company:2628
 ** Emphasis
 :PROPERTIES:
