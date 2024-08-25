@@ -3,8 +3,6 @@
 #+email: ellis@rwest.io
 #+setupfile: ../clean.theme
 #+infojs_opt: toc:nil home:https://compiler.company up:./ view:showall
-#+print_glossary: :level 0 :consume yes :all yes :only-contents no
-#+glossary_sources: glossary.org
 * Introduction
 :PROPERTIES:
 :ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663
@@ -36,7 +34,7 @@ are reading currently is a sentence which is part of a paragraph.
 
 - This document is for authors and curious readers. It is a loose
   specification, but also serves as introductory material into our
-  communication and design philosophy.
+  communication style and design philosophy.
 - All sources we write attempt to comply to this standard but it is
   not strictly enforced. If there is a reason to not comply with a
   rule, it is already broken.
@@ -54,39 +52,13 @@ opening the source of this document in Emacs and following along.
 If not, I recommend browsing through the [[https://orgmode.org/worg/][Worg resources]], but we won't
 be getting too deep into tribal hacker knowledge of Emacs.
 
-What's important to know is this: There is /Org Syntax/ and
-/Org-mode/ - these are different things.
-
-Our =ulang= is almost /exclusively/ based on /Org Syntax/ and we are
-not concerned about /Org-mode/ the application in this document.
-
-For the remainder of this document, we assume basic knowledge of Org
-Mode.
-
 * ulang
 :PROPERTIES:
 :CUSTOM_ID: ulang
 :ID:       236227a5-b30c-4548-8cad-360428d74d67
 :END:
 Our *U-Language* is colloquially termed *ulang*. Each section of this
-document describes a feature or property of our ulang.
-** Glossary
-:PROPERTIES:
-:ID:       cf237775-6e69-4554-999d-7c9cc4445f77
-:END:
-*** Terms
-:PROPERTIES:
-:ID:       e808e546-65fb-4470-a21f-27eb9a7b50ee
-:END:
-*** Acronyms
-:PROPERTIES:
-:ID:       c04c4524-a3d6-495d-98be-8ca291c5db08
-:END:
-** Dictionary
-:PROPERTIES:
-:ID:       689826b6-0df4-4f0e-944a-b96fa4f8599e
-:END:
-compiler.company:2628
+document describes a feature of our ulang. 
 ** Emphasis
 :PROPERTIES:
 :ID:       88bf1177-b5b7-4945-8bdc-5229803e617e
@@ -110,6 +82,15 @@ We derive all text emphasis syntax for rich contents from [[https://orgmode.org/
 
 Text emphasis markers may be embedded in any syntax as long as it does
 not cause any conflicts with the host language.
+** Links
+:PROPERTIES:
+:ID:       7ecaec5d-c656-44e1-8fad-185915655cee
+:END:
+*** Link Types
+:PROPERTIES:
+:ID:       6aedc026-36d0-4763-adc8-8ae1a79f1b3e
+:END:
+
 ** Headings
 :PROPERTIES:
 :ID:       ed035298-f7fa-4726-ad58-2d542323bb61
@@ -151,85 +132,33 @@ In our source code, we use the comment character instead of a star:
   println!("H1");
 #+end_src
 
-** Outlines
-:PROPERTIES:
-:ID:       7b4d3229-d85f-4464-b9d0-6beccb1f7b2e
-:END:
-A collection of /headings/ is what we call an *Outline* - which is
-also the name of the major-mode utilized for this feature and of
-course - what Org itself is derived from.
 ** Keywords
 :PROPERTIES:
 :ID: 2cadda9a-22a3-4b42-ad4e-d7a774f74cba
 :END:
 
-In Org, TODO keywords are used to key track of the state of a [[https://orgmode.org/manual/TODO-Items.html][TODO
-Item]].
+TODO keywords are often used to keep track of the state of a [[https://orgmode.org/manual/TODO-Items.html][TODO
+Item]], but may also be [[https://orgmode.org/manual/TODO-Extensions.html][extended]] to support a variety of stateful item
+types beyond just simple tasks.
 
-In ulang, they are used for this purpose and [[https://orgmode.org/manual/TODO-Extensions.html][extended]] to support a
-variety of stateful item types beyond just tasks - for example =NOTE=
-and =PROJECT=.
+The following keywords form the simple set of task states.
 
-The following keywords indicate the state of a heading element. They
-often appear as the first word in a heading.
-
-- TBD :: A task to be done at a later date.
-- TODO :: A task yet to be done.
-- FIXME :: Item that needs fixing.
-- WIP :: Work In Progress task.
-- WAIT :: A suspended task.
-- DEAD :: Item that will not be completed.
-- DONE :: Completed task.
-- BUG :: Designate a bug item.
-- IDEA :: Designate an idea item.
-- NOTE :: Designates a note item.
-- DRAFT :: Designates a draft item.
-- COMMENT :: A 'commented' item.
-- PROJECT :: Designates a project item containing a sequence of tasks.
+- TBD
+- TODO
+- WIP
+- HOLD
+- WAIT
+- DONE
+- NOPE
 
 #+begin_src org
   ,* PROJECT project
   ,** DONE foo
   ,** TODO bar
+  ,** TBD baz
+  ,** WIP test foo
 #+end_src
 
-** COMMENT Tasks
-:PROPERTIES:
-:ID:       0f4c0afd-a774-4b98-900b-1ab44f9fd2ef
-:END:
-Tasks as they are known in Org, usually consist of a heading that
-starts with a [[id:2cadda9a-22a3-4b42-ad4e-d7a774f74cba][Keyword]]. Here we describe some additional sections and
-metadata which are present in our collection of tasks.
-
-Our task management system is roughly a hybrid of two more
-conventional methods: GTD and Agile. For convenience I will describe
-these styles and how I use them separately, but the concepts may be
-spliced differently in real tasks.
-
-- *GTD* \\
-- *Agile* \\
-  It's a dirty word in some tech circles - the dreaded PIs, daily
-  standups, and still nobody knows what's going on, Oh my! Do not
-  worry. For the most part we just borrow the vocabulary.
-
-  Our /Agile/ workflow consists of roadmaps, features (epics/ARTs),
-  issues (user stories), and of course, tasks.
-** Properties
-:PROPERTIES:
-:ID:       174a993b-a5dc-4324-b4f8-dda8101a55b7
-:END:
-*** IDs
-:PROPERTIES:
-:ID:       3944c851-e46c-4d75-b8f5-07b5c052177a
-:END:
-We reference two different types of identifiers in documentation:
-- UUID :: =ID= property
-- User-defined :: =CUSTOM_ID= property
-
-Most of the time these IDs don't add any information for the reader -
-the UUIDs are used to index and graph documents, CUSTOM_IDs are for
-convenience but are rarely necessary given the many ways of
-identifying a headline.
 ** Tags
 :PROPERTIES:
 :ID:       a7ae1b2a-559e-46e9-8cab-33e39a218288
@@ -240,12 +169,16 @@ strings usually following a headline as a =:=-separated list.
 A tag can be any text without newlines, although it is recommended to
 treat them as unique identifiers and usage of whitespace is
 discouraged (but not disallowed).
-*** Tag Types
+
+#+begin_src org
+  ,* foobar                                               :tag1:tag2:@home:!today
+#+end_src
+*** Tag Prefixes
 :PROPERTIES:
 :ID:       b686dbc5-3505-49d7-b66a-0772bcf1a726
 :END:
-Tags may be prefixed with one of the following characters, indicating
-a special tag type:
+Some of ourtags are prefixed with a character which indicates a
+special tag category:
 - =@= :: location-tag \\
   A /location tag/ refers to some context-dependent named point in
   space, such as a user's home address, a popular fast food
@@ -260,15 +193,32 @@ a special tag type:
 - =#= :: anchor-tag \\
   An /anchor tag/ implies a link to the object identified by some [[id:3944c851-e46c-4d75-b8f5-07b5c052177a][ID]].
   - =#readme=, =#a7ae1b2a-559e-46e9-8cab-33e39a218288=, =#custom-id=
-*** Tag Lists
+** Properties
 :PROPERTIES:
-:ID:       805862be-ba2b-4288-a2e3-791c0aa3802f
+:ID:       174a993b-a5dc-4324-b4f8-dda8101a55b7
 :END:
-** Links
+[[https://orgmode.org/manual/Properties-and-Columns.html][Properties]] are key:value pairs which are associated with a heading or
+file and stored in a dedicated [[https://orgmode.org/manual/Drawers.html][Drawer]].
+
+#+begin_src org
+  ,* WIP do stuff                                                         :@lab:
+  :PROPERTIES:
+  :CREATED:  <2024-08-24 Sat 19:09>
+  :ID:       62da3982-7a83-4b27-ab7e-55949fd3e2a3
+  :EFFORT: 24:00
+  :END:
+#+end_src
+*** ID
 :PROPERTIES:
-:ID:       7ecaec5d-c656-44e1-8fad-185915655cee
+:ID:       3944c851-e46c-4d75-b8f5-07b5c052177a
 :END:
-*** Link Types
-:PROPERTIES:
-:ID:       6aedc026-36d0-4763-adc8-8ae1a79f1b3e
-:END:
+We reference two different types of identifiers in documentation:
+- UUID :: =ID= property
+- User-defined :: =CUSTOM_ID= property
+
+Most of the time these IDs don't add any information for the reader -
+the UUIDs are used to index and graph documents, CUSTOM_IDs are for
+convenience and extensions, but are rarely necessary given the many
+ways of identifying a headline.
+
+All headings are assigned an ID automatically and are never changed.

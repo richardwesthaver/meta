@@ -3,15 +3,6 @@
 #+email: ellis@rwest.io
 #+description: The Compiler Company Core Technologies
 #+setupfile: ../clean.theme
-#+glossary_sources: glossary.org
-* OS
-:PROPERTIES:
-:ID:       0c3a8097-e0bb-4c8a-9de2-907cffddbb8f
-:END:
-We primarily support [[https://unix.org][Unix-based]] Operating Systems. Check
-project-specific docs for officially supported targets.
-
-Development and CI is ran on [[https://archlinux.org/][Arch Linux]] (btw).
 * Core
 :PROPERTIES:
 :ID:       f6d8cc58-e6ec-4482-b6b8-3977e771a578
@@ -69,7 +60,7 @@ Development and CI is ran on [[https://archlinux.org/][Arch Linux]] (btw).
 :ID:       3cc89f3d-20a5-420f-bc7e-0731254e5040
 :END:
 
-* Our Software
+* Software
 :PROPERTIES:
 :ID:       06de34a3-60b4-4f48-bcab-eabeb3fe41c3
 :END:

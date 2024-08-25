@@ -2,7 +2,7 @@
 #+author: Richard Westhaver
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
-#+property: header-args :exports both
+#+property: header-args :exports both :eval no-export
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
 documentation.
@@ -67,7 +67,7 @@ cd $dir && cat * | wc -w
 :ID:       d3c4ac69-337f-430b-a4db-760504f099ea
 :END:
 #+name: sum-str-nums
-#+begin_src emacs-lisp :var s=tokei-dir-lines
+#+begin_src emacs-lisp :var s=tokei-dir-lines()
   (let ((tot 0))
     (cl-loop
      with tot = 0

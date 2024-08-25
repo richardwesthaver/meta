@@ -1,61 +1,197 @@
-#+title: meta/workflows
+#+title: Workflows
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
-#+description: Meta Workflows
+#+description: High-level description of CC workflows
 #+setupfile: ../clean.theme
-#+glossary_sources: glossary.org
-* Roadmap
+* Overview
 :PROPERTIES:
-:ID:       be90c808-6c3b-4381-a032-af07d54f5907
+:ID:       ad4a24f8-7de4-479b-bc5a-7065e4b43087
 :END:
-The [[https://compiler.company/plan/roadmap.html][roadmap]] is a high-level document which describes the strategic
-plan associated with some pre-determined period of time, such as a
-year, month, or quarter.
+* Workflows
+:PROPERTIES:
+:ID:       51b210fd-0ba1-41c1-a4ec-85c3d9295c02
+:END:
+** Items
+:PROPERTIES:
+:ID:       249ae0a5-0ef8-4d8a-be61-f408fb2b2cff
+:END:
+*** Simple Items
+:PROPERTIES:
+:ID:       b7f9c275-90fd-407f-aa39-615fa6ab64d6
+:END:
+When an item has no task-related state associated with it, it is
+considered a /non-task/ or /simple item/.
 
-* Archive
+Simple items imply that there's no action directly associated with
+this item, but it may contain child items which are tasks with action.
+**** Note
 :PROPERTIES:
-:ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:ID:       a7c60105-171a-4960-b2fc-3a8611ce210b
 :END:
-When an item is archived, it is moved to a file under version-control
-in the [[vc:comp/archive][archive]] project.
-* Task Management
+
+**** Link
+:PROPERTIES:
+:ID:       daf2c376-1969-48f9-bdbd-1a5f066e8109
+:END:
+**** Code
+:PROPERTIES:
+:ID:       81da5e76-2619-42c3-8a2a-dea2b815b261
+:END:
+There is a dedicated =CODE= keyword available for headings
+dedicated to a specific piece of code.
+
+All CC code is kept under version control and intended to be linked
+directly using the =vc= link type. Code can be linked anywhere -
+including org documents, other code, or online. In org documents, =vc=
+links are often used as the value of the =LOCATION= property.
+*** Simple Tasks
 :PROPERTIES:
 :ID:       66333c80-aa6f-43d7-a305-44e218dde045
 :END:
 Tasks are most often found as headings with some additional metadata
 such as scheduling info, priority, clock info, and special properties.
 
-Task keywords are always part of a sequence with at least one =TODO=
-state and one =DONE= state.
-* Project Management
+Tasks are always *stateful* and exist somewhere in one of the
+following abstract /todo states/:
+
+- TODO :: Incomplete task
+- WIP :: Work In Progress task
+- DONE :: Completed task
+
+Tasks are easily identified by a [[id:2cadda9a-22a3-4b42-ad4e-d7a774f74cba][keyword]] which represents the current
+state. Tasks always follow a sequence with at least one 'TODO' state
+and one 'DONE' state. There is always an implied 'WIP' state in the
+sequence which come after the TODO keywords and before the DONE
+keywords.
+
+*** Project Items
 :PROPERTIES:
 :ID:       560f4094-e077-4389-9e09-dba1e0d4004e
 :END:
 Projects are denoted by the special keyword =PROJECT= and act as
-formal units of organization.
+containers of related work to be done. They may contain the same
+metadata as tasks, and may be 'downgraded' to or 'upgrade' from tasks.
 
-* Code Management
+Projects often contain additional metadata, such as =CATEGORY= and
+=VERSION= properties.
+** Inbox
 :PROPERTIES:
-:ID:       81da5e76-2619-42c3-8a2a-dea2b815b261
+:ID:       1b426ef7-b88b-4b66-8413-df37d8312dcd
+:LOCATION: [[vc:comp/core/-/blob/branch/default/emacs/lib/inbox.el][inbox.el]]
 :END:
+The inbox is a flat list of [[id:249ae0a5-0ef8-4d8a-be61-f408fb2b2cff][items]] usually found in the
+=org-inbox-file= (default is ~/org/inbox.org). Items are [[https://orgmode.org/manual/Capture.html][captured]] by
+various means and then [[https://orgmode.org/manual/Refile-and-Copy.html][refiled]] to another location.
 
-* Data Management
+As of [2024-08-24 Sat] we capture items manually and in a local-only
+fashion. In the future this may change to support automatic capturing
+via org-protocol and email as well as peer-aware/group inboxing.
+** Scrum
 :PROPERTIES:
-:ID:       e5c4702e-581d-41b7-a484-76730435f056
+:ID:       44e6ff33-ad62-4ef0-a188-506f837648d8
+:LOCATION: [[vc:comp/core/-/blob/branch/default/emacs/lib/scrum.el][scrum.el]]
 :END:
-** Tables
+We apply a [[https://www.scrum.org/resources/what-scrum-module][scrum]]-like framework to plan our projects and tasks.
+
+We borrow the same terminology where possible but do not align with
+any specific implementation. Here are some noteworthy implementation
+details:
+- We utilize the =EFFORT= property with time values as the basis of
+  estimation such as =1d=, =24:00= or =24h= as opposed to [[https://www.scrum.org/forum/scrum-forum/33290/age-old-question-story-points-vs-hours][story
+  points]]. We measure progress in time too, but we don't /represent it/
+  as such. We effectively represent it as some form of 'story point'
+  like a percentage. This is because the estimates don't reflect
+  realtime and shouldn't be intertwined with measures of performance.
+- Realtime values can be found in the scheduling and clock metadata as
+  well as some timestamps like the =CREATED= property.
+  - Performance-related metrics may be derived from the clock
+    metadata, but I have always found it tedious to [[https://orgmode.org/manual/Clocking-Work-Time.html][clock work time]] in
+    Org mode. As of [2024-08-24 Sat] this is still unresolved, but we
+    have some ideas to improve the workflow and implement some
+    automatic clocking.
+- Products and Projects are separate entities. As a rule, any task
+  belonging to a product is unable to block a project.
+*** Roadmap
 :PROPERTIES:
-:ID:       8433beaf-59de-4b13-a066-8d3e636066a1
+:ID:       be90c808-6c3b-4381-a032-af07d54f5907
 :END:
-* Knowledge Management
+The [[https://compiler.company/plan/roadmap.html][roadmap]] is a high-level document which describes the strategic
+plan associated with pre-determined period of time called program
+increments or PIs. The current length of a PI is 1 year.
+*** Projects
 :PROPERTIES:
-:ID:       ad28e021-657d-4073-b541-336df389c9fb
+:ID:       b94e643b-479c-400b-9679-0eb843a782fa
 :END:
+For every major project in our portfolio there is a dedicated list of
+tasks. This list can contain any type of heading at any level but will
+usually consist of top-level project items containing sets of
+tasks to be completed.
+*** Products
+:PROPERTIES:
+:ID:       5576df8c-7cc3-4d7b-a5df-9201c278a08a
+:END:
+Products are an implementation of the value our projects provide. They
+represent a tangible end-goal, an anchor point for connecting with
+potential users and supporters, and collecting feedback.
 ** Notes
 :PROPERTIES:
 :ID:       6ebed997-12c0-4a20-88ef-df8cf424b198
 :END:
+Notes should be collected frequently and referenced often. They can be
+as simple as a link to a Wikipedia page, or contain a complex tree of
+inter-connected nodes.
+
+*** User Notes
+:PROPERTIES:
+:ID:       33ac913a-1697-49d6-8d80-542b5a1f83ec
+:END:
+How you store your own notes is a very personal decision, and so I
+think it's important to leave a space for users to store their own
+notes and make their own decisions on how to use them.
+
+As of [2024-08-24 Sat] there is no API for this at all - in the future
+we will likely provide an API and default implementation specifically
+for user notes.
+*** Graphs
+:PROPERTIES:
+:ID:       92d71908-dba3-41b7-a126-0c6415b54579
+:END:
+Graphs are a set of inter-connected nodes inspired by Roam and
+Zettelkasten (see [[https://github.com/org-roam/org-roam][org-roam]]).
+
+As of [2024-08-24 Sat] this has not been implemented, but we intend to
+implement a fully connected knowledge graph. See [[vc:comp/core/-/blob/branch/default/emacs/lib/graph.el][graph.el]].
 ** Documentation
 :PROPERTIES:
 :ID:       03e13d7e-6cda-46d4-830f-5671518bd32f
 :END:
+*** README
+:PROPERTIES:
+:ID:       111db7b0-61e0-4be3-8ec7-1a68913997ff
+:END:
+For every project under version control there is a =readme.org= file
+in the root directory. This file contains some dynamic blocks of basic
+information followed by additional content introducing the project.
+*** REF
+:PROPERTIES:
+:ID:       26532798-89ca-4d15-aabe-e57122dea07d
+:END:
+API References are generated for some of our projects based on the
+source code. In general these documents are generated automatically
+and highly structured.
+*** MAN
+:PROPERTIES:
+:ID:       4a299f6e-b176-43bd-88fc-3cbdde1cc2d6
+:END:
+User Manuals serve as the subject of the phrase 'RTFM'. These are
+always written manually and revised regularly to stay accurate.
+** Report
+:PROPERTIES:
+:ID:       307ba3e8-ef19-48da-a3c9-f5a46d6819e9
+:END:
+** Archive
+:PROPERTIES:
+:ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:END:
+When an item is archived, it is moved to a file under version-control
+in the [[vc:comp/archive][archive]] project.
