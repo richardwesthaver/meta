@@ -2,7 +2,6 @@
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
 #+setupfile: ../clean.theme
-#+infojs_opt: toc:nil home:https://compiler.company up:./ view:showall
 * Introduction
 :PROPERTIES:
 :ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663

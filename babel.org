@@ -2,7 +2,7 @@
 #+author: Richard Westhaver
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
-#+property: header-args :exports both :eval no-export
+#+property: header-args :exports both :eval never
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
 documentation.
@@ -12,7 +12,77 @@ This library depends on the [[vc:comp/core][core]] being properly installed and 
 
 To load the library itself use ~C-c C-v i~ while visiting this file in
 an org-mode buffer or =org-babel-lob-ingest= from elisp.
+* echo                                                                 :util:
+#+name: echo
+#+begin_src emacs-lisp :var input=""
+input
+#+end_src
+* read                                                                   :fs:
+#+name: read
+#+begin_src emacs-lisp :var file="" :var format=""
+(if (string= format "csv")
+    (with-temp-buffer
+      (org-table-import (expand-file-name file) nil)
+      (org-table-to-lisp))
+  (with-temp-buffer
+    (insert-file-contents (expand-file-name file))
+    (buffer-string)))
+#+end_src
+* write                                                                  :fs:
+#+name: write
+#+begin_src emacs-lisp :var data="" :var file="" :var ext='()
+(cl-flet ((echo (r) (if (stringp r) r (format "%S" r))))
+  (with-temp-file file
+    (case (and (listp data)
+               (or ext (intern (file-name-extension file))))
+      ('tsv (insert (orgtbl-to-tsv data '(:fmt echo))))
+      ('csv (insert (orgtbl-to-csv data '(:fmt echo))))
+      (t    (org-babel-insert-result data)))))
+nil
+#+end_src
+* json                                                                 :json:
+#+name: json
+#+begin_src emacs-lisp :var file='() :var url='()
+(require 'json)
+(cond
+ (file
+  (org-babel-with-temp-filebuffer file
+    (goto-char (point-min))
+    (json-read)))
+ (url
+  (require 'w3m)
+  (with-temp-buffer
+    (w3m-retrieve url)
+    (goto-char (point-min))
+    (json-read))))
+#+end_src
 
+* headline                                                              :org:
+#+name: headline
+#+begin_src emacs-lisp :var headline="" :var file='()
+(save-excursion
+  (when file (get-file-buffer file))
+  (org-open-link-from-string (org-make-link-string headline))
+  (save-restriction
+    (org-narrow-to-subtree)
+    (buffer-string)))
+#+end_src
+* transpose                                                           :table:
+#+name: transpose
+#+begin_src emacs-lisp :var table=""
+  (apply #'mapcar #'list (list table))
+#+end_src
+* all-to-string                                                       :table:
+#+name: all-to-string
+#+begin_src emacs-lisp :var tbl='()
+(defun all-to-string (tbl)
+  (if (listp tbl)
+      (mapcar #'all-to-string tbl)
+    (if (stringp tbl)
+        tbl
+      (format "%s" tbl))))
+(all-to-string tbl)
+#+end_src
 * systemd-list-units                                                     :os:
 :PROPERTIES:
 :ID:       3b23c98d-a286-4988-846d-2dab3d25803d
@@ -128,10 +198,10 @@ cd $dir && cat * | wc -w
 :END:
 #+name: org-headlines-map
 #+begin_src elisp
-  (org-element-map (org-element-parse-buffer 'headline )
+  (org-element-map (org-element-parse-buffer 'headline)
       'headline
     (lambda(hl)
-      (let ((parent (org-element-property :parent hl )))
+      (let ((parent (org-element-property :parent hl)))
         (and (eq (org-element-type parent) 'headline)
              (list (org-element-property :title parent) (org-element-property :title hl))))))
 
@@ -241,6 +311,32 @@ return tab
 		 (format "Org v%s" (org-version))))
 #+end_src
 
+* vc-log                                                                 :vc:
+#+name: vc-log
+#+header: :var limit=-1
+#+header: :var buf=(buffer-name (current-buffer))
+#+begin_src emacs-lisp
+;; Most of this code is copied from vc.el vc-print-log
+(require 'vc)
+(when (vc-find-backend-function
+       (vc-backend (buffer-file-name (get-buffer buf))) 'print-log)
+  (let ((limit -1)
+        (vc-fileset nil)
+        (backend nil)
+        (files nil))
+    (with-current-buffer (get-buffer buf)
+      (setq vc-fileset (vc-deduce-fileset t)) ; FIXME: Why t? --Stef
+      (setq backend (car vc-fileset))
+      (setq files (cadr vc-fileset)))
+    (with-temp-buffer
+      (let ((status (vc-call-backend
+                     backend 'print-log files (current-buffer))))
+        (when (and (processp status)   ; Make sure status is a process
+                   (= 0 (process-exit-status status))) ; which has not terminated
+          (while (not (eq 'exit (process-status status)))
+            (sit-for 1 t)))
+        (buffer-string)))))
+#+end_src
 * hg-rev                                                                 :vc:
 :PROPERTIES:
 :ID:       8119cf43-f2e7-4829-939c-fc4e8531ae6c
@@ -296,7 +392,7 @@ cd ~/comp/$src && hg id -n
 :ID:       5588f446-2d7a-4261-b829-68effd3778ac
 :END:
 #+name: make-dot-tree
-#+begin_src emacs-lisp :var table=org-headlines-map :results output
+#+begin_src emacs-lisp :var table=org-headlines-map() :results output
   (mapcar #'(lambda (x)
 		(princ (format "\"%s\" -> \"%s\";\n" (cl-first x) (cl-second x))))
 	  table)
@@ -307,7 +403,7 @@ cd ~/comp/$src && hg id -n
 :ID:       a51c943d-0f01-4c8f-96ec-db28ae7fef26
 :END:
 #+name: gen-dot-tree
-#+begin_src dot :file /tmp/tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree :eval no-export
+#+begin_src dot :file /tmp/tree.png :cmdline -Kdot -Tpng :var input=make-dot-tree() :eval no-export
 digraph {
    rankdir=TB;
    splines=true;
@@ -364,3 +460,135 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
  #+begin_src shell
  rustc -vV | sed -n -e 's/^host: //p'
  #+end_src
+* post-align-table                                                    :table:
+#+NAME: post-align-tables
+#+header: :var text="|5|22222|\n|0||\n|12|45|\n|---\n|||\n#+TBLFM:@>$1=vsum(@1..@-1)\n\n|1|22222|\n|0||\n|12|45|\n"
+#+BEGIN_SRC emacs-lisp :results value :exports both
+  (with-temp-buffer
+    (erase-buffer)
+    (cl-assert text nil "PostAlignTables received nil instead of text ")
+    (insert text)
+    (beginning-of-buffer)
+    (org-mode)
+    (while
+        (search-forward-regexp org-table-any-line-regexp nil t)
+      (org-table-align)
+      (org-table-recalculate 'iterate)
+      (goto-char (org-table-end)))
+    (buffer-string))
+#+END_SRC
+* insert-table-from-file                                           :table:fs:
+#+NAME: insert-table-from-file
+#+HEADER: :var tname="table" fname="/tmp/tbl.org" newcaption="" newattr="" newname=""
+#+BEGIN_SRC elisp :results output drawer
+  (let* ((klist (cl-remove-if (lambda (x) (equal (cadr x) ""))
+    			    `(("ATTR_LATEX" ,newattr) ("CAPTION" ,newcaption) ("NAME" ,newname))))
+         (tbl
+          (with-temp-buffer
+    	  (org-mode)
+    	  (insert-file-contents fname)
+    	  (goto-char (point-min))
+    	  (unless (re-search-forward
+    		   (concat "^[ \t]*#\\+\\(tbl\\)?name:[ \t]*"
+    			   (regexp-quote tname) "[ \t]*$")
+    		   nil t)
+    	    (user-error "Can't find table named %s in file" tname fname))
+    	  (forward-line 0)
+    	  (let ((tstart (match-beginning 0))
+    	        tend)
+    	    (while (looking-at "^[ \t]*#\\+\\([^:]+\\): *\\(.*\\)")
+    	      (add-to-list 'klist `(,(upcase (match-string 1)) ,(match-string 2)))
+    	      (delete-region (point) (line-end-position))
+    	      (kill-line))
+    	    (unless (looking-at org-table-line-regexp)
+    	      (looking-at "^.*$")
+    	      (user-error "no table at location of %s, Looking-at: '%s'" tname (match-string 0)))
+    	    (goto-char (org-table-end))
+    	    (while (looking-at-p "^[ \t]*#\\+TBLFM:")
+    	      (forward-line 1))
+    	    (buffer-substring tstart (point))))))
+    (setq klist (nreverse klist)) ;; reverse for giving priority to new user settings
+    (dolist (elem '("NAME" "CAPTION" "ATTR_LATEX"))
+      (when (assoc elem klist)
+        (princ (format "#+%s: %s\n" elem (cadr (assoc elem klist))))))
+    (princ tbl))
+#+END_SRC
+* filter-table                                                        :table:
+#+NAME: filter-table
+#+HEADER: :var tbl="" col=0 vals=""
+#+BEGIN_SRC elisp :results value  :colnames y
+  (let ((lst (split-string vals)))
+    (concatenate 'list  (loop for row in tbl
+                              if (member (let ((field (nth col row)))
+                                           (if (numberp field)
+                                               (number-to-string field)
+                                             field)) lst)
+                              collect row into newtbl
+                              ;; else do (princ (format "%s: %s\n" (nth col row) lst))
+                              finally return newtbl)))
+#+END_SRC
+* filter-table-re                                                  :table:rx:
+#+NAME: filter-table-re
+#+HEADER: :var tbl="" col=0 vals=".*"
+#+BEGIN_SRC elisp :results value  :colnames y
+  (let ((lst (split-string vals)))
+    (concatenate 'list  (loop for row in tbl
+                              if (let* ((rawfield (nth col row))
+                                        (field (if (numberp rawfield)
+                                                   (number-to-string rawfield)
+                                                 rawfield)))
+                                   (loop for regx in lst
+                                         when(string-match-p regx field) return 't
+                                         finally return nil))
+                              collect row into newtbl
+                              ;; else do (princ (format "%s: %s\n" (nth col row) lst))
+                              finally return newtbl)))
+#+END_SRC
+* group-table                                                         :table:
+#+NAME: group-table
+#+HEADER: :var tbl="" grp="Name" op="sum" rescols="B"
+#+BEGIN_SRC python :results output verbatim drawer :colnames no
+  import pandas as pd
+  import numpy as np
+  import orgbabelhelper as obh
+  import sys
+  import re
+
+  df = obh.orgtable_to_dataframe(tbl)
+  grparr = re.split(r",\s*", grp)
+  #print re.split(r",\s*", rescols) + [grp]
+  df = df[re.split(r",\s*", rescols) + grparr]
+  for elem in grparr:
+      assert elem in df.columns, "Error: group column %s not in table columns %s" % (elem, ",".join(df.columns))
+
+  if op == "sum":
+      res = df.groupby(grparr).sum()
+  else:
+      error("operation %s not implemented" % op)
+      sys.exit(1)
+
+  print(obh.dataframe_to_orgtable(res))
+
+#+END_SRC
+* insert-file                                                            :fs:
+#+NAME: lobInsertFile
+#+HEADER: :var filename="/tmp/foo"
+#+begin_src elisp :results value raw drawer
+  (cl-labels ((wrap-src
+  	      (lang)
+  	      (list (format "#+BEGIN_SRC %s :eval never :exports source\n" lang)
+                      "#+END_SRC\n")))
+    (let ((wrappers
+  	 (pcase (file-name-extension filename)
+  	   ("py" (wrap-src "python"))
+  	   (".el" (wrap-src "emacs-lisp"))
+  	   (t '("#+BEGIN_EXAMPLE\n" "#+END_EXAMPLE\n")))))
+      (with-temp-buffer
+        (goto-char (point-min))
+        (insert (format-time-string "# inserted at %Y-%m-%d %H:%M:%S\n"))
+        (insert (car wrappers))
+        (insert-file-contents filename)
+        (goto-char (point-max))
+        (insert (car (cdr wrappers)))
+        (buffer-string))))
+#+end_src

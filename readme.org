@@ -2,9 +2,9 @@
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
 #+description: CC Meta
+#+setupfile: ../clean.theme
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
-#+setupfile: ../clean.theme
 * [[file:ulang.org][ulang]]
 :PROPERTIES:
 :ID:       0ecd9330-de4d-4adf-bb7f-75d12f973a0a
