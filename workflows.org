@@ -77,7 +77,7 @@ Projects often contain additional metadata, such as =CATEGORY= and
 ** Inbox
 :PROPERTIES:
 :ID:       1b426ef7-b88b-4b66-8413-df37d8312dcd
-:LOCATION: [[vc:comp/core/-/blob/branch/default/emacs/lib/inbox.el][inbox.el]]
+:LOCATION: [[vc:core/file/tip/emacs/lib/inbox.el][inbox.el]]
 :END:
 The inbox is a flat list of [[id:249ae0a5-0ef8-4d8a-be61-f408fb2b2cff][items]] usually found in the
 =org-inbox-file= (default is ~/org/inbox.org). Items are [[https://orgmode.org/manual/Capture.html][captured]] by
@@ -89,7 +89,7 @@ via org-protocol and email as well as peer-aware/group inboxing.
 ** Scrum
 :PROPERTIES:
 :ID:       44e6ff33-ad62-4ef0-a188-506f837648d8
-:LOCATION: [[vc:comp/core/-/blob/branch/default/emacs/lib/scrum.el][scrum.el]]
+:LOCATION: [[vc:core/file/tip/emacs/lib/scrum.el][scrum.el]]
 :END:
 We apply a [[https://www.scrum.org/resources/what-scrum-module][scrum]]-like framework to plan our projects and tasks.
 
@@ -160,7 +160,7 @@ Graphs are a set of inter-connected nodes inspired by Roam and
 Zettelkasten (see [[https://github.com/org-roam/org-roam][org-roam]]).
 
 As of [2024-08-24 Sat] this has not been implemented, but we intend to
-implement a fully connected knowledge graph. See [[vc:comp/core/-/blob/branch/default/emacs/lib/graph.el][graph.el]].
+implement a fully connected knowledge graph. See [[vc:core/file/tip/emacs/lib/graph.el][graph.el]].
 ** Documentation
 :PROPERTIES:
 :ID:       03e13d7e-6cda-46d4-830f-5671518bd32f
@@ -194,4 +194,4 @@ always written manually and revised regularly to stay accurate.
 :ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
 :END:
 When an item is archived, it is moved to a file under version-control
-in the [[vc:comp/archive][archive]] project.
+in the [[vc:org/archive][archive]] project.

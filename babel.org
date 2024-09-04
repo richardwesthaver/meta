@@ -2,22 +2,28 @@
 #+author: Richard Westhaver
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
-#+property: header-args :exports both :eval never
+#+property: header-args :exports both :eval no
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
 documentation.
 
-This library depends on the [[vc:comp/core][core]] being properly installed and the
-=core/emacs= init system loaded in emacs. See [[vc:comp/home][home]] for details.
+This library depends on the [[vc:core][core]] being properly installed and the
+=core/emacs= init system loaded in emacs. See [[vc:home][home]] for details.
 
 To load the library itself use ~C-c C-v i~ while visiting this file in
 an org-mode buffer or =org-babel-lob-ingest= from elisp.
 * echo                                                                 :util:
+:PROPERTIES:
+:ID:       70334979-e1fd-442d-815f-9eeb7d21ef4f
+:END:
 #+name: echo
 #+begin_src emacs-lisp :var input=""
 input
 #+end_src
 * read                                                                   :fs:
+:PROPERTIES:
+:ID:       dade8198-f8ff-4ae9-a52d-becdc1a9c3ce
+:END:
 #+name: read
 #+begin_src emacs-lisp :var file="" :var format=""
 (if (string= format "csv")
@@ -29,6 +35,9 @@ input
     (buffer-string)))
 #+end_src
 * write                                                                  :fs:
+:PROPERTIES:
+:ID:       a866820f-e67c-49aa-ba7d-697c4f708654
+:END:
 #+name: write
 #+begin_src emacs-lisp :var data="" :var file="" :var ext='()
 (cl-flet ((echo (r) (if (stringp r) r (format "%S" r))))
@@ -41,6 +50,9 @@ input
 nil
 #+end_src
 * json                                                                 :json:
+:PROPERTIES:
+:ID:       063109d3-3bb1-45b3-b963-6b306776798c
+:END:
 #+name: json
 #+begin_src emacs-lisp :var file='() :var url='()
 (require 'json)
@@ -58,6 +70,9 @@ nil
 #+end_src
 
 * headline                                                              :org:
+:PROPERTIES:
+:ID:       e21d6130-804d-4ac7-bccf-8303fd33f509
+:END:
 #+name: headline
 #+begin_src emacs-lisp :var headline="" :var file='()
 (save-excursion
@@ -68,11 +83,17 @@ nil
     (buffer-string)))
 #+end_src
 * transpose                                                           :table:
+:PROPERTIES:
+:ID:       e35c9901-73b6-4794-8900-42860378c7dd
+:END:
 #+name: transpose
 #+begin_src emacs-lisp :var table=""
   (apply #'mapcar #'list (list table))
 #+end_src
 * all-to-string                                                       :table:
+:PROPERTIES:
+:ID:       a122b2bd-abd6-4486-97c8-242e6534e5a8
+:END:
 #+name: all-to-string
 #+begin_src emacs-lisp :var tbl='()
 (defun all-to-string (tbl)
@@ -110,6 +131,14 @@ cd $dir && cat * | wc -l
 cd $dir && cat * | wc -w
 #+end_src
 
+* buffer-name                                                          :util:
+:PROPERTIES:
+:ID:       7e9f492e-224a-4cf5-b36d-828ccedc630a
+:END:
+#+name: buffer-name
+#+begin_src emacs-lisp
+(buffer-name)
+#+end_src
 * tokei-dir-lines                                                        :fs:
 :PROPERTIES:
 :ID:       670e9855-f8d2-43eb-86af-3ef7292f90b9
@@ -207,49 +236,6 @@ cd $dir && cat * | wc -w
 
 #+end_src
 
-* make-info-tbl                                                   :org:fs:vc:
-:PROPERTIES:
-:ID:       d5ba2f3d-fc2d-4db6-8bbd-7ca440ff0e8c
-:END:
-#+name: make-info-tbl
-#+header: :var version="0.1.0"
-#+header: :var name="org"
-#+header: :var dir="/home/ellis/comp/"
-#+begin_src emacs-lisp :results table replace
-  (let* ((src (concat dir name))
-         (age (org-sbe "hg-log-age" ''(src name)))
-         (rev (org-sbe "hg-rev" ''(src name)))
-         (num (org-sbe "hg-id-num" ''(src name)))
-         (cc1 (org-sbe "tokei-dir-lines" ''(src name)))
-         (cc2 (org-sbe "tokei-dir-langs" ''(src name)))
-         (nf (format "[[comp:docs/%s][%s]]" name name))
-         (rf (format "[[vc:comp/%s][%s:%s]]" name num rev))
-         ;; (gf (format "[[https://github.com/richardwesthaver/%s][github]]" name))
-         (vf (format "%s" rf))
-         (lsum (org-sbe sum-str-nums ('s 'cc1)))
-         (l (split-string cc1))
-         (lang (split-string cc2))
-         (cf (format "%s = λ:%s #:%s _:%s" lsum (pop l) (pop l) (pop l))))
-    `(hline
-      (name ,nf)
-      (version ,version)
-      (vc ,vf)
-      (updated ,age)
-      (lines ,cf)
-      (langs ,lang)
-      hline))
-  #+end_src
-
-  #+RESULTS: make-info-tbl
-  |---------+----------------------------|
-  | name    | [[https://compiler.company/docs/org][org]]                        |
-  | version | 0.1.0                      |
-  | vc      | [[https://vc.compiler.company/comp/org][44+:2b6f731f3684]]           |
-  | updated | nil                        |
-  | lines   | 14812 = λ:13917 #:45 _:850 |
-  | langs   | (Html Org Svg)             |
-  |---------+----------------------------|
-
 * make-files-tbl                                                     :org:fs:
 :PROPERTIES:
 :ID:       e2ff9dcf-8340-48b8-a1a6-e0036cbcc495
@@ -312,6 +298,9 @@ return tab
 #+end_src
 
 * vc-log                                                                 :vc:
+:PROPERTIES:
+:ID:       b2d9f6f0-2ac7-4e45-abbe-b32cc2d0f7aa
+:END:
 #+name: vc-log
 #+header: :var limit=-1
 #+header: :var buf=(buffer-name (current-buffer))
@@ -412,9 +401,6 @@ digraph {
   }
 #+end_src
 
-#+RESULTS: gen-dot-tree
-[[file:/tmp/tree.png]]
-
 * user-slime                                                           :lisp:
 :PROPERTIES:
 :ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
@@ -423,7 +409,7 @@ digraph {
 #+begin_src emacs-lisp :results silent :eval no-export
   (unless (slime-connected-p) (slime))
   (slime-eval '(ql:quickload :user))
-  (slime-eval '(cl:in-package :user))
+  (slime-repl-set-package "USER")
 #+end_src
 * std-slime                                                            :lisp:
 :PROPERTIES:
@@ -431,11 +417,20 @@ digraph {
 :END:
 #+name: std-slime
 #+begin_src emacs-lisp :results silent :eval no-export
-  (slime)
+  (unless (slime-connected-p) (slime))
   (slime-eval '(ql:quickload :std))
-  (slime-eval '(in-package :std-user))
+  (slime-repl-set-package "STD-USER")
 #+end_src
-
+* test-slime                                                           :lisp:
+:PROPERTIES:
+:ID:       ff559b09-1c18-422c-a0ae-681180f685cf
+:END:
+#+name: std-slime
+#+begin_src emacs-lisp :results silent :eval no-export
+  (unless (slime-connected-p) (slime))
+  (slime-eval '(ql:quickload :core/tests))
+  (slime-repl-set-package "CORE/TESTS")
+#+end_src
 * cargo-update-dir                                                     :rust:
 :PROPERTIES:
 :ID:       67dc87bb-a27b-46e4-a02f-58daac514630
@@ -461,6 +456,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
  rustc -vV | sed -n -e 's/^host: //p'
  #+end_src
 * post-align-table                                                    :table:
+:PROPERTIES:
+:ID:       d8a3cc05-a4ec-4820-935d-63f676ee32a3
+:END:
 #+NAME: post-align-tables
 #+header: :var text="|5|22222|\n|0||\n|12|45|\n|---\n|||\n#+TBLFM:@>$1=vsum(@1..@-1)\n\n|1|22222|\n|0||\n|12|45|\n"
 #+BEGIN_SRC emacs-lisp :results value :exports both
@@ -478,6 +476,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
     (buffer-string))
 #+END_SRC
 * insert-table-from-file                                           :table:fs:
+:PROPERTIES:
+:ID:       bde8705d-0969-493d-91b9-51a93ae09efa
+:END:
 #+NAME: insert-table-from-file
 #+HEADER: :var tname="table" fname="/tmp/tbl.org" newcaption="" newattr="" newname=""
 #+BEGIN_SRC elisp :results output drawer
@@ -514,6 +515,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
     (princ tbl))
 #+END_SRC
 * filter-table                                                        :table:
+:PROPERTIES:
+:ID:       cec80330-99c3-4dab-9b13-bb0a520ace73
+:END:
 #+NAME: filter-table
 #+HEADER: :var tbl="" col=0 vals=""
 #+BEGIN_SRC elisp :results value  :colnames y
@@ -528,6 +532,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
                               finally return newtbl)))
 #+END_SRC
 * filter-table-re                                                  :table:rx:
+:PROPERTIES:
+:ID:       61e82902-3108-4cee-8e02-3e9d6770f5cb
+:END:
 #+NAME: filter-table-re
 #+HEADER: :var tbl="" col=0 vals=".*"
 #+BEGIN_SRC elisp :results value  :colnames y
@@ -545,6 +552,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
                               finally return newtbl)))
 #+END_SRC
 * group-table                                                         :table:
+:PROPERTIES:
+:ID:       d1cb8d5d-14bc-4fbe-baf0-ff819d51ec4c
+:END:
 #+NAME: group-table
 #+HEADER: :var tbl="" grp="Name" op="sum" rescols="B"
 #+BEGIN_SRC python :results output verbatim drawer :colnames no
@@ -571,6 +581,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
 
 #+END_SRC
 * insert-file                                                            :fs:
+:PROPERTIES:
+:ID:       57196c4d-a275-4023-8462-a5847676347c
+:END:
 #+NAME: lobInsertFile
 #+HEADER: :var filename="/tmp/foo"
 #+begin_src elisp :results value raw drawer
