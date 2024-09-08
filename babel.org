@@ -2,7 +2,7 @@
 #+author: Richard Westhaver
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
-#+property: header-args :exports both :eval no
+#+property: header-args :exports both :eval no-export
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
 documentation.
@@ -113,23 +113,29 @@ nil
 systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
 #+end_src
 
-* wc-dir-lines                                                           :fs:
+* wc-lines                                                               :fs:
 :PROPERTIES:
 :ID:       70008815-9634-48ca-b672-b8dcf2a44074
 :END:
-#+name: wc-dir-lines
-#+begin_src shell :var dir="."
-cd $dir && cat * | wc -l
+#+name: wc-lines
+#+begin_src shell :dir "."
+cat * | wc -l
 #+end_src
 
-* wc-dir-words                                                           :fs:
+#+RESULTS: wc-lines
+: 1574
+
+* wc-words                                                               :fs:
 :PROPERTIES:
 :ID:       be755790-f367-4654-87e5-cd2927bfef45
 :END:
-#+name: wc-dir-words
-#+begin_src shell :var dir="."
-cd $dir && cat * | wc -w
+#+name: wc-words
+#+begin_src shell :dir "."
+cat * | wc -w
 #+end_src
+
+#+RESULTS: wc-words
+: 5944
 
 * buffer-name                                                          :util:
 :PROPERTIES:
@@ -139,38 +145,45 @@ cd $dir && cat * | wc -w
 #+begin_src emacs-lisp
 (buffer-name)
 #+end_src
-* tokei-dir-lines                                                        :fs:
+
+* lines                                                                  :fs:
 :PROPERTIES:
 :ID:       670e9855-f8d2-43eb-86af-3ef7292f90b9
 :END:
-#+name: tokei-dir-lines
-#+begin_src shell :var src="" :results output replace
-  cd ~/comp/$src
+#+name: lines
+#+begin_src shell :dir "." :results table replace
   input=`tokei -C -o json`
   echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
 #+end_src
 
-* tokei-dir-langs                                                        :fs:
+#+RESULTS: lines
+| 1584 |
+|    1 |
+|  127 |
+
+* langs                                                                  :fs:
 :PROPERTIES:
 :ID:       ff9682f0-bb64-427f-a87d-e0c655f9fdc9
 :END:
-#+name: tokei-dir-langs
-#+begin_src shell :var src="org" :results output replace
-  cd ~/comp/$src
+#+name: langs
+#+begin_src shell :dir "." :results output table replace
   input=`tokei -C -o json`
   echo $input | jq -r '.["Total"].children | keys[]'
 #+end_src
+
+#+RESULTS: langs
+: Org
 
 * sum-str-nums                                                         :util:
 :PROPERTIES:
 :ID:       d3c4ac69-337f-430b-a4db-760504f099ea
 :END:
 #+name: sum-str-nums
-#+begin_src emacs-lisp :var s=tokei-dir-lines()
+#+begin_src emacs-lisp :var str=lines()
   (let ((tot 0))
     (cl-loop
      with tot = 0
-     for i in (split-string s) do
+     for i in (split-string str) do
      (setf tot (+ tot (string-to-number i)))
      finally return tot))
 #+end_src
@@ -236,21 +249,193 @@ cd $dir && cat * | wc -w
 
 #+end_src
 
-* make-files-tbl                                                     :org:fs:
+* trim                                                                 :util:
+#+name: trim
+#+begin_src bash :var str=""
+  # remove leading whitespace characters
+  str="${str#"${str%%[![:space:]]*}"}"
+  # remove trailing whitespace characters
+  str="${str%"${str##*[![:space:]]}"}"
+  printf '%s' "$str"
+#+end_src
+
+#+RESULTS: trim
+: a b c
+
+* skel-show
+#+name: skel-show
+#+begin_src shell :dir "~/comp/core" :var key=":id" :results replace
+  echo $(skel show $key)
+#+end_src
+
+#+RESULTS: skel-show
+: 15bc-b763-ec92-1cf5
+
+#+RESULTS:
+: (core lisp rust emacs c)
+* project-root                                                      :project:
+#+name: project-root
+#+begin_src emacs-lisp :var project=(project-current)
+  (project-root project)
+#+end_src
+
+#+RESULTS: project-root
+: ~/comp/org/meta/
+
+* project-name                                                      :project:
+#+name: project
+#+begin_src emacs-lisp :var project="."
+  (project-name (project-current nil project))
+#+end_src
+
+#+RESULTS: project
+: meta
+
+* project-vc                                                        :project:
+#+name: project-vc
+#+begin_src emacs-lisp :var project=(project-current)
+  (cadr project)
+#+end_src
+
+#+RESULTS: project-vc
+: Hg
+
+* project-list                                                      :project:
+#+name: project-list
+#+begin_src emacs-lisp
+  project--list
+#+end_src
+
+#+RESULTS: project-list
+| ~/comp/core/                    |
+| ~/comp/org/meta/                |
+| ~/.emacs.d/elpa/corfu-terminal/ |
+| ~/comp/core                     |
+| ~/comp/scratch/zig-pg/          |
+| ~/comp/scratch/wam/             |
+| ~/comp/scratch/vdeplug4/        |
+| ~/comp/scratch/tmux/            |
+| ~/comp/scratch/scryer-prolog/   |
+| ~/comp/scratch/screamer/        |
+| ~/comp/scratch/rerun/           |
+| ~/comp/scratch/r8k/             |
+| ~/comp/scratch/qemu/            |
+| ~/comp/scratch/octatrack/       |
+| ~/comp/scratch/nu_plugin_quic/  |
+| ~/comp/scratch/mpk/             |
+| ~/comp/scratch/lemmy/           |
+| ~/comp/scratch/io-uring/        |
+| ~/comp/scratch/infodb/          |
+| ~/comp/scratch/hy/              |
+| ~/comp/scratch/hg/              |
+| ~/comp/scratch/hackrf/          |
+| ~/comp/scratch/gengat/          |
+| ~/comp/scratch/fin/             |
+| ~/comp/scratch/egui/            |
+| ~/comp/scratch/egui-video/      |
+| ~/comp/scratch/dev/             |
+| ~/comp/scratch/davfs2/          |
+| ~/comp/scratch/crust-0/         |
+| ~/comp/scratch/cepl.examples/   |
+| ~/comp/scratch/cc-install/      |
+| ~/comp/scratch/blok/            |
+| ~/comp/scratch/archiso/         |
+| ~/comp/scratch/arch-boxes/      |
+| ~/comp/scratch/                 |
+| ~/comp/pod/                     |
+| ~/comp/org/notes/               |
+| ~/comp/org/docs/                |
+| ~/comp/org/blog/                |
+| ~/comp/org/archive/             |
+| ~/comp/org/                     |
+| ~/comp/infra/.stash/src/emacs/  |
+| ~/comp/infra/                   |
+| ~/comp/home/                    |
+| ~/comp/etc/                     |
+| ~/comp/demo/                    |
+| ~/comp/box/                     |
+| ~/.emacs.d/elpa/org-glossary/   |
+| ~/comp/org/plan/                |
+| ~/.emacs.d/elpa/eglot-x/        |
+
+* project-details                                                   :project:
+#+name: project-details
+#+begin_src emacs-lisp :var project="."
+  (let* ((project (project-current nil project))
+         (name (project-name project))
+         (root (project-root project))
+         (vc-type (downcase (symbol-name (cadr project))))
+         (age (org-sbe hg-log-age ''(dir root)))
+         (rev (org-sbe hg-rev ''(dir root)))
+         (num (org-sbe hg-id-num ''(dir root)))
+         (tags (org-sbe skel-show (key "':tags'") ''(dir root)))
+         (id (org-sbe skel-show (key "':id'") ''(dir root)))
+         (version (org-sbe skel-show (key "':version'") ''(dir root)))
+         (description (org-sbe skel-show (key "':description'") ''(dir root)))
+         (vc (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
+                     vc-type name name
+                     (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num)))
+         (langs (mapcar (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir root))))))
+         (line-counts (flatten (read (org-sbe lines ''(dir root)))))
+         (line-sum (cl-reduce '+ line-counts))
+         (lines (format "%s :λ %s :# %s :_ %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
+    `(hline
+      (name ,name)
+      (version ,version)
+      (description ,description)
+      (skel-id ,id)
+      (root ,root)
+      (vc ,vc)
+      (tags ,tags)
+      (updated ,age)
+      (langs ,langs)
+      (lines ,lines)
+      hline))
+#+end_src
+
+#+RESULTS: project-details
+|-------------+---------------------------------------------------|
+| name        | meta                                              |
+| version     | 0.1.0                                             |
+| description | The Compiler Company Core                         |
+| skel-id     | 15bc-b763-ec92-1cf5                               |
+| root        | ~/comp/org/meta/                                  |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/06698c6708de][06698c6708de:8+]] |
+| tags        | (core lisp rust emacs c)                          |
+| updated     | 3 days ago                                        |
+| langs       | (org)                                             |
+| lines       | 1768 :λ 1632 :# 3 :_ 133                          |
+|-------------+---------------------------------------------------|
+
+* files                                                                  :fs:
 :PROPERTIES:
 :ID:       e2ff9dcf-8340-48b8-a1a6-e0036cbcc495
 :END:
-#+name: ls-files
-#+begin_src sh :results silent :var dir=(expand-file-name "~/comp") name="org"
-  ls -lh $dir/$name --time-style=long-iso \
+#+name: format-files
+#+begin_src python :var tab="" :results table :colnames yes :hlines yes :exports results :eval no-export
+return tab
+#+end_src
+
+#+name: files
+#+begin_src sh :results replace table :dir "." :colnames yes :hlines yes :post format-files-tbl(*this*)
+  ls -lh $PWD --time-style=long-iso \
     |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
     |awk 'BEGIN{print "file size updated"}{print $0}'
 #+end_src
 
-#+name: make-files-tbl
-#+begin_src python :var tab=ls-files() :results table :colnames yes :hlines yes :exports results :eval no-export
-return tab
-#+end_src
+#+RESULTS: files
+| file          | size |          updated |
+|---------------+------+------------------|
+| babel.org     | 24K  | 2024-09-07-19:45 |
+| business.org  | 803  | 2024-08-19-21:19 |
+| glossary.org  | 1.2K | 2024-09-06-15:35 |
+| mindset.org   | 119  | 2024-08-15-21:20 |
+| pitch.org     | 1.6K | 2024-08-11-17:16 |
+| readme.org    | 1.1K | 2024-08-27-21:13 |
+| style.org     | 3.2K | 2024-08-21-16:18 |
+| tech.org      | 3.6K | 2024-08-21-18:16 |
+| ulang.org     | 12K  | 2024-09-06-16:12 |
+| workflows.org | 7.5K | 2024-09-03-16:59 |
 
 * env-table                                                              :os:
 :PROPERTIES:
@@ -297,11 +482,11 @@ return tab
 		 (format "Org v%s" (org-version))))
 #+end_src
 
-* vc-log                                                                 :vc:
+* vc-buffer-log                                                          :vc:
 :PROPERTIES:
 :ID:       b2d9f6f0-2ac7-4e45-abbe-b32cc2d0f7aa
 :END:
-#+name: vc-log
+#+name: vc-buffer-log
 #+header: :var limit=-1
 #+header: :var buf=(buffer-name (current-buffer))
 #+begin_src emacs-lisp
@@ -331,35 +516,86 @@ return tab
 :ID:       8119cf43-f2e7-4829-939c-fc4e8531ae6c
 :END:
 #+name: hg-rev
-#+begin_src sh :var src="org"
-cd ~/comp/$src && hg log -l 1 --template '{node|short}'
+#+begin_src sh :dir "."
+hg log -l 1 --template '{node|short}'
 #+end_src
 
 #+RESULTS: hg-rev
-: 2b6f731f3684
-
+: 06698c6708de
 * hg-id-num                                                              :vc:
 :PROPERTIES:
 :ID:       9602faee-5522-445b-a568-be603e20a978
 :END:
 #+name: hg-id-num
-#+begin_src shell :var src="org"
-cd ~/comp/$src && hg id -n
+#+begin_src shell :dir "."
+hg id -n
 #+end_src
 
 #+RESULTS: hg-id-num
-: 36+
+: 8+
 
 * hg-log-age                                                             :vc:
 :PROPERTIES:
 :ID:       8492f4fb-51a6-4221-8705-a15eb5a50ed4
 :END:
 #+name: hg-log-age
-#+begin_src shell :var src="."
-  cd ~/comp/$src && hg log -l1 --template "{date|age}"
+#+begin_src shell :dir "."
+  hg log -l1 --template "{date|age}"
 #+end_src
 
 #+RESULTS: hg-log-age
+: 3 days ago
+
+* hg-churn                                                               :vc:
+#+name: hg-churn
+#+begin_src shell :dir "~/comp/core" :results output
+  hg churn -f "%Y-%m" -s
+#+end_src
+
+#+RESULTS: hg-churn
+#+begin_example
+2023-10  36394 ************************************
+2023-11  12777 ************
+2023-12  61624 *************************************************************
+2024-01   4923 ****
+2024-02   5701 *****
+2024-03  27292 ***************************
+2024-04  23322 ***********************
+2024-05  24141 ***********************
+2024-06  17608 *****************
+2024-07   9757 *********
+2024-08  16177 ****************
+2024-09   2430 **
+#+end_example
+
+* hg-status
+#+name: hg-status
+#+begin_src shell :dir "."
+hg status
+#+end_src
+
+#+RESULTS: hg-status
+| M | babel.org    |
+| M | glossary.org |
+| M | ulang.org    |
+
+* homer
+#+begin_src shell
+homer
+#+end_src
+
+#+RESULTS:
+| :PUSH | /home/ellis/.stash/scripts/wg-gen-keys.sh                   |
+| :PUSH | /home/ellis/.stash/scripts/upgrade.sh                       |
+| :PUSH | /home/ellis/.stash/scripts/sc.sh                            |
+| :PUSH | /home/ellis/.stash/scripts/rec.sh                           |
+| :PUSH | /home/ellis/.stash/scripts/port-scan.sh                     |
+| :PUSH | /home/ellis/.stash/scripts/podman-machine-default-update.sh |
+| :PUSH | /home/ellis/.stash/scripts/pacman-pkgsearch.sh              |
+| :PUSH | /home/ellis/.stash/scripts/nfs-export.sh                    |
+| :PUSH | /home/ellis/.stash/scripts/new-mail.sh                      |
+| :PUSH | /home/ellis/.stash/scripts/genfstab.sh                      |
+| :PUSH | /home/ellis/.stash/scripts/gen-libera-cert.sh               |
 
 * sh-ob-tangle                                                          :org:
 :PROPERTIES:

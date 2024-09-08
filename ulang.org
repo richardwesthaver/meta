@@ -6,8 +6,15 @@
 :PROPERTIES:
 :ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663
 :END:
-This document describes a *U-Language* as described by the late great
-[[https://iep.utm.edu/haskell-brooks-curry/][Haskell Curry]]:
+
+This document is for contributors and curious readers. It is a loose
+specification which describes the fundamental rules of how we write in
+prose, documentation, and other contexts.
+
+All sources we write attempt to comply to this specification but it is
+never /strictly/ enforced. If there is a reason to not comply with a
+rule, it is already broken.
+
 #+begin_quote
 Every investigation, including the present one, has to be communicated
 from one person to another by means of language. It is expedient to
@@ -16,27 +23,20 @@ name to the language being used, and by being explicit about a few of
 its features. We shall call the language being used the
 U-Language. [...] There would be no point in calling attention to it,
 if it were not for the fact that language is more intimately related
-to our job than of most others.
+to our job than of most others. -- [[https://iep.utm.edu/haskell-brooks-curry/][Haskell Curry]]
 #+end_quote
 
-In this document, we will be calling attention to our own language -
-examining it, and describing how it works.
+In this document, we will be calling attention to our own
+language - examining it, and describing how it works.
 
 Our job is to solve problems. Hard problems preferred. So we ought to
 pay close attention to the language we use because it brings the
 reader and writer /closer/ to the problem at hand.
 
-For starters, we are primarily concerned with /written languages/ like
-the one you're reading now. We will skip past the obvious details -
-English is our primary form of communication for example. The line you
-are reading currently is a sentence which is part of a paragraph.
-
-- This document is for authors and curious readers. It is a loose
-  specification, but also serves as introductory material into our
-  communication style and design philosophy.
-- All sources we write attempt to comply to this standard but it is
-  not strictly enforced. If there is a reason to not comply with a
-  rule, it is already broken.
+We are primarily concerned with /written languages/ like the one
+you're reading now. We will skip past the obvious details - English is
+our primary form of communication for example. The line you are
+reading currently is a sentence which is part of a paragraph.
 
 ** Org Mode
 :PROPERTIES:
@@ -57,14 +57,16 @@ be getting too deep into tribal hacker knowledge of Emacs.
 :ID:       236227a5-b30c-4548-8cad-360428d74d67
 :END:
 Our *U-Language* is colloquially termed *ulang*. Each section of this
-document describes a feature of our ulang. 
+document describes an Org syntax component and how it is used in our
+writing.
 ** Emphasis
 :PROPERTIES:
 :ID:       88bf1177-b5b7-4945-8bdc-5229803e617e
 :END:
-We derive all text emphasis syntax for rich contents from [[https://orgmode.org/manual/Emphasis-and-Monospace.html][Org Mode]].
+[[https://orgmode.org/manual/Emphasis-and-Monospace.html][Text Emphasis]] in Org covers the range you would expect from any other
+markup:
 #+name: org-emphasis
-#+begin_src org
+#+begin_src org :results replace
   - *bold*
   - /italic/
   - _underlined_
@@ -72,23 +74,49 @@ We derive all text emphasis syntax for rich contents from [[https://orgmode.org/
   - ~code~
   - +strike-through+
 #+end_src
+
+#+RESULTS: org-emphasis
 - *bold*
 - /italic/
 - _underlined_
 - =verbatim=
 - ~code~
 - +strike-through+
-
-Text emphasis markers may be embedded in any syntax as long as it does
-not cause any conflicts with the host language.
+\
+- Text emphasis markers /may/ appear in code comments as long as they do
+  not cause any conflicts with the host language, although they /should/
+  be restricted to the =Commentary= section.
+- ~code~ may sometimes be written instead with =verbatim= emphasis -
+  the distinction is only important for specific export backends which
+  support it - see [[https://emacs.stackexchange.com/a/77822][this thread]] for details.
 ** Links
 :PROPERTIES:
 :ID:       7ecaec5d-c656-44e1-8fad-185915655cee
 :END:
-*** Link Types
+Org [[https://orgmode.org/guide/Hyperlinks.html][Links]] are wrapped in brackets like so:
+
+#+name: org-links
+#+begin_src org
+  [[LINK][DESCRIPTION]]
+  ;; or without description
+  [[LINK]]
+#+end_src
+
+- LINK is a URI like https://google.com
+- DESCRIPTION is optional
+
+*** Internal Links
+:PROPERTIES:
+:ID:       a867de82-8558-4277-b9d6-b5d3226f73d1
+:END:
+[[https://orgmode.org/manual/Internal-Links.html][Internal Links]]
+*** External Links
 :PROPERTIES:
 :ID:       6aedc026-36d0-4763-adc8-8ae1a79f1b3e
 :END:
+Org has built-in support for many different types of [[https://orgmode.org/guide/Hyperlinks.html#External-Links-1][External Links]],
+which are URL-like locators. We also define some custom link types
+which are used throughout our documentation /and/ code.
 
 ** Headings
 :PROPERTIES:
@@ -131,7 +159,7 @@ In our source code, we use the comment character instead of a star:
   println!("H1");
 #+end_src
 
-** Keywords
+** Todo Keywords
 :PROPERTIES:
 :ID: 2cadda9a-22a3-4b42-ad4e-d7a774f74cba
 :END:
@@ -139,6 +167,8 @@ In our source code, we use the comment character instead of a star:
 TODO keywords are often used to keep track of the state of a [[https://orgmode.org/manual/TODO-Items.html][TODO
 Item]], but may also be [[https://orgmode.org/manual/TODO-Extensions.html][extended]] to support a variety of stateful item
 types beyond just simple tasks.
+
+We /do not/ specify any
 
 The following keywords form the simple set of task states.
 
@@ -211,13 +241,139 @@ file and stored in a dedicated [[https://orgmode.org/manual/Drawers.html][Drawer
 :PROPERTIES:
 :ID:       3944c851-e46c-4d75-b8f5-07b5c052177a
 :END:
-We reference two different types of identifiers in documentation:
-- UUID :: =ID= property
-- User-defined :: =CUSTOM_ID= property
+Org supports two built-in identifier properties:
+- ID :: Unique, machine-generated
+- CUSTOM_ID :: User-defined
 
-Most of the time these IDs don't add any information for the reader -
-the UUIDs are used to index and graph documents, CUSTOM_IDs are for
-convenience and extensions, but are rarely necessary given the many
-ways of identifying a headline.
+These IDs don't add any information for the reader - the IDs are used
+to index and associate headings. All headings are assigned an ID
+automatically which should never be changed.
 
-All headings are assigned an ID automatically and are never changed.
+CUSTOM_IDs are for convenience and extensions, but are rarely
+necessary given the many ways of identifying a headline.
+** File Keywords
+:PROPERTIES:
+:ID:       27141c7a-e903-4909-890f-b496716a48ba
+:END:
+File keywords, also known as [[https://orgmode.org/manual/In_002dbuffer-Settings.html][In-Buffer Settings]] are similar to
+properties in the sense that they are key/value pairs, but they only
+appear at the top of a file before any content and use a different
+syntax.
+
+#+begin_src org
+  ,#+title: some file title
+  ,#+author: some user
+  ,#+PROPERTY DESCRIPTION assigning a property via file keyword
+  some content
+  ,* a headline
+  :PROPERTIES:
+  :DESCRIPTION: just a property, not a file keyword
+  :END:
+#+end_src
+
+** Tables
+:PROPERTIES:
+:ID:       be4c4c52-4353-45df-b2ab-1e72f392008d
+:END:
+Org [[https://orgmode.org/manual/Tables.html][Tables]] offer some pretty advanced spreadsheet capabilities which
+we won't delve into here. Plain tables can be identified in documents by lines
+starting with the =|= character:
+#+begin_src org :results replace
+  | col1 | col2 | col3 |
+  |------+------+------|
+  |    1 | foo  | bar  |
+#+end_src
+
+#+RESULTS:
+| col1 | col2 | col3 |
+|------+------+------|
+|    1 | foo  | bar  |
+
+** Blocks
+:PROPERTIES:
+:ID:       d5a09bc6-07de-4812-ab2e-f5ead1e0d8a7
+:END:
+Org [[https://orgmode.org/manual/Blocks.html][Blocks]] consist of a body wrapped in a pair of lines which look
+like [[id:27141c7a-e903-4909-890f-b496716a48ba][File Keywords]] prepended with =BEGIN_= and =END_=.
+
+Simple blocks such as =example= and =center= only have a special
+meaning during publishing:
+#+begin_src org :results replace drawer
+  ,#+begin_example
+  this is an example block
+  ,#+end_example
+
+  ,#+begin_center
+  this is a centered block
+  ,#+end_center
+#+end_src
+
+#+RESULTS:
+:results:
+#+begin_example
+this is an example block
+#+end_example
+
+#+begin_center
+this is a centered block
+#+end_center
+:end:
+*** Code Blocks
+:PROPERTIES:
+:ID:       0784d230-95b0-4135-a52f-6be4e2d5d80a
+:END:
+[[https://orgmode.org/manual/Working-with-Source-Code.html][Code Blocks]] are used to embed source code into a document. They always
+start with =#+BEGIN_SRC= and end with =#+END_SRC=:
+
+#+begin_src org :results replace drawer
+  ,#+begin_src emacs-lisp
+    (message "an emacs-lisp code block inside an org document")
+  ,#+end_src
+#+end_src
+
+#+RESULTS:
+:results:
+#+begin_src emacs-lisp
+  (message "an emacs-lisp code block inside an org document")
+#+end_src
+:end:
+
+You can embed virtually any type of source code in side a code block,
+execute it in-place, and control how both the source code and results
+are presented in the document. Source code blocks may also be
+collected in a [[file:babel.org][Library of Babel]] and re-used across many documents.
+
+*** Dynamic Blocks
+:PROPERTIES:
+:ID:       8898387c-2c84-4f56-80ee-d03daebd0990
+:END:
+[[https://orgmode.org/manual/Dynamic-Blocks.html][Dynamic Blocks]] as the name implies are blocks with contents that are
+dynamically updated. These blocks always begin with =#+BEGIN:=
+followed by a space, the name of the dynamic block and any parameter
+values, and end with =#+END:=. The dynamic block name is taken from
+the name of a function which matches =org-dblock-write:NAME=. This
+function is called with the parameter values and replaces the body of
+the block.
+
+The only built-in dynamic block is the =clocktable=:
+#+begin_src org :results replace drawer
+  ,#+BEGIN: clocktable
+  ,#+CAPTION: Clock summary at [2024-09-06 Fri 15:23]
+  | Headline     | Time   |
+  |--------------+--------|
+  | *Total time* | *0:00* |
+  ,#+END:
+#+end_src
+
+#+RESULTS:
+:results:
+#+BEGIN: clocktable
+#+CAPTION: Clock summary at [2024-09-06 Fri 15:23]
+| Headline     | Time   |
+|--------------+--------|
+| *Total time* | *0:00* |
+#+END:
+:end:
+
+Dynamic blocks are designed for user extension and are a powerful tool
+to programatically summarize information.
