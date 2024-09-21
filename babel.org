@@ -294,12 +294,11 @@ return tab
 
 * skel-show                                                            :skel:
 #+name: skel-show
-#+begin_src shell :var key=":id" :results replace
-  echo $(skel show $key)
+#+begin_src shell :var key="id" :results replace
+  skel show $key
 #+end_src
 
 #+RESULTS: skel-show
-: 15bc-b763-ec92-1cf5
 
 #+RESULTS:
 : (core lisp rust emacs c)
@@ -399,10 +398,10 @@ return tab
          (age (org-sbe hg-log-age ''(dir root)))
          (rev (org-sbe hg-rev ''(dir root)))
          (num (org-sbe hg-id-num ''(dir root)))
-         (tags (org-sbe skel-show (key "':tags'")))
+         (tags (org-sbe skel-show (key "'tags'")))
          (id (org-sbe skel-show (key "':id'") ''(dir root)))
-         (version (org-sbe skel-show (key "':version'") ''(dir root)))
-         (description (org-sbe skel-show (key "':description'") ''(dir root)))
+         (version (org-sbe skel-show (key "'version'") ''(dir root)))
+         (description (org-sbe skel-show (key "'description'") ''(dir root)))
          (vc (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
                      vc-type name name
                      (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num)))
@@ -478,14 +477,40 @@ exist locally.
 * project-tasks                                                 :project:org:
 List all project tasks.
 #+name: project-tasks
-#+begin_src emacs-lisp :results replace
-  `((todo item tags scheduled deadline effort)
-    hline)
+#+begin_src emacs-lisp :results replace :var project="."
+  (let ((name (project-name (project-current nil project)))
+         (hdr (list '(todo item tags scheduled deadline)
+                    'hline))
+         (tbl))
+    (save-excursion
+      (with-current-buffer (find-file-noselect
+                            (join-paths company-org-directory 
+                                        "plan/tasks/" 
+                                        (format "%s.org" name)))
+        (org-with-wide-buffer
+         (org-map-entries (lambda ()
+                            (let ((row))
+                              (push (or (org-get-todo-state) "") row)
+                              (push (org-get-heading t t t t) row)
+                              (push (or (remove name (org-get-tags)) "") row)
+                              (push (if-let ((ts (org-get-scheduled-time (point) t)))
+                                        (format-time-string (cdr org-timestamp-formats) ts)
+                                      "")
+                                    row)
+                              (push (if-let ((ts (org-get-deadline-time (point) t)))
+                                        (format-time-string (cdr org-timestamp-formats) ts)
+                                      "")
+                                    row)
+                              (push (nreverse row) tbl)))
+                          "TODO<>\"DONE\"" nil)
+         )))
+    (append hdr (nreverse tbl))
+    )
 #+end_src
 
 #+RESULTS: project-tasks
-| todo | item | tags | scheduled | deadline | effort |
-|------+------+------+-----------+----------+--------|
+| todo | item | tags | scheduled | deadline |
+|------+------+------+-----------+----------|
 
 * env-table                                                              :os:
 :PROPERTIES:
