@@ -250,6 +250,9 @@ cat * | wc -w
 #+end_src
 
 * trim                                                                 :util:
+:PROPERTIES:
+:ID:       2477d796-4925-4feb-bd89-d57b8be69941
+:END:
 #+name: trim
 #+begin_src bash :var str=""
   # remove leading whitespace characters
@@ -293,6 +296,9 @@ return tab
 | workflows.org | 7.5K | 2024-09-03-16:59 |
 
 * skel-show                                                            :skel:
+:PROPERTIES:
+:ID:       f95ff011-cb4c-4fbb-b94c-d68b6d034710
+:END:
 #+name: skel-show
 #+begin_src shell :var key="id" :results replace
   skel show $key
@@ -303,6 +309,9 @@ return tab
 #+RESULTS:
 : (core lisp rust emacs c)
 * project-root                                                      :project:
+:PROPERTIES:
+:ID:       82e70e56-fb1d-4c11-83f6-cbe40d9eda91
+:END:
 #+name: project-root
 #+begin_src emacs-lisp :var project=(project-current)
   (project-root project)
@@ -312,6 +321,9 @@ return tab
 : ~/comp/org/meta/
 
 * project-name                                                      :project:
+:PROPERTIES:
+:ID:       3663aed6-092f-4816-978a-824e4788e4f6
+:END:
 #+name: project
 #+begin_src emacs-lisp :var project="."
   (project-name (project-current nil project))
@@ -321,6 +333,9 @@ return tab
 : meta
 
 * project-vc                                                        :project:
+:PROPERTIES:
+:ID:       80a4eb7d-2fe5-47df-8730-1b105d8b2966
+:END:
 #+name: project-vc
 #+begin_src emacs-lisp :var project=(project-current)
   (cadr project)
@@ -330,6 +345,9 @@ return tab
 : Hg
 
 * project-list                                                      :project:
+:PROPERTIES:
+:ID:       fc31408f-9fe6-48a2-bf74-be024bbe6956
+:END:
 #+name: project-list
 #+begin_src emacs-lisp
   project--list
@@ -388,6 +406,9 @@ return tab
 | ~/.emacs.d/elpa/eglot-x/        |
 
 * project-details                                                   :project:
+:PROPERTIES:
+:ID:       bd56995e-b153-4468-b845-aadd92e456c6
+:END:
 #+name: project-details
 #+begin_src emacs-lisp :var project="."
   (let* ((project (project-current nil project))
@@ -438,6 +459,9 @@ return tab
 |-------------+---------------------------------------------------|
 
 * project-files                                                  :project:fs:
+:PROPERTIES:
+:ID:       cbe33095-3f50-4436-89e9-ed843d6d3a65
+:END:
 List all files found in current project. Ignores files which don't
 exist locally.
 #+name: project-files
@@ -475,6 +499,9 @@ exist locally.
 | [[https://vc.compiler.company/meta/file/tip/workflows.org][workflows.org]] | 7.4k | 2024-09-03 16:59:05 |
 
 * project-tasks                                                 :project:org:
+:PROPERTIES:
+:ID:       ed81fd98-e3f1-46f1-8fe1-0384c56522a6
+:END:
 List all project tasks.
 #+name: project-tasks
 #+begin_src emacs-lisp :results replace :var project="."
@@ -622,6 +649,9 @@ hg id -n
 : 3 days ago
 
 * hg-log-age                                                             :vc:
+:PROPERTIES:
+:ID:       40c727f7-7b58-464d-84e4-37c99a253499
+:END:
 #+name: hg-log-age
 #+begin_src shell :dir "."
   # hg log -l1 --template "{date(date, '%Y-%m-%d %H:%M:%S')}\n"
@@ -632,6 +662,9 @@ hg id -n
 : Sat Sep 07 22:38:02 2024 -0400
 
 * hg-churn                                                               :vc:
+:PROPERTIES:
+:ID:       6d78286d-0cd5-4c34-bc92-f260f09bc44c
+:END:
 #+name: hg-churn
 #+begin_src shell :dir "~/comp/core" :results output
   hg churn -f "%Y-%m" -s
@@ -654,6 +687,9 @@ hg id -n
 #+end_example
 
 * hg-status                                                              :vc:
+:PROPERTIES:
+:ID:       57df3e0f-af09-4ff4-9fd5-54b1aa91f09e
+:END:
 #+name: hg-status
 #+begin_src shell :dir "."
 hg status
@@ -665,6 +701,9 @@ hg status
 | M | ulang.org    |
 
 * homer                                                               :homer:
+:PROPERTIES:
+:ID:       37624eaa-0a25-465b-ab59-600d83b48903
+:END:
 #+begin_src shell
 homer
 #+end_src
