@@ -11,6 +11,9 @@
 :PROPERTIES:
 :ID:       765d7aea-1f04-47ac-b59a-b5e83ce05194
 :END:
+:EDGES:
+[2024-09-29 Sun 23:00] <- [[id:a7f9b428-9323-492f-aaa5-94669bfbc55b][Refs]]
+:END:
 ** [[https://www.rust-lang.org/][Rust]]
 :PROPERTIES:
 :ID:       e4fce1b9-dc0f-4bd9-b26e-3b41e583e901

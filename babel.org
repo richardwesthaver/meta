@@ -405,29 +405,47 @@ return tab
 | ~/comp/org/plan/                |
 | ~/.emacs.d/elpa/eglot-x/        |
 
+* project-links                                                     :project:
+Return an org-mode unordered-list of project links.
+#+name: project-links
+#+begin_src emacs-lisp :var project="." :results list
+  (let ((name (project-name (project-current nil project)))
+        (link-fmt "https://%s/%s/%s.html"))
+    (list (org-link-make-string (format link-fmt company-domain "docs" (format "%s/index" name)) "Docs")
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/stats" name)) "Stats")
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/man" name)) "Manual")
+           (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
+#+end_src
+
+#+RESULTS:
+- [[https://compiler.company/docs/meta/index.html][Docs]]
+- [[https://compiler.company/docs/meta/stats.html][Stats]]
+- [[https://compiler.company/docs/meta/man.html][Manual]]
+- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
+
 * project-details                                                   :project:
 :PROPERTIES:
 :ID:       bd56995e-b153-4468-b845-aadd92e456c6
 :END:
 #+name: project-details
-#+begin_src emacs-lisp :var project="."
+#+begin_src emacs-lisp :var project="." root=""
   (let* ((project (project-current nil project))
          (name (project-name project))
-         (root (project-root project))
-         (default-directory root)
+         (%root (project-root project))
+         (default-directory %root)
          (vc-type (downcase (symbol-name (cadr project))))
-         (age (org-sbe hg-log-age ''(dir root)))
-         (rev (org-sbe hg-rev ''(dir root)))
-         (num (org-sbe hg-id-num ''(dir root)))
+         (age (org-sbe hg-log-age ''(dir %root)))
+         (rev (org-sbe hg-rev ''(dir %root)))
+         (num (org-sbe hg-id-num ''(dir %root)))
          (tags (org-sbe skel-show (key "'tags'")))
-         (id (org-sbe skel-show (key "':id'") ''(dir root)))
-         (version (org-sbe skel-show (key "'version'") ''(dir root)))
-         (description (org-sbe skel-show (key "'description'") ''(dir root)))
+         (id (org-sbe skel-show (key "':id'") ''(dir %root)))
+         (version (org-sbe skel-show (key "'version'") ''(dir %root)))
+         (description (org-sbe skel-show (key "'description'") ''(dir %root)))
          (vc (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
                      vc-type name name
                      (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num)))
-         (langs (mapcar (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir root))))))
-         (line-counts (flatten (read (org-sbe lines ''(dir root)))))
+         (langs (mapconcat (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir %root)))) " "))
+         (line-counts (flatten (read (org-sbe lines ''(dir %root)))))
          (line-sum (cl-reduce '+ line-counts))
          (lines (format "%s :λ %s :# %s :_ %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
     `(hline
@@ -435,7 +453,9 @@ return tab
       (version ,version)
       (description ,description)
       (skel-id ,id)
-      (root ,root)
+      (root ,(if (not (zerop (length root)))
+                 root
+               %root))
       (vc ,vc)
       (tags ,tags)
       (updated ,age)
@@ -445,18 +465,18 @@ return tab
 #+end_src
 
 #+RESULTS: project-details
-|-------------+---------------------------------------------------|
-| name        | meta                                              |
-| version     |                                                   |
-| description |                                                   |
-| skel-id     |                                                   |
-| root        | ~/comp/org/meta/                                  |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/995df3d48af0][995df3d48af0:9+]] |
-| tags        |                                                   |
-| updated     | Sat Sep 07 22:38:02 2024 -0400                    |
-| langs       | (org)                                             |
-| lines       | 1828 :λ 1685 :# 4 :_ 139                          |
-|-------------+---------------------------------------------------|
+|-------------+----------------------------------------------------|
+| name        | meta                                               |
+| version     | nil                                                |
+| description | nil                                                |
+| skel-id     | nil                                                |
+| root        | ~/comp/org/meta/                                   |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/f6df7eaa3684][f6df7eaa3684:12+]] |
+| tags        | nil                                                |
+| updated     | Sun Sep 22 21:29:45 2024 -0400                     |
+| langs       | (org)                                              |
+| lines       | 1897 :λ 1754 :# 4 :_ 139                           |
+|-------------+----------------------------------------------------|
 
 * project-files                                                  :project:fs:
 :PROPERTIES:
@@ -699,6 +719,18 @@ hg status
 | M | babel.org    |
 | M | glossary.org |
 | M | ulang.org    |
+
+* hg-status                                                              :vc:
+#+name: hg-diff-stat
+#+begin_src shell :dir "." :results output
+hg diff -S -g --stat
+#+end_src
+
+#+RESULTS: hg-diff-stat
+:  babel.org |  62 ++++++++++++++++++++++++++++++++++++++------------------------
+:  tech.org  |   3 +++
+:  ulang.org |  16 ++++++++--------
+:  3 files changed, 49 insertions(+), 32 deletions(-)
 
 * homer                                                               :homer:
 :PROPERTIES:

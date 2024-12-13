@@ -7,14 +7,6 @@
 :ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663
 :END:
 
-This document is for contributors and curious readers. It is a loose
-specification which describes the fundamental rules of how we write in
-prose, documentation, and other contexts.
-
-All sources we write attempt to comply to this specification but it is
-never /strictly/ enforced. If there is a reason to not comply with a
-rule, it is already broken.
-
 #+begin_quote
 Every investigation, including the present one, has to be communicated
 from one person to another by means of language. It is expedient to
@@ -25,6 +17,14 @@ U-Language. [...] There would be no point in calling attention to it,
 if it were not for the fact that language is more intimately related
 to our job than of most others. -- [[https://iep.utm.edu/haskell-brooks-curry/][Haskell Curry]]
 #+end_quote
+
+This document is for contributors and curious readers. It is a loose
+specification which describes the fundamental rules of how we write in
+prose, documentation, and other contexts.
+
+All sources we write attempt to comply to this specification but it is
+never /strictly/ enforced. If there is a reason to not comply with a
+rule, it is already broken.
 
 In this document, we will be calling attention to our own
 language - examining it, and describing how it works.
