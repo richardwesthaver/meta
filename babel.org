@@ -800,7 +800,7 @@ digraph {
 #+name: user-slime
 #+begin_src emacs-lisp :results silent :eval no-export
   (unless (slime-connected-p) (slime))
-  (slime-eval '(ql:quickload :user))
+  (slime-load-system :user)
   (slime-repl-set-package "USER")
 #+end_src
 * std-slime                                                            :lisp:
@@ -810,7 +810,7 @@ digraph {
 #+name: std-slime
 #+begin_src emacs-lisp :results silent :eval no-export
   (unless (slime-connected-p) (slime))
-  (slime-eval '(ql:quickload :std))
+  (slime-load-system :std)
   (slime-repl-set-package "STD-USER")
 #+end_src
 * test-slime                                                           :lisp:
@@ -820,7 +820,7 @@ digraph {
 #+name: std-slime
 #+begin_src emacs-lisp :results silent :eval no-export
   (unless (slime-connected-p) (slime))
-  (slime-eval '(ql:quickload :core/tests))
+  (slime-load-system :core/tests)
   (slime-repl-set-package "CORE/TESTS")
 #+end_src
 * cargo-update-dir                                                     :rust:

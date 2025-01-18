@@ -14,6 +14,24 @@
 - Eval :: Evaluate
 - Alloc :: Allocate
 - Ret :: Return
+- Val :: Value
+- Srv :: Service or Server
+- Pkg :: Package
+- Err :: Error
+- Net :: Network
+- Lib :: Library
+- Bin :: Binary
+- Pod :: OCI container
+- Std :: Standard
+- Req :: Request
+- Obj :: Object
+- Proto :: Protocol
+- Ser :: Serialize
+- De :: Deserialize
+- Cry :: Cryptography
+- Syn :: Syntax
+- Sxp :: S-Expression
+- Cfg :: Configuration
 * Acronyms
 :PROPERTIES:
 :ID:       6ea8f879-29f1-4a52-8e39-4d0920318f8a
@@ -26,16 +44,31 @@
 - TBD :: To Be Determined
 - TCO :: Tail-Call Optimization
 - GNU :: GNU Not Unix
+- LKG :: Last Known Good
 - RT :: Regression Testing
 - CL :: Common Lisp
 - EL :: Emacs Lisp
+- VC :: Version Control
+- CLI :: Command Line Interface
+- GUI :: Graphic User Interface
+- UX :: User Experience
+- DX :: Developer Experience
+- TLV :: Type, Length, Value
+- FFI :: Foreign Function Interface
 - SBCL :: Steel Bank Common Lisp
+- NLP :: Natural Language Processing
+- OSC :: Open Sound Control
+- DSP :: Digital Signal Processing
 - OS :: Operating System
 - DB :: Database
 - KV :: Key:Value
+- AST :: Abstract Syntax Tree
 - VM :: Virtual Machine
 - TAOMOP :: The Art Of The Meta Object Protocol
+- MOP :: Meta Object Protocol
 - PCL :: Practical Common Lisp
+- CLOS :: Common Lisp Object System
+- CLIM :: Common Lisp Interface Manager
 - LOL :: Let Over Lambda
 - LOB :: Library of Babel
 - PPCRE :: Portable Perl-Compatible Regular Expressions
