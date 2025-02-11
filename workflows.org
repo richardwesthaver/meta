@@ -113,9 +113,9 @@ details:
   belonging to a product is unable to block a project.
 *** Roadmap
 :PROPERTIES:
-:ID:       be90c808-6c3b-4381-a032-af07d54f5907
+:ID:       18a5827e-67c0-4acf-8298-9f1f0fb14584
 :END:
-The [[https://compiler.company/plan/roadmap.html][roadmap]] is a high-level document which describes the strategic
+The roadmap is a high-level document which describes the strategic
 plan associated with pre-determined period of time called program
 increments or PIs. The current length of a PI is 1 year.
 *** Projects
