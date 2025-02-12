@@ -5,6 +5,7 @@
 * Introduction
 :PROPERTIES:
 :ID:       e63d129f-9024-4cd8-9e2c-77f4bc614663
+:CUSTOM_ID: intro
 :END:
 
 #+begin_quote
@@ -41,6 +42,7 @@ reading currently is a sentence which is part of a paragraph.
 ** Org Mode
 :PROPERTIES:
 :ID: 98a02bb2-3f39-49c6-898a-68ccd8f3cbe1
+:CUSTOM_ID: org-mode
 :END:
 [[https://www.gnu.org/software/emacs/][GNU Emacs]] is our text editor, so naturally [[https://orgmode.org/][Org Mode]] is our word
 processor.
@@ -62,9 +64,11 @@ writing.
 ** Emphasis
 :PROPERTIES:
 :ID:       88bf1177-b5b7-4945-8bdc-5229803e617e
+:CUSTOM_ID: emph
 :END:
 [[https://orgmode.org/manual/Emphasis-and-Monospace.html][Text Emphasis]] in Org covers the range you would expect from any other
 markup:
+
 #+name: org-emphasis
 #+begin_src org :results replace
   - *bold*
@@ -83,6 +87,7 @@ markup:
 - ~code~
 - +strike-through+
 \
+
 - Text emphasis markers /may/ appear in code comments as long as they do
   not cause any conflicts with the host language, although they /should/
   be restricted to the =Commentary= section.

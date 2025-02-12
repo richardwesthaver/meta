@@ -111,7 +111,7 @@ details:
     automatic clocking.
 - Products and Projects are separate entities. As a rule, any task
   belonging to a product is unable to block a project.
-*** Roadmap
+*** Roadmaps
 :PROPERTIES:
 :ID:       18a5827e-67c0-4acf-8298-9f1f0fb14584
 :END:
@@ -136,6 +136,7 @@ potential users and supporters, and collecting feedback.
 ** Notes
 :PROPERTIES:
 :ID:       6ebed997-12c0-4a20-88ef-df8cf424b198
+:CUSTOM_ID: notes1
 :END:
 Notes should be collected frequently and referenced often. They can be
 as simple as a link to a Wikipedia page, or contain a complex tree of
@@ -164,6 +165,7 @@ implement a fully connected knowledge graph. See [[vc:core/file/tip/emacs/lib/gr
 ** Documentation
 :PROPERTIES:
 :ID:       03e13d7e-6cda-46d4-830f-5671518bd32f
+:CUSTOM_ID: documentation1
 :END:
 *** README
 :PROPERTIES:
@@ -192,6 +194,7 @@ always written manually and revised regularly to stay accurate.
 ** Archive
 :PROPERTIES:
 :ID:       ca0dcc07-0517-4d04-86f0-905537cb7801
+:CUSTOM_ID: archive1
 :END:
 When an item is archived, it is moved to a file under version-control
 in the [[vc:org/archive][archive]] project.
