@@ -720,7 +720,7 @@ hg status
 | M | glossary.org |
 | M | ulang.org    |
 
-* hg-status                                                              :vc:
+* hg-diff-stat                                                           :vc:
 #+name: hg-diff-stat
 #+begin_src shell :dir "." :results output
 hg diff -S -g --stat
