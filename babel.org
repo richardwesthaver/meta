@@ -490,33 +490,40 @@ exist locally.
          (name (project-name project))
          (root (expand-file-name (project-root project)))
          (project-files-relative-names t)
-         (project-vc-include-untracked nil))
+         (project-vc-include-untracked nil)
+         (exclude-files '(".hgignore" ".stash"))
+         ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
+         (link-fmt "https://github.com/richardwesthaver/%s/blob/default/%s"))
     `((file size modified)
       hline
       ,@(mapcar (lambda (x)
                   ;; don't rely on project/vc - only include files which exist locally
                   (when-let ((attr (file-attributes x)))
-                    (list (format "[[https://vc.compiler.company/%s/file/tip/%s][%s]]" name x x)
+                    (list (format "[[%s][%s]]" 
+                                  (format link-fmt name x) x)
                           (when-let ((size (file-attribute-size attr)))
                             (file-size-human-readable size))
                           (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr)))))
-                (project-files project))))
+                (cl-remove-if (lambda (x)
+                                (cl-member-if
+                                 (lambda (y) (string-prefix-p y x))
+                                 exclude-files))
+                              (project-files project)))))
 #+end_src
 
 #+RESULTS: project-files
 | file          | size | modified            |
 |---------------+------+---------------------|
-| [[https://vc.compiler.company/meta/file/tip/babel.org][babel.org]]     | 30k  | 2024-09-08 20:35:41 |
-| [[https://vc.compiler.company/meta/file/tip/.hgignore][.hgignore]]     | 7    | 2024-08-11 10:08:57 |
-| [[https://vc.compiler.company/meta/file/tip/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
-| [[https://vc.compiler.company/meta/file/tip/glossary.org][glossary.org]]  | 1.1k | 2024-09-06 15:35:52 |
-| [[https://vc.compiler.company/meta/file/tip/mindset.org][mindset.org]]   | 119  | 2024-08-15 21:20:13 |
-| [[https://vc.compiler.company/meta/file/tip/pitch.org][pitch.org]]     | 1.6k | 2024-08-11 17:16:04 |
-| [[https://vc.compiler.company/meta/file/tip/readme.org][readme.org]]    | 1k   | 2024-08-27 21:13:01 |
-| [[https://vc.compiler.company/meta/file/tip/style.org][style.org]]     | 3.2k | 2024-08-21 16:18:55 |
-| [[https://vc.compiler.company/meta/file/tip/tech.org][tech.org]]      | 3.5k | 2024-08-21 18:16:26 |
-| [[https://vc.compiler.company/meta/file/tip/ulang.org][ulang.org]]     | 11k  | 2024-09-06 16:12:00 |
-| [[https://vc.compiler.company/meta/file/tip/workflows.org][workflows.org]] | 7.4k | 2024-09-03 16:59:05 |
+| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 35k  | 2025-02-15 16:14:29 |
+| [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
+| [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
+| [[https://github.com/richardwesthaver/meta/blob/default/mindset.org][mindset.org]]   | 119  | 2024-08-15 21:20:13 |
+| [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2024-08-11 17:16:04 |
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 1.2k | 2025-02-10 20:43:11 |
+| [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
+| [[https://github.com/richardwesthaver/meta/blob/default/tech.org][tech.org]]      | 3.6k | 2024-09-29 23:01:07 |
+| [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-10 20:44:34 |
+| [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
 
 * project-tasks                                                 :project:org:
 :PROPERTIES:
@@ -551,13 +558,11 @@ List all project tasks.
                               (push (nreverse row) tbl)))
                           "TODO<>\"DONE\"" nil)
          )))
-    (append hdr (nreverse tbl))
-    )
+    (unless (null tbl)
+      (append hdr (nreverse tbl))))
 #+end_src
 
 #+RESULTS: project-tasks
-| todo | item | tags | scheduled | deadline |
-|------+------+------+-----------+----------|
 
 * env-table                                                              :os:
 :PROPERTIES:
