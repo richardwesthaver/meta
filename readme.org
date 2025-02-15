@@ -5,7 +5,7 @@
 #+setupfile: ../clean.theme
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
-#+BEGIN: project-info
+#+BEGIN: project-info :status nil
 #+CALL: project-details() :dir ~/comp/org/meta/
 
 #+RESULTS:
@@ -15,18 +15,12 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/0e7fc660547c][0e7fc660547c:17+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/e2cc8a474453][e2cc8a474453:18+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Fri Feb 14 19:28:14 2025 -0500                     |
-| langs       | html org                                           |
-| lines       | 2499 :λ 2328 :# 5 :_ 166                           |
+| updated     | Sat Feb 15 16:19:12 2025 -0500                     |
+| langs       | org                                                |
+| lines       | 2036 :λ 1876 :# 4 :_ 156                           |
 |-------------+----------------------------------------------------|
-
-#+CALL: hg-diff-stat() :dir ~/comp/org/meta/
-
-#+RESULTS:
-:  babel.org |  41 +++++++++++++++++++++++------------------
-:  1 files changed, 23 insertions(+), 18 deletions(-)
 
 #+CALL: project-tasks() :dir ~/comp/org/meta/
 
@@ -39,19 +33,19 @@
 : 2024-09    886 ****************************
 : 2024-12     99 ***
 : 2025-01     39 *
-: 2025-02     25 
+: 2025-02    120 ***
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file          | size | modified            |
 |---------------+------+---------------------|
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 4k   | 2025-02-15 17:50:14 |
 | [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 35k  | 2025-02-15 16:15:19 |
 | [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
 | [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
 | [[https://github.com/richardwesthaver/meta/blob/default/mindset.org][mindset.org]]   | 119  | 2024-08-15 21:20:13 |
 | [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2024-08-11 17:16:04 |
-| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 1.2k | 2025-02-10 20:43:11 |
 | [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/tech.org][tech.org]]      | 3.6k | 2024-09-29 23:01:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-10 20:44:34 |
