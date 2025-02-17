@@ -638,6 +638,22 @@ List all project tasks.
             (sit-for 1 t)))
         (buffer-string)))))
 #+end_src
+* git-clone                                                              :vc:
+:PROPERTIES:
+:ID:       4635bea5-fc64-40bc-8ce2-40d6fd0ae71f
+:END:
+#+name: git-clone(src)
+#+begin_src sh :results silent
+  git clone $src
+#+end_src
+* hg-clone                                                               :vc:
+:PROPERTIES:
+:ID:       a08ef987-9709-4e72-a43b-ee642eed1c47
+:END:
+#+name: hg-clone(src)
+#+begin_src sh :results silent
+hg clone $src
+#+end_src
 * hg-rev                                                                 :vc:
 :PROPERTIES:
 :ID:       8119cf43-f2e7-4829-939c-fc4e8531ae6c
@@ -746,17 +762,6 @@ homer
 #+end_src
 
 #+RESULTS:
-| :PUSH | /home/ellis/.stash/scripts/wg-gen-keys.sh                   |
-| :PUSH | /home/ellis/.stash/scripts/upgrade.sh                       |
-| :PUSH | /home/ellis/.stash/scripts/sc.sh                            |
-| :PUSH | /home/ellis/.stash/scripts/rec.sh                           |
-| :PUSH | /home/ellis/.stash/scripts/port-scan.sh                     |
-| :PUSH | /home/ellis/.stash/scripts/podman-machine-default-update.sh |
-| :PUSH | /home/ellis/.stash/scripts/pacman-pkgsearch.sh              |
-| :PUSH | /home/ellis/.stash/scripts/nfs-export.sh                    |
-| :PUSH | /home/ellis/.stash/scripts/new-mail.sh                      |
-| :PUSH | /home/ellis/.stash/scripts/genfstab.sh                      |
-| :PUSH | /home/ellis/.stash/scripts/gen-libera-cert.sh               |
 
 * sh-ob-tangle                                                          :org:
 :PROPERTIES:
@@ -797,6 +802,17 @@ digraph {
    $input
   }
 #+end_src
+
+* dot-version                                                           :dot:
+:PROPERTIES:
+:ID:       13c8a47f-a8bc-4955-8038-8b7fbef42bf7
+:END:
+#+begin_src sh
+dot -V 2>&1
+#+end_src
+
+#+RESULTS:
+: dot - graphviz version 12.2.1 (0)
 
 * user-slime                                                           :lisp:
 :PROPERTIES:
@@ -911,6 +927,14 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
         (princ (format "#+%s: %s\n" elem (cadr (assoc elem klist))))))
     (princ tbl))
 #+END_SRC
+* load-file
+:PROPERTIES:
+:ID:       a038971f-5ed9-4963-a151-a994fa220cb2
+:END:
+#+name: load-file
+#+begin_src elisp :var file=""
+  (load-file file)
+#+end_src
 * filter-table                                                        :table:
 :PROPERTIES:
 :ID:       cec80330-99c3-4dab-9b13-bb0a520ace73
@@ -1002,3 +1026,26 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
         (insert (car (cdr wrappers)))
         (buffer-string))))
 #+end_src
+* random                                                                 :io:
+#+name: random-file
+#+begin_src sh :var count=4 bs=1024 file="/tmp/rng"
+# create 4k of random bytes in file
+dd if=/dev/urandom of=$file count=$count bs=$bs
+#+end_src
+
+#+RESULTS: random-file
+
+#+name: urand-stdout
+#+begin_src sh
+# generate random numbers to stdout
+od -d /dev/urandom
+#+end_src
+
+#+name: random-sha512
+#+begin_src sh
+# generate hash of 128 random bytes
+dd if=/dev/urandom  count=1 bs=128 | sha512sum
+#+end_src
+
+#+RESULTS: random-sha512
+: 5f6ce6c42a70f997248c5b811a31057943b786082a9954483d675061c4c2b0195d5645d98f5b2433a0dbdb8fffbd00bafaf3b17ba1137e173d268b2adf8d8c74  -
