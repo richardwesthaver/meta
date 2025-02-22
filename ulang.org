@@ -69,7 +69,6 @@ writing.
 [[https://orgmode.org/manual/Emphasis-and-Monospace.html][Text Emphasis]] in Org covers the range you would expect from any other
 markup:
 
-#+name: org-emphasis
 #+begin_src org :results replace
   - *bold*
   - /italic/
@@ -79,14 +78,13 @@ markup:
   - +strike-through+
 #+end_src
 
-#+RESULTS: org-emphasis
+#+RESULTS:
 - *bold*
 - /italic/
 - _underlined_
 - =verbatim=
 - ~code~
 - +strike-through+
-\
 
 - Text emphasis markers /may/ appear in code comments as long as they do
   not cause any conflicts with the host language, although they /should/
@@ -97,10 +95,10 @@ markup:
 ** Links
 :PROPERTIES:
 :ID:       7ecaec5d-c656-44e1-8fad-185915655cee
+:CUSTOM_ID: links
 :END:
 Org [[https://orgmode.org/guide/Hyperlinks.html][Links]] are wrapped in brackets like so:
 
-#+name: org-links
 #+begin_src org
   [[LINK][DESCRIPTION]]
   ;; or without description
@@ -126,12 +124,12 @@ which are used throughout our documentation /and/ code.
 ** Headings
 :PROPERTIES:
 :ID:       ed035298-f7fa-4726-ad58-2d542323bb61
+:CUSTOM_ID: heading
 :END:
 In Org, headings can be summarize as any line starting with a star: =*
 H1=. Headings can be nested or 'demoted' by prepending another star:
 =** H2=.
 
-#+name: org-headings
 #+begin_src org
 ,* H1
 ,** H2
@@ -144,7 +142,6 @@ This is a useful pattern which we apply outside of Org - most commonly
 in our code comments.
 
 In our source code, we use the comment character instead of a star:
-#+name: lisp-headings
 #+begin_src lisp
 ;;; foo
 (print "H1") ;; just an inline comment
@@ -154,7 +151,6 @@ In our source code, we use the comment character instead of a star:
 (print "H1")
 #+end_src
 
-#+name: rust-headings
 #+begin_src rust
   /// foo
   println!("H1");
@@ -196,6 +192,7 @@ The following keywords form the simple set of task states.
 ** Tags
 :PROPERTIES:
 :ID:       a7ae1b2a-559e-46e9-8cab-33e39a218288
+:CUSTOM_ID: tags
 :END:
 [[https://orgmode.org/manual/Tags.html][Tags]] are used liberally throughout our documents. They are simple
 strings usually following a headline as a =:=-separated list.
@@ -230,6 +227,7 @@ special tag category:
 ** Properties
 :PROPERTIES:
 :ID:       174a993b-a5dc-4324-b4f8-dda8101a55b7
+:CUSTOM_ID: properties
 :END:
 [[https://orgmode.org/manual/Properties-and-Columns.html][Properties]] are key:value pairs which are associated with a heading or
 file and stored in a dedicated [[https://orgmode.org/manual/Drawers.html][Drawer]].

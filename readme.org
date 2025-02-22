@@ -47,7 +47,6 @@
 | [[https://github.com/richardwesthaver/meta/blob/default/mindset.org][mindset.org]]   | 119  | 2024-08-15 21:20:13 |
 | [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2024-08-11 17:16:04 |
 | [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
-| [[https://github.com/richardwesthaver/meta/blob/default/tech.org][tech.org]]      | 3.6k | 2024-09-29 23:01:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-10 20:44:34 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
 
@@ -63,20 +62,10 @@
 :ID:       f07097d7-afd7-4671-8bbb-386acbf6048f
 :CUSTOM_ID: style1
 :END:
-* [[file:tech.org][tech]]
-:PROPERTIES:
-:ID:       fe8dbc96-ebc2-4461-a6fa-8a90f60a8df9
-:CUSTOM_ID: tech1
-:END:
 * [[file:business.org][business]]
 :PROPERTIES:
 :ID:       b46cae62-6f62-4a54-a9aa-f5cbacbf000e
 :CUSTOM_ID: business1
-:END:
-* [[file:mindset.org][mindset]]
-:PROPERTIES:
-:ID:       7a338797-f0bb-46ee-8bc0-81b9c874b7bb
-:CUSTOM_ID: mindset1
 :END:
 * [[file:pitch.org][pitch]]
 :PROPERTIES:

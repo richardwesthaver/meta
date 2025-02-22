@@ -4,6 +4,7 @@
 * Get Off of My Cloud
 :PROPERTIES:
 :ID:       6dbb0064-1421-41bb-b2df-36f694efce0a
+:CUSTOM_ID: get-off-my-cloud
 :END:
   - industry has moved away from client-side, distributed compute in
     favor of centralized server-side compute resources behind API
@@ -22,6 +23,7 @@
 * Death of the Programmer
 :PROPERTIES:
 :ID:       138f4a50-1d52-4e13-bf67-f225ef9f6747
+:CUSTOM_ID: death-of-the-programmer
 :END:
   - The role of the programmer is changing
   - programmers are no longer required to understand how computers
