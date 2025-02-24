@@ -5,6 +5,20 @@
 #+setupfile: ../clean.theme
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
+#+call: project-html-files()
+
+#+RESULTS:
+| file      | modified            |
+|-----------+---------------------|
+| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-21 22:22:21 |
+| [[https://compiler.company/meta/readme.html][index]]     | 2025-02-21 22:24:07 |
+| [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
+| [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
+| [[https://compiler.company/meta/pitch.html][pitch]]     | 2025-02-21 20:06:21 |
+| [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
+| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
+
 #+BEGIN: project-info :status nil
 #+CALL: project-details() :dir ~/comp/org/meta/
 
@@ -15,11 +29,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/e2cc8a474453][e2cc8a474453:18+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/8a20ca9d71f1][8a20ca9d71f1:22+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Sat Feb 15 16:19:12 2025 -0500                     |
+| updated     | Fri Feb 21 20:11:38 2025 -0500                     |
 | langs       | org                                                |
-| lines       | 2036 :λ 1876 :# 4 :_ 156                           |
+| lines       | 1982 :λ 1819 :# 7 :_ 156                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: project-tasks() :dir ~/comp/org/meta/
@@ -33,57 +47,20 @@
 : 2024-09    886 ****************************
 : 2024-12     99 ***
 : 2025-01     39 *
-: 2025-02    120 ***
+: 2025-02    352 ***********
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file          | size | modified            |
 |---------------+------+---------------------|
-| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 4k   | 2025-02-15 17:50:14 |
-| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 35k  | 2025-02-15 16:15:19 |
+| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 38k  | 2025-02-21 22:22:21 |
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 3.4k | 2025-02-21 22:24:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
 | [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
-| [[https://github.com/richardwesthaver/meta/blob/default/mindset.org][mindset.org]]   | 119  | 2024-08-15 21:20:13 |
-| [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2024-08-11 17:16:04 |
+| [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2025-02-21 20:06:21 |
 | [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
-| [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-10 20:44:34 |
+| [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-21 20:05:31 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
 
 #+END:
-
-* [[file:ulang.org][ulang]]
-:PROPERTIES:
-:ID:       0ecd9330-de4d-4adf-bb7f-75d12f973a0a
-:CUSTOM_ID: ulang1
-:END:
-* [[file:style.org][style]]
-:PROPERTIES:
-:ID:       f07097d7-afd7-4671-8bbb-386acbf6048f
-:CUSTOM_ID: style1
-:END:
-* [[file:business.org][business]]
-:PROPERTIES:
-:ID:       b46cae62-6f62-4a54-a9aa-f5cbacbf000e
-:CUSTOM_ID: business1
-:END:
-* [[file:pitch.org][pitch]]
-:PROPERTIES:
-:ID:       84f7ffcf-061c-4461-aca9-236097a7b575
-:CUSTOM_ID: pitch1
-:END:
-* [[file:workflows.org][workflows]]
-:PROPERTIES:
-:ID:       c7dc2ecf-7655-4ce6-b6e7-52674364e8fc
-:CUSTOM_ID: workflows1
-:END:
-* [[file:babel.org][babel]]
-:PROPERTIES:
-:ID:       182030df-f6ba-4749-958a-f28cb510866e
-:CUSTOM_ID: babel1
-:END:
-* [[file:glossary.org][glossary]]
-:PROPERTIES:
-:ID:       280de24a-a9df-4f0b-96a1-47341e8095ff
-:CUSTOM_ID: glossary1
-:END:

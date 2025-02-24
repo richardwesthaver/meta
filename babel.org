@@ -324,13 +324,10 @@ return tab
 :PROPERTIES:
 :ID:       3663aed6-092f-4816-978a-824e4788e4f6
 :END:
-#+name: project
+#+name: project-name
 #+begin_src emacs-lisp :var project="."
   (project-name (project-current nil project))
 #+end_src
-
-#+RESULTS: project
-: meta
 
 * project-vc                                                        :project:
 :PROPERTIES:
@@ -406,6 +403,9 @@ return tab
 | ~/.emacs.d/elpa/eglot-x/        |
 
 * project-links                                                     :project:
+:PROPERTIES:
+:ID:       93f14331-cdd6-4528-9739-ae9edcb31a56
+:END:
 Return an org-mode unordered-list of project links.
 #+name: project-links
 #+begin_src emacs-lisp :var project="." :results list
@@ -524,6 +524,54 @@ exist locally.
 | [[https://github.com/richardwesthaver/meta/blob/default/tech.org][tech.org]]      | 3.6k | 2024-09-29 23:01:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-10 20:44:34 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
+
+* project-html-files
+:PROPERTIES:
+:ID:       6baaa31f-6507-423f-b730-2c399d9ae40a
+:END:
+#+name: project-html-files
+#+begin_src emacs-lisp :results replace :var project="."
+  (let* ((project (project-current nil project))
+         (name (project-name project))
+         (root (expand-file-name (project-root project)))
+         (project-files-relative-names t)
+         (project-vc-include-untracked nil)
+         (exclude-files '(".hgignore" ".stash"))
+         ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
+         (link-fmt "https://compiler.company/%s/%s"))
+    `((file modified)
+      hline
+      ,@(mapcar (lambda (x)
+                  ;; don't rely on project/vc - only include files which exist locally
+                  (when-let ((attr (file-attributes x)))
+                    (let ((y (if (string= (file-name-base x) "readme")
+                                 (let ((s (file-name-split x)))
+                                   (apply 'file-name-concat (butlast s) (list "index.html")))
+                               (file-name-with-extension x "html"))))
+                      (list (format "[[%s][%s]]"
+                                    (format link-fmt name y) (file-name-sans-extension y))
+                            (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr))))))
+                (cl-remove-if (lambda (x)
+                                (or
+                                 (cl-member-if
+                                  (lambda (y) (string-prefix-p y x))
+                                  exclude-files)
+                                 (not (string= "org" (file-name-extension x)))))
+                              (project-files project)))))
+#+end_src
+
+#+RESULTS: project-html-files
+| file      | modified            |
+|-----------+---------------------|
+| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-23 21:00:34 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-02-21 22:24:22 |
+| [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
+| [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
+| [[https://compiler.company/meta/pitch.html][pitch]]     | 2025-02-21 20:06:21 |
+| [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
+| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
+
 
 * project-tasks                                                 :project:org:
 :PROPERTIES:
@@ -742,6 +790,9 @@ hg status
 | M | ulang.org    |
 
 * hg-diff-stat                                                           :vc:
+:PROPERTIES:
+:ID:       df0bafb8-752c-4067-96fb-de9a9269bba3
+:END:
 #+name: hg-diff-stat
 #+begin_src shell :dir "." :results output
 hg diff -S -g --stat
@@ -1027,6 +1078,9 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
         (buffer-string))))
 #+end_src
 * random                                                                 :io:
+:PROPERTIES:
+:ID:       e030440a-3ee9-4671-ac64-387c81fcb518
+:END:
 #+name: random-file
 #+begin_src sh :var count=4 bs=1024 file="/tmp/rng"
 # create 4k of random bytes in file
