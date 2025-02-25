@@ -10,11 +10,11 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-21 22:22:21 |
-| [[https://compiler.company/meta/readme.html][index]]     | 2025-02-21 22:24:07 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-24 17:44:16 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
 | [[https://compiler.company/meta/pitch.html][pitch]]     | 2025-02-21 20:06:21 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-02-21 22:24:22 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
