@@ -10,11 +10,10 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-24 17:44:16 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-24 18:49:20 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
-| [[https://compiler.company/meta/pitch.html][pitch]]     | 2025-02-21 20:06:21 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-02-21 22:24:22 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-02-24 17:44:38 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
@@ -29,11 +28,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/8a20ca9d71f1][8a20ca9d71f1:22+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/cdbca94b9a27][cdbca94b9a27:24+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Fri Feb 21 20:11:38 2025 -0500                     |
+| updated     | Mon Feb 24 21:38:56 2025 -0500                     |
 | langs       | org                                                |
-| lines       | 1982 :λ 1819 :# 7 :_ 156                           |
+| lines       | 1945 :λ 1785 :# 7 :_ 153                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: project-tasks() :dir ~/comp/org/meta/
@@ -47,18 +46,17 @@
 : 2024-09    886 ****************************
 : 2024-12     99 ***
 : 2025-01     39 *
-: 2025-02    352 ***********
+: 2025-02    560 ******************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file          | size | modified            |
 |---------------+------+---------------------|
-| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 38k  | 2025-02-21 22:22:21 |
-| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 3.4k | 2025-02-21 22:24:07 |
+| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 39k  | 2025-02-24 18:49:20 |
 | [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
 | [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
-| [[https://github.com/richardwesthaver/meta/blob/default/pitch.org][pitch.org]]     | 1.6k | 2025-02-21 20:06:21 |
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 3.3k | 2025-02-24 17:44:38 |
 | [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-21 20:05:31 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
