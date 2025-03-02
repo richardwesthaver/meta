@@ -87,8 +87,8 @@ nil
 :ID:       e35c9901-73b6-4794-8900-42860378c7dd
 :END:
 #+name: transpose
-#+begin_src emacs-lisp :var table=""
-  (apply #'mapcar #'list (list table))
+#+begin_src emacs-lisp
+  (apply #'mapcar #'list (list *this*))
 #+end_src
 * all-to-string                                                       :table:
 :PROPERTIES:
@@ -870,36 +870,148 @@ dot -V 2>&1
 #+RESULTS:
 : dot - graphviz version 12.2.1 (0)
 
+* slime                                                                :lisp:
+:PROPERTIES:
+:ID:       44284aa6-fe21-4178-93f7-a0ed710a3638
+:END:
+#+name: slime
+#+begin_src emacs-lisp :results silent
+  (unless (slime-connected-p)
+    (slime))
+#+end_src
+
 * user-slime                                                           :lisp:
 :PROPERTIES:
 :ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
 :END:
-#+name: user-slime
+#+name: load-user
 #+begin_src emacs-lisp :results silent :eval no-export
-  (unless (slime-connected-p) (slime))
-  (slime-load-system :user)
-  (slime-repl-set-package "USER")
+  (when (slime-connected-p)
+    (slime-eval '(asdf:load-system :user))
+    (slime-repl-set-package "USER"))
 #+end_src
 * std-slime                                                            :lisp:
 :PROPERTIES:
 :ID:       334dae41-5c35-48bd-8368-71d79f5e48d8
 :END:
-#+name: std-slime
+#+name: load-std
 #+begin_src emacs-lisp :results silent :eval no-export
-  (unless (slime-connected-p) (slime))
-  (slime-load-system :std)
-  (slime-repl-set-package "STD-USER")
+  (when (slime-connected-p)
+    (slime-eval '(asdf:load-system :std))
+    (slime-repl-set-package "STD-USER"))
 #+end_src
 * test-slime                                                           :lisp:
 :PROPERTIES:
 :ID:       ff559b09-1c18-422c-a0ae-681180f685cf
 :END:
-#+name: std-slime
+#+name: load-tests
 #+begin_src emacs-lisp :results silent :eval no-export
-  (unless (slime-connected-p) (slime))
-  (slime-load-system :core/tests)
-  (slime-repl-set-package "CORE/TESTS")
+  (when (slime-connected-p)
+    (slime-eval '(asdf:load-system :core/tests))
+    (slime-repl-set-package "CORE/TESTS"))
 #+end_src
+* lisp-system-files                                                    :lisp:
+#+name: lisp-system-files
+#+begin_src lisp :var system='user :results replace :exports results
+  (let ((*print-length* 512)
+        (system (asdf:find-system system)))
+    (flatten
+     (mapcar 
+      (lambda (s)
+        (mapcar 
+         (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
+         (doc:doc-files s)))
+      (doc:doc-dependencies (doc:system-documentation system)))))
+#+end_src
+* lisp-stats                                                           :lisp:
+#+name: lisp-stats
+#+begin_src lisp :results replace :exports results
+  `((:packages ,(length (list-all-packages)))
+    (:symbols ,(length (package-symbols :core)))
+    (:features ,(length *features*))
+    (:shared-objects ,(length sb-sys:*shared-objects*))
+    (:linkage-info ,(length (hash-table-keys (car sb-sys:*linkage-info*))))
+    (:logical-hosts ,(length *logical-hosts*)))
+#+end_src
+
+#+RESULTS: lisp-stats
+| :PACKAGES       |  571 |
+| :SYMBOLS        | 3254 |
+| :FEATURES       |   87 |
+| :SHARED-OBJECTS |   21 |
+| :LINKAGE-INFO   | 2194 |
+| :LOGICAL-HOSTS  |    2 |
+
+* lisp-system-directory                                                :lisp:
+#+name: lisp-system-directory
+#+begin_src lisp :var system='user :results replace :exports results
+  (namestring (asdf:system-source-directory (asdf:find-system system)))
+#+end_src
+
+* lisp-system-depends-on                                               :lisp:
+#+name: lisp-system-depends-on
+#+begin_src lisp :var system='user :results replace :exports results
+  (asdf:system-depends-on (asdf:find-system system))
+#+end_src
+* lisp-system-dependents                                               :lisp:
+#+name: lisp-system-dependents
+#+begin_src lisp :var system='user :results replace :exports results
+  (mapcar 'asdf:component-name (doc::find-system-dependents (asdf:find-system system)))
+#+end_src
+* lisp-system-depencies                                                :lisp:
+#+name: lisp-system-dependencies
+#+begin_src lisp :var system='user :results replace :exports results
+  (mapcar 'name (doc:doc-dependencies (doc:system-documentation system)))
+#+end_src
+
+* lisp-system-packages                                                 :lisp:
+#+name: lisp-system-packages
+#+begin_src lisp :var system='user :results replace :exports results
+  (mapcar 'name (doc:doc-packages (doc:system-documentation system)))
+#+end_src
+
+* lisp-system-tests                                                    :lisp:
+#+name: lisp-system-tests
+#+begin_src lisp :var system='std :results replace :exports results
+  (rt:tests (rt:find-suite system))
+#+end_src
+
+* lisp-test-system                                                     :lisp:
+#+name: lisp-test-system
+#+begin_src lisp :var system='std :results replace :exports results
+  (rt:do-tests (rt:find-suite system) :force t)
+#+end_src
+
+* lisp-package-depencies                                               :lisp:
+#+name: lisp-package-dependencies
+#+begin_src lisp :var package='skel :results replace :exports results
+  (mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation package))))
+#+end_src
+
+* lisp-package-dependents                                              :lisp:
+#+name: lisp-package-dependents
+#+begin_src lisp :var package='std :results replace :exports results
+  (mapcar 'name (flatten (doc:doc-dependents (doc:package-documentation package))))
+#+end_src
+
+* lisp-package-files                                                   :lisp:
+#+name: lisp-package-files
+#+begin_src lisp :var package='std :results replace :exports results
+  (mapcar 'namestring (map 'list 'path (doc:doc-files (doc:package-documentation package))))
+#+end_src
+
+* lisp-package-symbols                                                 :lisp:
+#+name: lisp-package-symbols
+#+begin_src lisp :var package='std-user :results replace :exports results
+  (map 'list 'identity (doc:doc-symbols (doc:package-documentation package)))
+#+end_src
+
+* lisp-dist-systems                                                    :lisp:
+#+name: lisp-dist-systems
+#+begin_src lisp :var dist="quicklisp" :results replace :exports results
+  (map 'list 'ql-dist:name (doc::doc-systems (doc:dist-documentation dist)))
+#+end_src
+
 * cargo-update-dir                                                     :rust:
 :PROPERTIES:
 :ID:       67dc87bb-a27b-46e4-a02f-58daac514630
