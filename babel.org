@@ -973,7 +973,7 @@ dot -V 2>&1
 * lisp-system-tests                                                    :lisp:
 #+name: lisp-system-tests
 #+begin_src lisp :var system='std :results replace :exports results
-  (rt:tests (rt:find-suite system))
+  (mapcar 'name (rt:tests (rt:find-suite system)))
 #+end_src
 
 * lisp-test-system                                                     :lisp:
