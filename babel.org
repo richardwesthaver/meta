@@ -88,8 +88,22 @@ nil
 :END:
 #+name: transpose
 #+begin_src emacs-lisp
-  (apply #'mapcar #'list (list *this*))
+  (unless (null *this*) (apply #'mapcar #'list (list *this*)))
 #+end_src
+* codify-list                                                         :table:
+:PROPERTIES:
+:ID:       e35c9901-73b6-4794-8900-42860378c7dd
+:END:
+#+name: codify-list
+#+begin_src emacs-lisp
+  (unless (null *this*) (mapcar (lambda (x) (format "~%s~" x)) *this*))
+#+end_src
+#+name: codify-transpose
+#+begin_src emacs-lisp
+  (unless (null *this*)
+    (mapcar 'list (mapcar (lambda (x) (format "~%s~" x)) *this*)))
+#+end_src
+
 * all-to-string                                                       :table:
 :PROPERTIES:
 :ID:       a122b2bd-abd6-4486-97c8-242e6534e5a8
@@ -890,6 +904,17 @@ dot -V 2>&1
     (slime-eval '(asdf:load-system :user))
     (slime-repl-set-package "USER"))
 #+end_src
+* prelude-slime                                                        :lisp:
+:PROPERTIES:
+:ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
+:END:
+#+name: load-prelude
+#+begin_src emacs-lisp :results silent :eval no-export
+  (when (slime-connected-p)
+    (slime-eval '(asdf:load-system :prelude))
+    (slime-repl-set-package "USER"))
+#+end_src
+
 * std-slime                                                            :lisp:
 :PROPERTIES:
 :ID:       334dae41-5c35-48bd-8368-71d79f5e48d8
@@ -910,8 +935,8 @@ dot -V 2>&1
     (slime-eval '(asdf:load-system :core/tests))
     (slime-repl-set-package "CORE/TESTS"))
 #+end_src
-* lisp-system-files                                                    :lisp:
-#+name: lisp-system-files
+* lisp-system-files*                                                   :lisp:
+#+name: lisp-system-files*
 #+begin_src lisp :var system='user :results replace :exports results
   (let ((*print-length* 512)
         (system (asdf:find-system system)))
@@ -923,22 +948,37 @@ dot -V 2>&1
          (doc:doc-files s)))
       (doc:doc-dependencies (doc:system-documentation system)))))
 #+end_src
-* lisp-stats                                                           :lisp:
+* lisp-system-files                                                    :lisp:
+#+name: lisp-system-files
+#+begin_src lisp :var system='user :results replace :exports results
+  (let ((system (asdf:find-system system)))
+    (flatten
+     (mapcar 
+      (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
+      (doc:doc-files (doc:system-documentation system)))))
+
+#+end_src
+
+* lisp-dist-stats                                                      :lisp:
 #+name: lisp-stats
-#+begin_src lisp :results replace :exports results
-  `((:packages ,(length (list-all-packages)))
-    (:symbols ,(length (package-symbols :core)))
-    (:features ,(length *features*))
-    (:shared-objects ,(length sb-sys:*shared-objects*))
-    (:linkage-info ,(length (hash-table-keys (car sb-sys:*linkage-info*))))
-    (:logical-hosts ,(length *logical-hosts*)))
+#+begin_src lisp :results replace :exports results :var dist="quicklisp"
+  ;; TODO 2025-03-02: cc dist
+  (let ((dist (ql-dist:dist dist)))
+    `((:systems ,(length (ql-dist:provided-systems dist)))
+      (:packages ,(length (list-all-packages)))
+      (:symbols ,(length (package-symbols :core)))
+      (:features ,(length *features*))
+      (:shared-objects ,(length sb-sys:*shared-objects*))
+      (:linkage-info ,(length (hash-table-keys (car sb-sys:*linkage-info*))))
+      (:logical-hosts ,(length *logical-hosts*))))
 #+end_src
 
 #+RESULTS: lisp-stats
-| :PACKAGES       |  571 |
-| :SYMBOLS        | 3254 |
-| :FEATURES       |   87 |
-| :SHARED-OBJECTS |   21 |
+| :SYSTEMS        | 5688 |
+| :PACKAGES       |  593 |
+| :SYMBOLS        | 3255 |
+| :FEATURES       |   86 |
+| :SHARED-OBJECTS |   20 |
 | :LINKAGE-INFO   | 2194 |
 | :LOGICAL-HOSTS  |    2 |
 
@@ -982,7 +1022,7 @@ dot -V 2>&1
   (rt:do-tests (rt:find-suite system) :force t)
 #+end_src
 
-* lisp-package-depencies                                               :lisp:
+* lisp-package-dependencies                                            :lisp:
 #+name: lisp-package-dependencies
 #+begin_src lisp :var package='skel :results replace :exports results
   (mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation package))))
@@ -1002,8 +1042,8 @@ dot -V 2>&1
 
 * lisp-package-symbols                                                 :lisp:
 #+name: lisp-package-symbols
-#+begin_src lisp :var package='std-user :results replace :exports results
-  (map 'list 'identity (doc:doc-symbols (doc:package-documentation package)))
+#+begin_src lisp :var package='std :results replace :exports results
+  (map 'list 'name (doc:doc-symbols (doc:package-documentation package)))
 #+end_src
 
 * lisp-dist-systems                                                    :lisp:
