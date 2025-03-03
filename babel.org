@@ -88,7 +88,7 @@ nil
 :END:
 #+name: transpose
 #+begin_src emacs-lisp
-  (unless (null *this*) (apply #'mapcar #'list (list *this*)))
+  (unless (or (null *this*) (equal 'NIL *this*)) (apply #'mapcar #'list (list *this*)))
 #+end_src
 * codify-list                                                         :table:
 :PROPERTIES:
@@ -284,7 +284,7 @@ cat * | wc -w
 :ID:       e2ff9dcf-8340-48b8-a1a6-e0036cbcc495
 :END:
 #+name: format-files
-#+begin_src python :var tab="" :results table :colnames yes :hlines yes :exports results :eval no-export
+#+begin_src python :var tab="" :results table :colnames yes :hlines yes :eval no-export
 return tab
 #+end_src
 
@@ -937,7 +937,7 @@ dot -V 2>&1
 #+end_src
 * lisp-system-files*                                                   :lisp:
 #+name: lisp-system-files*
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (let ((*print-length* 512)
         (system (asdf:find-system system)))
     (flatten
@@ -950,7 +950,7 @@ dot -V 2>&1
 #+end_src
 * lisp-system-files                                                    :lisp:
 #+name: lisp-system-files
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (let ((system (asdf:find-system system)))
     (flatten
      (mapcar 
@@ -961,7 +961,7 @@ dot -V 2>&1
 
 * lisp-dist-stats                                                      :lisp:
 #+name: lisp-stats
-#+begin_src lisp :results replace :exports results :var dist="quicklisp"
+#+begin_src lisp :results replace :var dist="quicklisp"
   ;; TODO 2025-03-02: cc dist
   (let ((dist (ql-dist:dist dist)))
     `((:systems ,(length (ql-dist:provided-systems dist)))
@@ -984,71 +984,71 @@ dot -V 2>&1
 
 * lisp-system-directory                                                :lisp:
 #+name: lisp-system-directory
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (namestring (asdf:system-source-directory (asdf:find-system system)))
 #+end_src
 
 * lisp-system-depends-on                                               :lisp:
 #+name: lisp-system-depends-on
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (asdf:system-depends-on (asdf:find-system system))
 #+end_src
 * lisp-system-dependents                                               :lisp:
 #+name: lisp-system-dependents
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (mapcar 'asdf:component-name (doc::find-system-dependents (asdf:find-system system)))
 #+end_src
 * lisp-system-depencies                                                :lisp:
 #+name: lisp-system-dependencies
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (mapcar 'name (doc:doc-dependencies (doc:system-documentation system)))
 #+end_src
 
 * lisp-system-packages                                                 :lisp:
 #+name: lisp-system-packages
-#+begin_src lisp :var system='user :results replace :exports results
+#+begin_src lisp :var system='user :results replace
   (mapcar 'name (doc:doc-packages (doc:system-documentation system)))
 #+end_src
 
 * lisp-system-tests                                                    :lisp:
 #+name: lisp-system-tests
-#+begin_src lisp :var system='std :results replace :exports results
+#+begin_src lisp :var system='std :results replace
   (mapcar 'name (rt:tests (rt:find-suite system)))
 #+end_src
 
 * lisp-test-system                                                     :lisp:
 #+name: lisp-test-system
-#+begin_src lisp :var system='std :results replace :exports results
+#+begin_src lisp :var system='std :results replace
   (rt:do-tests (rt:find-suite system) :force t)
 #+end_src
 
 * lisp-package-dependencies                                            :lisp:
 #+name: lisp-package-dependencies
-#+begin_src lisp :var package='skel :results replace :exports results
+#+begin_src lisp :var package='skel :results replace
   (mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-dependents                                              :lisp:
 #+name: lisp-package-dependents
-#+begin_src lisp :var package='std :results replace :exports results
+#+begin_src lisp :var package='std :results replace
   (mapcar 'name (flatten (doc:doc-dependents (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-files                                                   :lisp:
 #+name: lisp-package-files
-#+begin_src lisp :var package='std :results replace :exports results
+#+begin_src lisp :var package='std :results replace
   (mapcar 'namestring (map 'list 'path (doc:doc-files (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-symbols                                                 :lisp:
 #+name: lisp-package-symbols
-#+begin_src lisp :var package='std :results replace :exports results
+#+begin_src lisp :var package='std :results replace
   (map 'list 'name (doc:doc-symbols (doc:package-documentation package)))
 #+end_src
 
 * lisp-dist-systems                                                    :lisp:
 #+name: lisp-dist-systems
-#+begin_src lisp :var dist="quicklisp" :results replace :exports results
+#+begin_src lisp :var dist="quicklisp" :results replace
   (map 'list 'ql-dist:name (doc::doc-systems (doc:dist-documentation dist)))
 #+end_src
 
@@ -1082,7 +1082,7 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
 :END:
 #+NAME: post-align-tables
 #+header: :var text="|5|22222|\n|0||\n|12|45|\n|---\n|||\n#+TBLFM:@>$1=vsum(@1..@-1)\n\n|1|22222|\n|0||\n|12|45|\n"
-#+BEGIN_SRC emacs-lisp :results value :exports both
+#+BEGIN_SRC emacs-lisp :results value
   (with-temp-buffer
     (erase-buffer)
     (cl-assert text nil "PostAlignTables received nil instead of text ")
