@@ -2,38 +2,39 @@
 #+author: Richard Westhaver
 #+email: ellis@rwest.io
 #+description: CC Meta
+#+html_link_up: ../
 #+setupfile: ../clean.theme
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
-#+call: project-html-files()
+#+BEGIN: project-info :status nil :html t
+#+CALL: project-details() :dir ~/comp/org/meta/
+
+#+RESULTS:
+|-------------+----------------------------------------------------|
+| name        | meta                                               |
+| version     | :version 0.1.0                                     |
+| description | :description CC Org Files                          |
+| skel-id     | :id 1784914079056115652                            |
+| root        | ~/comp/org/meta/                                   |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/801d7ff82aed][801d7ff82aed:31+]] |
+| tags        | :tags (org docs notes blog meta plan)              |
+| updated     | Thu Mar 06 19:56:48 2025 -0500                     |
+| langs       | org                                                |
+| lines       | 2128 :λ 1951 :# 7 :_ 170                           |
+|-------------+----------------------------------------------------|
+
+#+CALL: project-html-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2025-03-02 20:24:14 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2025-03-09 14:40:22 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-03-09 14:41:04 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-03-06 14:39:05 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
-
-#+BEGIN: project-info :status nil
-#+CALL: project-details() :dir ~/comp/org/meta/
-
-#+RESULTS:
-|-------------+---------------------------------------------------|
-| name        | meta                                              |
-| version     | :version 0.1.0                                    |
-| description | :description CC Org Files                         |
-| skel-id     | :id 1784914079056115652                           |
-| root        | ~/comp/org/meta/                                  |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/eed254d700fc][eed254d700fc:30]] |
-| tags        | :tags (org docs notes blog meta plan)             |
-| updated     | Thu Mar 06 16:07:17 2025 -0500                    |
-| langs       | org                                               |
-| lines       | 2096 :λ 1919 :# 7 :_ 170                          |
-|-------------+---------------------------------------------------|
 
 #+CALL: project-tasks() :dir ~/comp/org/meta/
 
@@ -47,17 +48,17 @@
 : 2024-12     99 ***
 : 2025-01     39 *
 : 2025-02    617 ********************
-: 2025-03    283 *********
+: 2025-03    313 **********
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file          | size | modified            |
 |---------------+------+---------------------|
-| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 44k  | 2025-03-02 20:24:14 |
+| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 224k | 2025-03-09 14:40:22 |
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 2.5k | 2025-03-09 14:41:04 |
 | [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
 | [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
-| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 3.2k | 2025-03-06 14:39:05 |
 | [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-21 20:05:31 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
