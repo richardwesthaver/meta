@@ -610,10 +610,14 @@ exist locally.
       ,@(mapcar (lambda (x)
                   ;; don't rely on project/vc - only include files which exist locally
                   (when-let ((attr (file-attributes x)))
-                    (list (format "[[%s][%s]]"
-                                  (format link-fmt (string-replace root "" x))
-                                  (file-name-sans-extension (string-replace project "" x)))
-                          (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr)))))
+  		  (let ((y (if (string= (file-name-base x) "readme")
+  			       (let ((s (butlast (file-name-split x))))
+  				 (apply 'file-name-concat "/" (append s (list "."))))
+  			     x)))
+                      (list (format "[[%s][%s]]"
+                                    (format link-fmt (string-replace root "" y))
+                                    (file-name-sans-extension (string-replace project "" y)))
+                            (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr))))))
   	      (cl-remove-if (lambda (x)
   			      (or
   			       (not (string= "org" (file-name-extension x)))
@@ -628,10 +632,10 @@ exist locally.
 #+RESULTS: project-files
 | file      | modified            |
 |-----------+---------------------|
-| [[file:babel.org][babel]]     | 2025-03-15 18:01:05 |
+| [[file:babel.org][babel]]     | 2025-03-15 19:51:16 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2024-12-30 22:28:33 |
-| [[file:readme.org][readme]]    | 2025-03-09 14:41:10 |
+| [[file:.][.]]         | 2025-03-09 14:41:10 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
