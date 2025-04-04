@@ -20,12 +20,15 @@ an org-mode buffer or =org-babel-lob-ingest= from elisp.
 #+begin_src emacs-lisp :var input=""
 input
 #+end_src
+
+#+RESULTS: echo
+
 * read                                                                   :fs:
 :PROPERTIES:
 :ID:       dade8198-f8ff-4ae9-a52d-becdc1a9c3ce
 :END:
 #+name: read
-#+begin_src emacs-lisp :var file="" :var format=""
+#+begin_src emacs-lisp :var file="readme.org" :var format=""
 (if (string= format "csv")
     (with-temp-buffer
       (org-table-import (expand-file-name file) nil)
@@ -34,6 +37,7 @@ input
     (insert-file-contents (expand-file-name file))
     (buffer-string)))
 #+end_src
+
 * write                                                                  :fs:
 :PROPERTIES:
 :ID:       a866820f-e67c-49aa-ba7d-697c4f708654
@@ -84,7 +88,7 @@ nil
 #+end_src
 * transpose                                                           :table:
 :PROPERTIES:
-:ID:       e35c9901-73b6-4794-8900-42860378c7dd
+:ID:       8efce18f-0056-480d-a24c-1d14ce633160
 :END:
 #+name: transpose
 #+begin_src emacs-lisp
@@ -542,7 +546,7 @@ exist locally.
 
 * project-html-files
 :PROPERTIES:
-:ID:       6baaa31f-6507-423f-b730-2c399d9ae40a
+:ID:       aa8fe3d4-5653-4359-9ef7-102ff20dce14
 :END:
 #+name: project-html-files
 #+begin_src emacs-lisp :results replace :var project="."
@@ -968,7 +972,7 @@ dot -V 2>&1
 
 * user-slime                                                           :lisp:
 :PROPERTIES:
-:ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
+:ID:       1f59ca71-d4c8-4b53-9694-0e97eb2fac85
 :END:
 #+name: load-user
 #+begin_src emacs-lisp :results silent :eval no-export
