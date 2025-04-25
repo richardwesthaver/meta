@@ -544,7 +544,7 @@ exist locally.
 | [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-21 20:05:31 |
 | [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
 
-* project-html-files
+* project-html-files                                                :project:
 :PROPERTIES:
 :ID:       aa8fe3d4-5653-4359-9ef7-102ff20dce14
 :END:
@@ -594,8 +594,7 @@ exist locally.
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
 
-
-* project-files
+* project-files                                                  :project:fs:
 :PROPERTIES:
 :ID:       6baaa31f-6507-423f-b730-2c399d9ae40a
 :END:
@@ -1211,7 +1210,7 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
         (princ (format "#+%s: %s\n" elem (cadr (assoc elem klist))))))
     (princ tbl))
 #+END_SRC
-* load-file
+* load-file                                                           :elisp:
 :PROPERTIES:
 :ID:       a038971f-5ed9-4963-a151-a994fa220cb2
 :END:
