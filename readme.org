@@ -16,11 +16,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/9bf1533c725b][9bf1533c725b:40+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/749abcd5cf0f][749abcd5cf0f:41+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Sun Apr 13 22:04:28 2025 -0400                     |
+| updated     | Thu Apr 24 21:40:29 2025 -0400                     |
 | langs       | org                                                |
-| lines       | 2161 :λ 1979 :# 7 :_ 175                           |
+| lines       | 2160 :λ 1979 :# 7 :_ 174                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -32,15 +32,15 @@
 : 2025-01     39 *
 : 2025-02    617 ********************
 : 2025-03    508 ****************
-: 2025-04    125 ****
+: 2025-04    160 *****
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:.][.]]         | 2025-04-14 21:26:42 |
-| [[file:babel.org][babel]]     | 2025-03-23 18:24:23 |
+| [[file:.][.]]         | 2025-04-26 23:52:05 |
+| [[file:babel.org][babel]]     | 2025-04-23 16:57:44 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2024-12-30 22:28:33 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
