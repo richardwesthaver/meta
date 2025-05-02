@@ -10,18 +10,18 @@
 #+CALL: project-details() :dir ~/comp/org/meta/
 
 #+RESULTS:
-|-------------+---------------------------------------------------|
-| name        | meta                                              |
-| version     | :version 0.1.0                                    |
-| description | :description CC Org Files                         |
-| skel-id     | :id 1784914079056115652                           |
-| root        | ~/comp/org/meta/                                  |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/9bb081a5db2a][9bb081a5db2a:43]] |
-| tags        | :tags (org docs notes blog meta plan)             |
-| updated     | Thu May 01 22:45:55 2025 -0400                    |
-| langs       | org                                               |
-| lines       | 2168 :λ 1987 :# 7 :_ 174                          |
-|-------------+---------------------------------------------------|
+|-------------+----------------------------------------------------|
+| name        | meta                                               |
+| version     | :version 0.1.0                                     |
+| description | :description CC Org Files                          |
+| skel-id     | :id 1784914079056115652                            |
+| root        | ~/comp/org/meta/                                   |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/c59968be6847][c59968be6847:44+]] |
+| tags        | :tags (org docs notes blog meta plan)              |
+| updated     | Fri May 02 14:15:07 2025 -0400                     |
+| langs       | org                                                |
+| lines       | 2169 :λ 1988 :# 7 :_ 174                           |
+|-------------+----------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
 
@@ -33,17 +33,17 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05     16 
+: 2025-05     45 *
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
+| [[file:.][.]]         | 2025-05-02 14:21:26 |
 | [[file:babel.org][babel]]     | 2025-04-23 16:57:44 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-01 18:16:05 |
-| [[file:.][.]]         | 2025-04-30 22:27:05 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
