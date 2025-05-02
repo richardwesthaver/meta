@@ -22,16 +22,21 @@
 - Lib :: Library
 - Bin :: Binary
 - Pod :: OCI container
+- Pos :: Position
 - Std :: Standard
 - Req :: Request
 - Obj :: Object
+- Vec :: Vector
 - Proto :: Protocol
 - Ser :: Serialize
 - De :: Deserialize
 - Cry :: Cryptography
 - Syn :: Syntax
+- Sys :: System
 - Sxp :: S-Expression
 - Cfg :: Configuration
+- Comp :: Compiler
+- Arch :: Architecture or Arch Linux
 * Acronyms
 :PROPERTIES:
 :ID:       6ea8f879-29f1-4a52-8e39-4d0920318f8a
@@ -48,9 +53,11 @@
 - RT :: Regression Testing
 - CL :: Common Lisp
 - EL :: Emacs Lisp
+- CC :: C Compiler
 - VC :: Version Control
 - CLI :: Command Line Interface
 - GUI :: Graphic User Interface
+- TUI :: Terminal User Interface
 - UX :: User Experience
 - DX :: Developer Experience
 - TLV :: Type, Length, Value
@@ -60,6 +67,7 @@
 - OSC :: Open Sound Control
 - DSP :: Digital Signal Processing
 - OS :: Operating System
+- OSS :: Open Source Software
 - DB :: Database
 - KV :: Key:Value
 - AST :: Abstract Syntax Tree
