@@ -16,9 +16,9 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/c59968be6847][c59968be6847:44+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/994d882c6b92][994d882c6b92:45+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Fri May 02 14:15:07 2025 -0400                     |
+| updated     | Fri May 02 17:54:37 2025 -0400                     |
 | langs       | org                                                |
 | lines       | 2169 :λ 1988 :# 7 :_ 174                           |
 |-------------+----------------------------------------------------|
@@ -33,14 +33,14 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05     45 *
+: 2025-05     73 **
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:.][.]]         | 2025-05-02 14:21:26 |
+| [[file:.][.]]         | 2025-05-07 12:03:04 |
 | [[file:babel.org][babel]]     | 2025-04-23 16:57:44 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-01 18:16:05 |
