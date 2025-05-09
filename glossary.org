@@ -54,6 +54,7 @@
 - CL :: Common Lisp
 - EL :: Emacs Lisp
 - CC :: C Compiler
+- FC :: Fortran Compiler
 - VC :: Version Control
 - CLI :: Command Line Interface
 - GUI :: Graphic User Interface
