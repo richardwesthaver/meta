@@ -619,7 +619,9 @@ exist locally.
   			     x)))
                       (list (format "[[%s][%s]]"
                                     (format link-fmt (string-replace root "" y))
-                                    (file-name-sans-extension (string-replace project "" y)))
+  				  (let ((fname (file-name-sans-extension (string-replace project "" y))))
+  				    (if (string= fname ".") "index" fname)))
+  					 
                             (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr))))))
   	      (cl-remove-if (lambda (x)
   			      (or
@@ -635,10 +637,10 @@ exist locally.
 #+RESULTS: project-files
 | file      | modified            |
 |-----------+---------------------|
-| [[file:babel.org][babel]]     | 2025-03-15 19:51:16 |
+| [[file:babel.org][babel]]     | 2025-05-10 22:17:48 |
+| [[file:.][index]]     | 2025-05-10 17:03:17 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
-| [[file:glossary.org][glossary]]  | 2024-12-30 22:28:33 |
-| [[file:.][.]]         | 2025-03-09 14:41:10 |
+| [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -649,9 +651,9 @@ exist locally.
 :END:
 List all project tasks.
 #+name: project-tasks
-#+begin_src emacs-lisp :results replace :var project="."
+#+begin_src emacs-lisp :results replace :var project="~/comp/core"
   (let ((name (project-name (project-current nil project)))
-         (hdr (list '(todo item tags scheduled deadline)
+         (hdr (list '(status item location tags scheduled deadline)
                     'hline))
          (tbl))
     (save-excursion
@@ -664,6 +666,7 @@ List all project tasks.
                             (let ((row))
                               (push (or (org-get-todo-state) "") row)
                               (push (org-get-heading t t t t) row)
+                              (push (org-get-location (point)) row)
                               (push (or (remove name (org-get-tags)) "") row)
                               (push (if-let ((ts (org-get-scheduled-time (point) t)))
                                         (format-time-string (cdr org-timestamp-formats) ts)
@@ -679,8 +682,6 @@ List all project tasks.
     (unless (null tbl)
       (append hdr (nreverse tbl))))
 #+end_src
-
-#+RESULTS: project-tasks
 
 * env-table                                                              :os:
 :PROPERTIES:
