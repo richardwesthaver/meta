@@ -16,11 +16,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/952a028c159a][952a028c159a:49+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/bca552bcb411][bca552bcb411:50+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Sun May 11 01:01:10 2025 -0400                     |
+| updated     | Tue May 13 17:59:10 2025 -0400                     |
 | langs       | org                                                |
-| lines       | 2297 :λ 2117 :# 7 :_ 173                           |
+| lines       | 2298 :λ 2118 :# 7 :_ 173                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,15 +33,15 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05    157 *****
+: 2025-05    330 **********
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
+| [[https://compiler.company/meta/index.html][index]]     | 2025-05-17 15:25:56 |
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-05-13 17:31:14 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-05-13 17:34:29 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
@@ -58,7 +58,6 @@
 | PROJECT | rocksdb [0/1]                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
 | TBD     | final cleanup                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
 | PROJECT | blas                                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| WIP     | Level 2                                                                 | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | Level 3                                                                 | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | Tests                                                                   | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | improve API                                                             | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
@@ -112,20 +111,22 @@
 | TBD     | can only open rocksdb column families on OPEN                           | ~/comp/core/                    | (lisp rdb)                   |                      |                      |
 | PROJECT | vc [1/2]                                                                | ~/comp/core/                    | (lisp vc)                    |                      |                      |
 | TODO    | vc-mirrors-update replacement                                           | ~/.config/nushell/scripts/vc.nu | (lisp vc)                    |                      |                      |
-| PROJECT | dat                                                                     | ~/comp/core/                    | (lisp dat)                   |                      |                      |
+| PROJECT | dat [2/4]                                                               | ~/comp/core/                    | (lisp dat)                   |                      |                      |
 | WIP     | dat/parquet                                                             | ~/comp/core/                    | (dat lisp)                   |                      |                      |
+| TODO    | RLE                                                                     | ~/comp/core/                    | (dat lisp)                   |                      |                      |
+| TODO    | tcompact                                                                | ~/comp/core/                    | (dat lisp)                   |                      |                      |
 | TODO    | dat/csv column selectors                                                | ~/comp/core/                    | (lisp dat)                   |                      |                      |
-| TODO    | sxp 0.2                                                                 | ~/comp/core/                    | (dat lisp sxp)               |                      |                      |
-| TODO    | WRAP-OBJECT                                                             | ~/comp/core/                    | (dat lisp sxp skel)          |                      |                      |
-| TODO    | sxp standard methods                                                    | ~/comp/core/                    | (dat lisp sxp skel)          |                      |                      |
-| PROJECT | syn                                                                     | ~/comp/core/                    | (lisp syn)                   |                      |                      |
-| PROJECT | skel [0/6]                                                              | ~/comp/core/                    | (lisp skel)                  |                      |                      |
-| TODO    | split out skel rules                                                    | ~/comp/core/                    | (lisp skel)                  |                      |                      |
+| NOPE    | WRAP-OBJECT                                                             | ~/comp/core/                    | (dat lisp sxp skel)          |                      |                      |
+| NOPE    | sxp standard methods                                                    | ~/comp/core/                    | (dat lisp sxp skel)          |                      |                      |
+| PROJECT | syn [0/2]                                                               | ~/comp/core/                    | (lisp syn)                   |                      |                      |
+| TODO    | tempo                                                                   | ~/comp/core/                    | (lisp syn)                   |                      |                      |
+| TODO    | lint                                                                    | ~/comp/core/                    | (lisp syn)                   |                      |                      |
+| PROJECT | skel [1/6]                                                              | ~/comp/core/                    | (lisp skel)                  |                      |                      |
 | TODO    | implement task-pool                                                     | ~/comp/core/                    | (lisp skel thread)           |                      |                      |
 | WAIT    | implement vm                                                            | ~/comp/core/                    | (lisp skel)                  | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
 | TODO    | handle missing method errors or define default method when none defined | ~/comp/core/                    | (lisp skel bin cli)          |                      |                      |
 | TODO    | skel tasks/runner/timer                                                 | ~/comp/core/                    | (lisp skel)                  |                      |                      |
-| TODO    | skel template objects                                                   | ~/comp/core/                    | (lisp skel)                  |                      |                      |
+| OUTLINE | skel template objects                                                   | ~/comp/core/                    | (lisp skel)                  |                      |                      |
 | PROJECT | obj [0/2]                                                               | ~/comp/core/                    | (lisp obj)                   |                      |                      |
 | TODO    | fix obj/query stack overflow on compile                                 | ~/comp/core/                    | (lisp obj)                   |                      |                      |
 | WIP     | complete base obj/query package [0/1]                                   | ~/comp/core/lib/obj/query.lisp  | (lisp obj q db)              |                      |                      |
@@ -135,9 +136,6 @@
 | TODO    | tcp                                                                     | ~/comp/core/                    | (lisp net)                   |                      |                      |
 | TODO    | udp                                                                     | ~/comp/core/                    | (lisp net)                   |                      |                      |
 | WIP     | net/srv                                                                 | ~/comp/core/                    | (net lisp)                   |                      |                      |
-| PROJECT | pwn [0/2]                                                               | ~/comp/core/                    | (lisp pwn)                   |                      |                      |
-| TODO    | diz                                                                     | ~/comp/core/                    | (lisp pwn asm)               |                      |                      |
-| TODO    | sassy                                                                   | ~/comp/core/                    | (lisp pwn net)               |                      |                      |
 | PROJECT | gui [0/2]                                                               | ~/comp/core/                    | (lisp gui)                   |                      |                      |
 | WAIT    | wayland protocol bindings                                               | ~/comp/core/                    | (lisp gui)                   |                      |                      |
 | TBD     | wayland compositor                                                      | ~/comp/core/                    | (gui rust lisp)              |                      |                      |
@@ -151,6 +149,8 @@
 | PROJECT | math                                                                    | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
 | WIP     | Ecosystem                                                               | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
 | TODO    | refactor libs into math                                                 | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
+| PROJECT | log [0/1]                                                               | ~/comp/core/                    | (lisp)                       |                      |                      |
+| TODO    | async-db-log-file                                                       | ~/comp/core/                    | (lisp)                       |                      |                      |
 | PROJECT | std [3/11]                                                              | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | WIP     | documentation sweep                                                     | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | TODO    | more (useful) bit tricks                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
@@ -161,12 +161,11 @@
 | TODO    | save-core                                                               | ~/comp/core/std/sys.lisp        | (lisp std sys)               |                      |                      |
 | TODO    | task-pool impl                                                          | ~/comp/core/std/task.lisp       | (lisp std thread)            |                      |                      |
 | TBD     | incorporate sb-cltl2 generators/iterators into STD/PIPE                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| PROJECT | emacs [0/10]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| PROJECT | emacs [1/11]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | WIP     | comp/org capture templates                                              | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO    | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO    | agenda views                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | FIXME   | compiler warnings                                                       | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| TODO    | remove makefile                                                         | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | WIP     | graph                                                                   | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO    | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO    | timeline selection update on pointer hover                              | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
@@ -181,6 +180,9 @@
 | WIP     | homer [1/1]                                                             | ~/comp/core/                    | (lisp homer)                 |                      |                      |
 | WIP     | mpk [0/1]                                                               | ~/comp/core/                    |                              |                      |                      |
 | TODO    | setup API for tmdb and tvdb                                             | ~/comp/core/                    |                              |                      |                      |
+| PROJECT | pwn [0/2]                                                               | ~/comp/core/                    | (lisp pwn)                   |                      |                      |
+| TODO    | diz                                                                     | ~/comp/core/                    | (lisp pwn asm)               |                      |                      |
+| TODO    | sassy                                                                   | ~/comp/core/                    | (lisp pwn net)               |                      |                      |
 | PROJECT | bench                                                                   | ~/comp/core/                    | (test bench)                 |                      |                      |
 
 #+END:
