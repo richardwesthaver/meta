@@ -16,11 +16,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/d054c8e5160a][d054c8e5160a:51+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/e548acd49c5a][e548acd49c5a:52+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Wed May 21 20:12:31 2025 -0400                     |
+| updated     | Thu May 22 19:55:32 2025 -0400                     |
 | langs       | org                                                |
-| lines       | 2300 :λ 2120 :# 7 :_ 173                           |
+| lines       | 2303 :λ 2123 :# 7 :_ 173                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,14 +33,14 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05    370 ************
+: 2025-05    530 *****************
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/index.html][index]]     | 2025-05-21 20:18:54 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-05-24 22:39:14 |
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-05-13 17:31:14 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
@@ -57,7 +57,10 @@
 | PROJECT | ffi                                                                     | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | PROJECT | rocksdb [0/1]                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
 | TBD     | final cleanup                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
+| PROJECT | tree-sitter [0/1]                                                       | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
+| FIXME   | ts-query-cursor-next-match                                              | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
 | PROJECT | blas                                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TODO    | LAPACK codegen                                                          | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | BLAS Extensions                                                         | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | Tests                                                                   | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | TODO    | improve API                                                             | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
