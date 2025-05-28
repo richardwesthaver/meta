@@ -16,9 +16,9 @@
 | description | :description CC Org Files                         |
 | skel-id     | :id 1784914079056115652                           |
 | root        | ~/comp/org/meta/                                  |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/fad7c95822d1][fad7c95822d1:53]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/f44da1ecdb46][f44da1ecdb46:54]] |
 | tags        | :tags (org docs notes blog meta plan)             |
-| updated     | Mon May 26 02:07:17 2025 -0400                    |
+| updated     | Mon May 26 22:13:03 2025 -0400                    |
 | langs       | org                                               |
 | lines       | 2303 :λ 2123 :# 7 :_ 173                          |
 |-------------+---------------------------------------------------|
@@ -33,7 +33,7 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05    543 *****************
+: 2025-05    583 ******************
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
@@ -43,7 +43,7 @@
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-05-13 17:31:14 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-05-25 01:14:36 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-05-26 02:13:45 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
@@ -132,8 +132,7 @@
 | TODO    | handle missing method errors or define default method when none defined | ~/comp/core/lib/                | (lisp skel bin cli)          |                      |                      |
 | TODO    | skel tasks/runner/timer                                                 | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | OUTLINE | skel template objects                                                   | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| PROJECT | obj [1/3]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
-| WIP     | exfil from obj                                                          | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
+| PROJECT | obj [2/3]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
 | WIP     | tensor                                                                  | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | TODO    | dispatch strategy for tensor methods                                    | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | PROJECT | net [0/4]                                                               | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
@@ -152,7 +151,6 @@
 | TODO    | uring                                                                   | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
 | TODO    | zlib compression                                                        | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
 | PROJECT | math                                                                    | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
-| TODO    | refactor libs into math                                                 | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
 | PROJECT | log [0/1]                                                               | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
 | TODO    | async-db-log-file                                                       | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
 | PROJECT | std [3/11]                                                              | ~/comp/core/std/                | (lisp std)                   |                      |                      |
