@@ -16,11 +16,11 @@
 | description | :description CC Org Files                          |
 | skel-id     | :id 1784914079056115652                            |
 | root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/d52437dbf518][d52437dbf518:56+]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/29b1abef6748][29b1abef6748:57+]] |
 | tags        | :tags (org docs notes blog meta plan)              |
-| updated     | Wed May 28 22:15:15 2025 -0400                     |
+| updated     | Sat May 31 02:47:18 2025 -0400                     |
 | langs       | org                                                |
-| lines       | 2301 :λ 2121 :# 7 :_ 173                           |
+| lines       | 2304 :λ 2124 :# 7 :_ 173                           |
 |-------------+----------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,14 +33,14 @@
 : 2025-02    617 ********************
 : 2025-03    508 ****************
 : 2025-04    172 *****
-: 2025-05    605 *******************
+: 2025-05    637 ********************
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/index.html][index]]     | 2025-05-28 22:21:42 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-05-31 02:53:57 |
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-05-13 17:31:14 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
@@ -53,6 +53,7 @@
 #+RESULTS:
 | status  | item                                                                    | location                        | tags                         | scheduled            | deadline             |
 |---------+-------------------------------------------------------------------------+---------------------------------+------------------------------+----------------------+----------------------|
+| FIXME   | inline TODOs                                                            | ~/comp/core/                    |                              |                      |                      |
 | FIXME   | undefined symbols                                                       | ~/comp/core/                    |                              |                      |                      |
 | PROJECT | ffi                                                                     | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
 | PROJECT | rocksdb [0/1]                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
