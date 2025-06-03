@@ -16,11 +16,11 @@
 | description | :description CC Org Files                         |
 | skel-id     | :id 1784914079056115652                           |
 | root        | ~/comp/org/meta/                                  |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/705e062bb1ca][705e062bb1ca:58]] |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/bd11123f1993][bd11123f1993:59]] |
 | tags        | :tags (org docs notes blog meta plan)             |
-| updated     | Sun Jun 01 22:52:18 2025 -0400                    |
+| updated     | Mon Jun 02 21:13:25 2025 -0400                    |
 | langs       | org                                               |
-| lines       | 2304 :λ 2124 :# 7 :_ 173                          |
+| lines       | 2305 :λ 2125 :# 7 :_ 173                          |
 |-------------+---------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -34,7 +34,7 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06     11 
+: 2025-06     38 *
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
@@ -44,7 +44,7 @@
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-05-13 17:31:14 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-06-01 01:14:42 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-06-01 22:59:00 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
