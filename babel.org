@@ -971,17 +971,21 @@ dot -V 2>&1
 #+name: load-user
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :user))
+    (slime-eval '(asdf:load-system :core/user))
     (slime-repl-set-package "USER"))
 #+end_src
-* prelude-slime                                                        :lisp:
+* TODO prelude-slime                                                   :lisp:
 :PROPERTIES:
 :ID:       9ffd1d10-ffad-486e-9d7d-82422342b9ff
+:CREATED:  <2025-06-04 Wed 20:38>
+:END:
+:LOGBOOK:
+- State "TODO"       from              [2025-06-04 Wed 20:38]
 :END:
 #+name: load-prelude
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :prelude))
+    (slime-eval '(asdf:load-system :core/user))
     (slime-repl-set-package "USER"))
 #+end_src
 
