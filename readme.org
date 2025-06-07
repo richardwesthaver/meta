@@ -16,9 +16,9 @@
 | description | :description CC Org Files                                 |
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/bf01394a5cf1][bf01394a5cf1:63]]         |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/5bf9871b4083][5bf9871b4083:64]]         |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Thu Jun 05 22:09:08 2025 -0400                            |
+| updated     | Fri Jun 06 22:13:57 2025 -0400                            |
 | langs       | org                                                       |
 | lines       | 2312 :λ 2132 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
@@ -34,7 +34,7 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    129 ****
+: 2025-06    137 ****
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
 
@@ -44,7 +44,7 @@
 | [[https://compiler.company/meta/babel.html][babel]]     | 2025-06-04 20:38:40 |
 | [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-06-04 22:44:19 |
+| [[https://compiler.company/meta/index.html][index]]     | 2025-06-05 22:15:56 |
 | [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
 | [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
@@ -52,147 +52,156 @@
 #+CALL: project-tasks() :dir ~/comp/org/meta/
 
 #+RESULTS:
-| status  | item                                                                    | location                        | tags                         | scheduled            | deadline             |
-|---------+-------------------------------------------------------------------------+---------------------------------+------------------------------+----------------------+----------------------|
-| FIXME   | inline TODOs                                                            | ~/comp/core/                    |                              |                      |                      |
-| FIXME   | undefined symbols                                                       | ~/comp/core/                    |                              |                      |                      |
-| PROJECT | ffi                                                                     | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| PROJECT | rocksdb [0/1]                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
-| TBD     | final cleanup                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
-| PROJECT | tree-sitter [0/1]                                                       | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
-| FIXME   | ts-query-cursor-next-match                                              | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
-| PROJECT | blas                                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| TODO    | BLAS Extensions                                                         | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| TODO    | Tests                                                                   | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| TODO    | improve API                                                             | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| TODO    | Conditions                                                              | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
-| TBD     | examples [0/6]                                                          | ~/comp/core/ffi/                | (lisp ffi example)           |                      |                      |
-| TODO    | gstreamer practical example                                             | ~/comp/core/ffi/                | (lisp ffi example gstreamer) |                      |                      |
-| TODO    | ublk practical example                                                  | ~/comp/core/ffi/                | (lisp ffi example ublk)      |                      |                      |
-| TODO    | uring read/write file example                                           | ~/comp/core/ffi/                | (lisp ffi example uring)     |                      |                      |
-| TODO    | btrfs practical example                                                 | ~/comp/core/ffi/                | (lisp ffi example btrfs)     |                      |                      |
-| TODO    | xkb practical example                                                   | ~/comp/core/ffi/                | (lisp ffi example x kb)      |                      |                      |
-| TODO    | keyutils practical example                                              | ~/comp/core/ffi/                | (lisp ffi example crypto)    |                      |                      |
-| PROJECT | lib                                                                     | ~/comp/core/lib/                | (lisp)                       |                      |                      |
-| PROJECT | cli [0/4]                                                               | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
-| PROJECT | cli/clap [1/5]                                                          | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
-| TODO    | conditions implementation                                               | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
-| TODO    | minimal documentation                                                   | ~/comp/core/lib/cli.org         | (lisp cli doc)               |                      |                      |
-| TODO    | keyword selectors                                                       | ~/comp/core/lib/cli/clap/       | (lisp cli skel)              |                      |                      |
-| TODO    | clap fixtures                                                           | ~/comp/core/lib/cli/clap/       | (lisp cli test)              |                      |                      |
-| TODO    | linedit prefixes                                                        | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
-| TODO    | accept CLI-OPTS from parent CLI-CMD in PROC-ARGS                        | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
-| TODO    | destructure cli opts                                                    | ~/comp/core/lib/cli/            | (lisp macro)                 |                      |                      |
-| PROJECT | q [0/4]                                                                 | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | SQL                                                                     | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | DQL                                                                     | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | top-level macros                                                        | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | conditions                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | basic predicates                                                        | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | compiler design                                                         | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | runtime design                                                          | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | q/tests/fuzz [0/2]                                                      | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | sql-fuzzer                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | dql-fuzzer                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| TODO    | #? reader macro                                                         | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
-| WIP     | complete base obj/query package [0/2]                                   | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  |                      |                      |
-| TODO    | Basic Testing                                                           | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  |                      |                      |
-| TODO    | decide if this should be part of lib/q instead                          | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  | 2025-05-23 Fri 00:00 |                      |
-| PROJECT | parse [1/2]                                                             | ~/comp/core/lib/                | (lisp lib)                   |                      |                      |
-| TODO    | tests                                                                   | ~/comp/core/lib/                | (lisp lib)                   |                      |                      |
-| PROJECT | organ [0/2]                                                             | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
-| TBD     | organ-export                                                            | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
-| TODO    | org-parse                                                               | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
-| TBD     | parse org-elements as sxp                                               | ~/comp/core/lib/                | (lisp organ sxp)             |                      |                      |
-| PROJECT | rdb [0/6]                                                               | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | error handling                                                          | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | client api                                                              | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | sequence/iterator impl                                                  | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | comparator impl                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | type system                                                             | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | set-opt/get-opt                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | handle pinned vs non-pinned RocksDB accessors                           | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | move backup-db from rdb to rdb-database                                 | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | rdb prefix keys                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| TODO    | with-latest-options                                                     | ~/comp/core/lib/                | (lisp rdb rocksdb)           |                      |                      |
-| TBD     | can only open rocksdb column families on OPEN                           | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
-| PROJECT | vc [0/2]                                                                | ~/comp/core/lib/                | (lisp vc)                    |                      |                      |
-| TODO    | github atom feed queries                                                | ~/comp/core/lib/                | (lisp vc)                    |                      |                      |
-| TODO    | vc-mirrors-update replacement                                           | ~/.config/nushell/scripts/vc.nu | (lisp vc)                    |                      |                      |
-| PROJECT | dat [1/3]                                                               | ~/comp/core/lib/                | (lisp dat)                   |                      |                      |
-| WIP     | dat/parquet                                                             | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
-| TODO    | RLE                                                                     | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
-| TODO    | tcompact                                                                | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
-| TODO    | dat/csv column selectors                                                | ~/comp/core/lib/                | (lisp dat)                   |                      |                      |
-| PROJECT | syn [0/3]                                                               | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| WIP     | gen                                                                     | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| TODO    | C function declaration arguments                                        | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| TODO    | tempo                                                                   | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| TODO    | lint                                                                    | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| PROJECT | skel [0/5]                                                              | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| TODO    | implement task-pool                                                     | ~/comp/core/lib/                | (lisp skel thread)           |                      |                      |
-| WAIT    | implement vm                                                            | ~/comp/core/lib/                | (lisp skel)                  | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
-| TODO    | handle missing method errors or define default method when none defined | ~/comp/core/lib/                | (lisp skel bin cli)          |                      |                      |
-| TODO    | skel tasks/runner/timer                                                 | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| OUTLINE | skel template objects                                                   | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| PROJECT | obj [0/1]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
-| WIP     | tensor                                                                  | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
-| TODO    | dispatch strategy for tensor methods                                    | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
-| PROJECT | net [0/4]                                                               | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
-| TODO    | fixtures                                                                | ~/comp/core/lib/net/            | (lisp net rt)                |                      |                      |
-| TODO    | tcp                                                                     | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
-| TODO    | udp                                                                     | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
-| WIP     | net/srv                                                                 | ~/comp/core/lib/net/            | (net lisp)                   |                      |                      |
-| PROJECT | gui [0/2]                                                               | ~/comp/core/lib/gui/            | (lisp gui)                   |                      |                      |
-| WAIT    | wayland protocol bindings                                               | ~/comp/core/lib/gui/            | (lisp gui)                   |                      |                      |
-| TBD     | wayland compositor                                                      | ~/comp/core/lib/gui/            | (gui rust lisp)              |                      |                      |
-| PROJECT | rt [1/3]                                                                | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
-| TODO    | redirect I/O in tests                                                   | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
-| TODO    | *test-on-def*                                                           | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
-| TODO    | test-directory                                                          | ~/comp/core/lib/                | (lisp test rt)               |                      |                      |
-| PROJECT | io [0/2]                                                                | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
-| TODO    | uring                                                                   | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
-| TODO    | zlib compression                                                        | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
-| PROJECT | math                                                                    | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
-| PROJECT | log [0/1]                                                               | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
-| TODO    | async-db-log-file                                                       | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
-| PROJECT | std [0/9]                                                               | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| WIP     | documentation sweep                                                     | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| TODO    | more (useful) bit tricks                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| HOLD    | defsys                                                                  | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-|         | Modules                                                                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| TODO    | test sweep                                                              | ~/comp/core/std/                | (lisp std test)              |                      |                      |
-| TODO    | thread-pool impl                                                        | ~/comp/core/std/thread.lisp     | (lisp std thread)            |                      |                      |
-| TODO    | specify kernel function prototypes                                      | ~/comp/core/std/thread.lisp     | (lisp std thread)            |                      |                      |
-| TODO    | save-core                                                               | ~/comp/core/std/sys.lisp        | (lisp std sys)               |                      |                      |
-| TODO    | task-pool impl                                                          | ~/comp/core/std/task.lisp       | (lisp std thread)            |                      |                      |
-| TODO    | castable                                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| FIXME   | assertion failures in multi-threaded context                            | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| TBD     | incorporate sb-cltl2 generators/iterators into STD/PIPE                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| PROJECT | emacs [0/11]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| WIP     | comp/org capture templates                                              | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| TODO    | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| TODO    | agenda views                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| FIXME   | compiler warnings                                                       | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| WIP     | graph                                                                   | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO    | default values for link commands                                        | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO    | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO    | timeline selection update on pointer hover                              | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO    | org-agenda-follow impl                                                  | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO    | align org-timeline properties with ulang                                | ~/comp/core/emacs/              | (emacs org ulang)            |                      |                      |
-| TODO    | sk.el project integration                                               | ~/comp/core/emacs/              | (emacs skel)                 |                      |                      |
-| TODO    | sk.el hack-dir-local-variables                                          | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| WIP     | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el   | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
-| TODO    | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| TODO    | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
-| PROJECT | app                                                                     | ~/comp/core/app/                |                              |                      |                      |
-| WAIT    | homer [1/1]                                                             | ~/comp/core/app/                | (lisp homer)                 |                      |                      |
-| WIP     | mpk [0/2]                                                               | ~/comp/core/app/mpk/            |                              |                      |                      |
-| TODO    | setup API for tmdb and tvdb                                             | ~/comp/core/app/mpk/            |                              |                      |                      |
-| WAIT    | clean                                                                   | ~/comp/core/app/mpk/clean.lisp  |                              |                      |                      |
-| PROJECT | pwn [0/2]                                                               | ~/comp/core/app/                | (lisp pwn)                   |                      |                      |
-| TODO    | diz                                                                     | ~/comp/core/app/                | (lisp pwn asm)               |                      |                      |
-| TODO    | sassy                                                                   | ~/comp/core/app/                | (lisp pwn net)               |                      |                      |
-| PROJECT | bench                                                                   | ~/comp/core/                    | (test bench)                 |                      |                      |
+| status   | item                                                                    | location                        | tags                         | scheduled            | deadline             |
+|----------+-------------------------------------------------------------------------+---------------------------------+------------------------------+----------------------+----------------------|
+| FIXME    | inline TODOs                                                            | ~/comp/core/                    |                              |                      |                      |
+| FIXME    | undefined symbols                                                       | ~/comp/core/                    |                              |                      |                      |
+| PROJECT  | ffi                                                                     | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| PROJECT  | rocksdb [0/1]                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
+| TBD      | final cleanup                                                           | ~/comp/core/ffi/ffi/rocksdb     | (lisp ffi rocksdb)           |                      |                      |
+| PROJECT  | tree-sitter [0/1]                                                       | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
+| FIXME    | ts-query-cursor-next-match                                              | ~/comp/core/ffi/                | (lisp ffi syn)               |                      |                      |
+| PROJECT  | ssh2                                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| PROJECT  | rustls                                                                  | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| RESEARCH | cl+ssl low-level API                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| PROJECT  | blas                                                                    | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TODO     | BLAS Extensions                                                         | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TODO     | Tests                                                                   | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TODO     | improve API                                                             | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TODO     | Conditions                                                              | ~/comp/core/ffi/                | (lisp ffi)                   |                      |                      |
+| TBD      | examples [0/6]                                                          | ~/comp/core/ffi/                | (lisp ffi example)           |                      |                      |
+| TODO     | gstreamer practical example                                             | ~/comp/core/ffi/                | (lisp ffi example gstreamer) |                      |                      |
+| TODO     | ublk practical example                                                  | ~/comp/core/ffi/                | (lisp ffi example ublk)      |                      |                      |
+| TODO     | uring read/write file example                                           | ~/comp/core/ffi/                | (lisp ffi example uring)     |                      |                      |
+| TODO     | btrfs practical example                                                 | ~/comp/core/ffi/                | (lisp ffi example btrfs)     |                      |                      |
+| TODO     | xkb practical example                                                   | ~/comp/core/ffi/                | (lisp ffi example x kb)      |                      |                      |
+| TODO     | keyutils practical example                                              | ~/comp/core/ffi/                | (lisp ffi example crypto)    |                      |                      |
+| PROJECT  | lib                                                                     | ~/comp/core/lib/                | (lisp)                       |                      |                      |
+| PROJECT  | cli [0/4]                                                               | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
+| PROJECT  | cli/clap [1/5]                                                          | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
+| TODO     | conditions implementation                                               | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
+| TODO     | minimal documentation                                                   | ~/comp/core/lib/cli.org         | (lisp cli doc)               |                      |                      |
+| TODO     | keyword selectors                                                       | ~/comp/core/lib/cli/clap/       | (lisp cli skel)              |                      |                      |
+| TODO     | clap fixtures                                                           | ~/comp/core/lib/cli/clap/       | (lisp cli test)              |                      |                      |
+| TODO     | linedit prefixes                                                        | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
+| TODO     | accept CLI-OPTS from parent CLI-CMD in PROC-ARGS                        | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
+| TODO     | destructure cli opts                                                    | ~/comp/core/lib/cli/            | (lisp macro)                 |                      |                      |
+| PROJECT  | q [0/4]                                                                 | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | SQL                                                                     | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | DQL                                                                     | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | top-level macros                                                        | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | conditions                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | basic predicates                                                        | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | compiler design                                                         | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | runtime design                                                          | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | q/tests/fuzz [0/2]                                                      | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | sql-fuzzer                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | dql-fuzzer                                                              | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| TODO     | #? reader macro                                                         | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
+| WIP      | complete base obj/query package [0/2]                                   | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  |                      |                      |
+| TODO     | Basic Testing                                                           | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  |                      |                      |
+| TODO     | decide if this should be part of lib/q instead                          | ~/comp/core/lib/obj/query.lisp  | (lisp q db)                  | 2025-05-23 Fri 00:00 |                      |
+| PROJECT  | parse [1/2]                                                             | ~/comp/core/lib/                | (lisp lib)                   |                      |                      |
+| TODO     | tests                                                                   | ~/comp/core/lib/                | (lisp lib)                   |                      |                      |
+| PROJECT  | organ [0/2]                                                             | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
+| TBD      | organ-export                                                            | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
+| TODO     | org-parse                                                               | ~/comp/core/lib/                | (lisp organ)                 |                      |                      |
+| TBD      | parse org-elements as sxp                                               | ~/comp/core/lib/                | (lisp organ sxp)             |                      |                      |
+| PROJECT  | rdb [0/6]                                                               | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | error handling                                                          | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | client api                                                              | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | sequence/iterator impl                                                  | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | comparator impl                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | type system                                                             | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | set-opt/get-opt                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | handle pinned vs non-pinned RocksDB accessors                           | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | move backup-db from rdb to rdb-database                                 | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | rdb prefix keys                                                         | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| TODO     | with-latest-options                                                     | ~/comp/core/lib/                | (lisp rdb rocksdb)           |                      |                      |
+| TBD      | can only open rocksdb column families on OPEN                           | ~/comp/core/lib/                | (lisp rdb)                   |                      |                      |
+| PROJECT  | vc [0/2]                                                                | ~/comp/core/lib/                | (lisp vc)                    |                      |                      |
+| TODO     | github atom feed queries                                                | ~/comp/core/lib/                | (lisp vc)                    |                      |                      |
+| TODO     | vc-mirrors-update replacement                                           | ~/.config/nushell/scripts/vc.nu | (lisp vc)                    |                      |                      |
+| PROJECT  | dat [1/3]                                                               | ~/comp/core/lib/                | (lisp dat)                   |                      |                      |
+| WIP      | dat/parquet                                                             | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
+| TODO     | RLE                                                                     | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
+| TODO     | tcompact                                                                | ~/comp/core/lib/                | (dat lisp)                   |                      |                      |
+| TODO     | dat/csv column selectors                                                | ~/comp/core/lib/                | (lisp dat)                   |                      |                      |
+| PROJECT  | syn [0/3]                                                               | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
+| WIP      | gen                                                                     | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
+| TODO     | C function declaration arguments                                        | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
+| TODO     | tempo                                                                   | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
+| TODO     | lint                                                                    | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
+| PROJECT  | skel [0/6]                                                              | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| TODO     | implement task-pool                                                     | ~/comp/core/lib/                | (lisp skel thread)           |                      |                      |
+| TODO     | ensure-rule-source                                                      | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| WAIT     | implement vm                                                            | ~/comp/core/lib/                | (lisp skel)                  | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
+| TODO     | handle missing method errors or define default method when none defined | ~/comp/core/lib/                | (lisp skel bin cli)          |                      |                      |
+| TODO     | skel tasks/runner/timer                                                 | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| OUTLINE  | skel template objects                                                   | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| PROJECT  | cry                                                                     | ~/comp/core/lib/cry/            | (lisp)                       |                      |                      |
+| WIP      | ssl                                                                     | ~/comp/core/lib/cry/            | (lisp)                       |                      |                      |
+| WIP      | cl+ssl -> rustls                                                        | ~/comp/core/lib/cry/ssl/        | (lisp)                       |                      |                      |
+| PROJECT  | obj [0/1]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
+| WIP      | tensor                                                                  | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
+| TODO     | dispatch strategy for tensor methods                                    | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
+| PROJECT  | net [0/4]                                                               | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
+| TODO     | fixtures                                                                | ~/comp/core/lib/net/            | (lisp net rt)                |                      |                      |
+| TODO     | tcp                                                                     | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
+| TODO     | udp                                                                     | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
+| WIP      | net/srv                                                                 | ~/comp/core/lib/net/            | (net lisp)                   |                      |                      |
+| PROJECT  | gui [0/2]                                                               | ~/comp/core/lib/gui/            | (lisp gui)                   |                      |                      |
+| WAIT     | wayland protocol bindings                                               | ~/comp/core/lib/gui/            | (lisp gui)                   |                      |                      |
+| TBD      | wayland compositor                                                      | ~/comp/core/lib/gui/            | (gui rust lisp)              |                      |                      |
+| PROJECT  | rt [1/3]                                                                | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
+| TODO     | redirect I/O in tests                                                   | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
+| TODO     | *test-on-def*                                                           | ~/comp/core/lib/                | (lisp rt test)               |                      |                      |
+| TODO     | test-directory                                                          | ~/comp/core/lib/                | (lisp test rt)               |                      |                      |
+| PROJECT  | io [0/2]                                                                | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
+| TODO     | uring                                                                   | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
+| TODO     | zlib compression                                                        | ~/comp/core/lib/io/             | (lisp io)                    |                      |                      |
+| PROJECT  | math                                                                    | ~/comp/core/lib/math            | (lisp math)                  |                      |                      |
+| PROJECT  | log [0/1]                                                               | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
+| TODO     | async-db-log-file                                                       | ~/comp/core/lib/log/            | (lisp)                       |                      |                      |
+| PROJECT  | std [0/9]                                                               | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| WIP      | documentation sweep                                                     | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+|          | standard package sets                                                   | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| TODO     | more (useful) bit tricks                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| HOLD     | defsys                                                                  | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+|          | Modules                                                                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| TODO     | test sweep                                                              | ~/comp/core/std/                | (lisp std test)              |                      |                      |
+| TODO     | thread-pool impl                                                        | ~/comp/core/std/thread.lisp     | (lisp std thread)            |                      |                      |
+| TODO     | specify kernel function prototypes                                      | ~/comp/core/std/thread.lisp     | (lisp std thread)            |                      |                      |
+| TODO     | save-core                                                               | ~/comp/core/std/sys.lisp        | (lisp std sys)               |                      |                      |
+| TODO     | task-pool impl                                                          | ~/comp/core/std/task.lisp       | (lisp std thread)            |                      |                      |
+| TODO     | castable                                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| FIXME    | assertion failures in multi-threaded context                            | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| TBD      | incorporate sb-cltl2 generators/iterators into STD/PIPE                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
+| PROJECT  | emacs [0/11]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| WIP      | comp/org capture templates                                              | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| TODO     | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| TODO     | agenda views                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| FIXME    | compiler warnings                                                       | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| WIP      | graph                                                                   | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | default values for link commands                                        | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | timeline selection update on pointer hover                              | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | org-agenda-follow impl                                                  | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | align org-timeline properties with ulang                                | ~/comp/core/emacs/              | (emacs org ulang)            |                      |                      |
+| TODO     | sk.el project integration                                               | ~/comp/core/emacs/              | (emacs skel)                 |                      |                      |
+| TODO     | sk.el hack-dir-local-variables                                          | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| WIP      | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el   | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
+| TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| TODO     | defpkg-format                                                           | ~/comp/core/emacs/              | (emacs lisp)                 |                      |                      |
+| TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| PROJECT  | app                                                                     | ~/comp/core/app/                |                              |                      |                      |
+| WAIT     | homer [1/1]                                                             | ~/comp/core/app/                | (lisp homer)                 |                      |                      |
+| WIP      | mpk [0/2]                                                               | ~/comp/core/app/mpk/            |                              |                      |                      |
+| TODO     | setup API for tmdb and tvdb                                             | ~/comp/core/app/mpk/            |                              |                      |                      |
+| WAIT     | clean                                                                   | ~/comp/core/app/mpk/clean.lisp  |                              |                      |                      |
+| PROJECT  | pwn [0/2]                                                               | ~/comp/core/app/                | (lisp pwn)                   |                      |                      |
+| TODO     | diz                                                                     | ~/comp/core/app/                | (lisp pwn asm)               |                      |                      |
+| TODO     | sassy                                                                   | ~/comp/core/app/                | (lisp pwn net)               |                      |                      |
+| PROJECT  | bench                                                                   | ~/comp/core/                    | (test bench)                 |                      |                      |
 
 #+END:
