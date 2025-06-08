@@ -446,7 +446,7 @@ Return an org-mode unordered-list of project links.
 :ID:       bd56995e-b153-4468-b845-aadd92e456c6
 :END:
 #+name: project-details
-#+begin_src emacs-lisp :var project="." root=""
+#+begin_src emacs-lisp :var project="." root="" vc=""
   (let* ((project (project-current nil project))
          (name (project-name project))
          (%root (project-root project))
@@ -459,9 +459,10 @@ Return an org-mode unordered-list of project links.
          (id (org-sbe skel-show (key "':id'") ''(dir %root)))
          (version (org-sbe skel-show (key "'version'") ''(dir %root)))
          (description (org-sbe skel-show (key "'description'") ''(dir %root)))
-         (vc (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
-                     vc-type name name
-                     (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num)))
+         (vc (when vc 
+  	     (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
+                       vc-type name name
+                       (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num))))
          (langs (mapconcat (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir %root)))) " "))
          (line-counts (flatten (read (org-sbe lines ''(dir %root)))))
          (line-sum (cl-reduce '+ line-counts))
@@ -474,7 +475,7 @@ Return an org-mode unordered-list of project links.
       (root ,(if (not (zerop (length root)))
                  root
                %root))
-      (vc ,vc)
+      ,@(unless (seq-empty-p vc) `((vc ,vc)))
       (tags ,tags)
       (updated ,age)
       (langs ,langs)
@@ -483,18 +484,18 @@ Return an org-mode unordered-list of project links.
 #+end_src
 
 #+RESULTS: project-details
-|-------------+----------------------------------------------------|
-| name        | meta                                               |
-| version     | nil                                                |
-| description | nil                                                |
-| skel-id     | nil                                                |
-| root        | ~/comp/org/meta/                                   |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/f6df7eaa3684][f6df7eaa3684:12+]] |
-| tags        | nil                                                |
-| updated     | Sun Sep 22 21:29:45 2024 -0400                     |
-| langs       | (org)                                              |
-| lines       | 1897 :λ 1754 :# 4 :_ 139                           |
-|-------------+----------------------------------------------------|
+|-------------+-----------------------------------------------------------|
+| name        | meta                                                      |
+| version     | :version 0.1.0                                            |
+| description | :description CC Org Files                                 |
+| skel-id     | :id 1784914079056115652                                   |
+| root        | ~/comp/org/meta/                                          |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/7ad8b787d298][7ad8b787d298:65+]]        |
+| tags        | :tags (org docs notes blog meta plan archive notes graph) |
+| updated     | Sat Jun 07 18:19:15 2025 -0400                            |
+| langs       | org                                                       |
+| lines       | 2323 :λ 2143 :# 7 :_ 173                                  |
+|-------------+-----------------------------------------------------------|
 
 * project-vc-files                                               :project:fs:
 :PROPERTIES:

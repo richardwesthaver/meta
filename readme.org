@@ -6,8 +6,8 @@
 #+setupfile: ../clean.theme
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
-#+BEGIN: project-info :status nil :files t
-#+CALL: project-details() :dir ~/comp/org/meta/
+#+BEGIN: project-info :status nil :files t :vc nil
+#+CALL: project-details(vc='nil) :dir ~/comp/org/meta/
 
 #+RESULTS:
 |-------------+-----------------------------------------------------------|
@@ -16,11 +16,10 @@
 | description | :description CC Org Files                                 |
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/5bf9871b4083][5bf9871b4083:64]]         |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Fri Jun 06 22:13:57 2025 -0400                            |
+| updated     | Sat Jun 07 18:19:15 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2312 :λ 2132 :# 7 :_ 173                                  |
+| lines       | 2323 :λ 2143 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -34,20 +33,20 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    137 ****
+: 2025-06    438 **************
 
-#+CALL: project-html-files() :dir ~/comp/org/meta/
+#+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2025-06-04 20:38:40 |
-| [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
-| [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-05-08 20:48:48 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-06-05 22:15:56 |
-| [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
-| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
-| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
+| [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
+| [[file:readme.org][readme]]    | 2025-06-08 15:28:22 |
+| [[file:business.org][business]]  | 2024-08-19 21:19:33 |
+| [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
+| [[file:style.org][style]]     | 2024-09-29 23:03:07 |
+| [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
+| [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
 
 #+CALL: project-tasks() :dir ~/comp/org/meta/
 
@@ -144,6 +143,7 @@
 | WIP      | cl+ssl -> rustls                                                        | ~/comp/core/lib/cry/ssl/        | (lisp)                       |                      |                      |
 | PROJECT  | obj [0/1]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
 | WIP      | tensor                                                                  | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
+| TBD      | arrow interface                                                         | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | TODO     | dispatch strategy for tensor methods                                    | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | PROJECT  | net [0/4]                                                               | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
 | TODO     | fixtures                                                                | ~/comp/core/lib/net/            | (lisp net rt)                |                      |                      |
@@ -177,7 +177,7 @@
 | TODO     | castable                                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | FIXME    | assertion failures in multi-threaded context                            | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | TBD      | incorporate sb-cltl2 generators/iterators into STD/PIPE                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| PROJECT  | emacs [0/11]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| PROJECT  | emacs [0/12]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | WIP      | comp/org capture templates                                              | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | agenda views                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
@@ -193,6 +193,7 @@
 | WIP      | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el   | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
 | TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | defpkg-format                                                           | ~/comp/core/emacs/              | (emacs lisp)                 |                      |                      |
+| TODO     | project-info better vc info                                             | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | PROJECT  | app                                                                     | ~/comp/core/app/                |                              |                      |                      |
 | WAIT     | homer [1/1]                                                             | ~/comp/core/app/                | (lisp homer)                 |                      |                      |
