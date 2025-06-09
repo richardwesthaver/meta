@@ -17,9 +17,9 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sat Jun 07 18:19:15 2025 -0400                            |
+| updated     | Sun Jun 08 15:31:25 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2323 :λ 2143 :# 7 :_ 173                                  |
+| lines       | 2322 :λ 2142 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,15 +33,15 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    438 **************
+: 2025-06    504 ****************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
+| [[file:readme.org][readme]]    | 2025-06-08 15:38:32 |
 | [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
-| [[file:readme.org][readme]]    | 2025-06-08 15:28:22 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
@@ -177,7 +177,7 @@
 | TODO     | castable                                                                | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | FIXME    | assertion failures in multi-threaded context                            | ~/comp/core/std/                | (lisp std)                   |                      |                      |
 | TBD      | incorporate sb-cltl2 generators/iterators into STD/PIPE                 | ~/comp/core/std/                | (lisp std)                   |                      |                      |
-| PROJECT  | emacs [0/12]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
+| PROJECT  | emacs [1/12]                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | WIP      | comp/org capture templates                                              | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | agenda views                                                            | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
@@ -193,7 +193,6 @@
 | WIP      | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el   | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
 | TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | defpkg-format                                                           | ~/comp/core/emacs/              | (emacs lisp)                 |                      |                      |
-| TODO     | project-info better vc info                                             | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | PROJECT  | app                                                                     | ~/comp/core/app/                |                              |                      |                      |
 | WAIT     | homer [1/1]                                                             | ~/comp/core/app/                | (lisp homer)                 |                      |                      |
