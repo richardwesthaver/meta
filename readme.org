@@ -17,7 +17,7 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sun Jun 08 22:23:31 2025 -0400                            |
+| updated     | Tue Jun 10 12:36:21 2025 -0400                            |
 | langs       | org                                                       |
 | lines       | 2322 :λ 2142 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
@@ -33,7 +33,7 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    515 ****************
+: 2025-06    525 *****************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
@@ -43,7 +43,7 @@
 | [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:readme.org][readme]]    | 2025-06-08 17:10:42 |
+| [[file:readme.org][readme]]    | 2025-06-08 22:31:12 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -131,20 +131,24 @@
 | TODO     | C function declaration arguments                                        | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
 | TODO     | tempo                                                                   | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
 | TODO     | lint                                                                    | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| PROJECT  | skel [0/6]                                                              | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| PROJECT  | skel [0/7]                                                              | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | TODO     | implement task-pool                                                     | ~/comp/core/lib/                | (lisp skel thread)           |                      |                      |
 | TODO     | ensure-rule-source                                                      | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | WAIT     | implement vm                                                            | ~/comp/core/lib/                | (lisp skel)                  | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
 | TODO     | handle missing method errors or define default method when none defined | ~/comp/core/lib/                | (lisp skel bin cli)          |                      |                      |
 | TODO     | skel tasks/runner/timer                                                 | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
+| FIXME    | skel rule compilation environment                                       | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | OUTLINE  | skel template objects                                                   | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | PROJECT  | cry                                                                     | ~/comp/core/lib/cry/            | (lisp)                       |                      |                      |
 | WIP      | ssl                                                                     | ~/comp/core/lib/cry/            | (lisp)                       |                      |                      |
 | WIP      | cl+ssl -> rustls                                                        | ~/comp/core/lib/cry/ssl/        | (lisp)                       |                      |                      |
-| PROJECT  | obj [0/1]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
+| PROJECT  | obj [0/2]                                                               | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
+| TODO     | equiv                                                                   | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
+| OUTLINE  | next steps                                                              | ~/comp/core/lib/obj/            | (lisp obj)                   |                      |                      |
 | WIP      | tensor                                                                  | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | TBD      | arrow interface                                                         | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | TODO     | dispatch strategy for tensor methods                                    | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
+| RESEARCH | SB-SIMD                                                                 | ~/comp/core/lib/obj/tensor.lisp | (lisp obj)                   |                      |                      |
 | PROJECT  | net [0/4]                                                               | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
 | TODO     | fixtures                                                                | ~/comp/core/lib/net/            | (lisp net rt)                |                      |                      |
 | TODO     | tcp                                                                     | ~/comp/core/lib/net/            | (lisp net)                   |                      |                      |
