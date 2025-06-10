@@ -17,7 +17,7 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sun Jun 08 15:31:25 2025 -0400                            |
+| updated     | Sun Jun 08 22:23:31 2025 -0400                            |
 | langs       | org                                                       |
 | lines       | 2322 :λ 2142 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
@@ -33,17 +33,17 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    504 ****************
+: 2025-06    515 ****************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:readme.org][readme]]    | 2025-06-08 15:38:32 |
 | [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
+| [[file:readme.org][readme]]    | 2025-06-08 17:10:42 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -184,7 +184,8 @@
 | FIXME    | compiler warnings                                                       | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | WIP      | graph                                                                   | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO     | default values for link commands                                        | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
-| TODO     | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
+| TBD      | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO     | timeline selection update on pointer hover                              | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO     | org-agenda-follow impl                                                  | ~/comp/core/emacs/              | (emacs org)                  |                      |                      |
 | TODO     | align org-timeline properties with ulang                                | ~/comp/core/emacs/              | (emacs org ulang)            |                      |                      |
@@ -193,7 +194,6 @@
 | WIP      | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el   | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
 | TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | defpkg-format                                                           | ~/comp/core/emacs/              | (emacs lisp)                 |                      |                      |
-| TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | PROJECT  | app                                                                     | ~/comp/core/app/                |                              |                      |                      |
 | WAIT     | homer [1/1]                                                             | ~/comp/core/app/                | (lisp homer)                 |                      |                      |
 | WIP      | mpk [0/2]                                                               | ~/comp/core/app/mpk/            |                              |                      |                      |
