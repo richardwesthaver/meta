@@ -17,9 +17,9 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Fri Jun 13 23:55:08 2025 -0400                            |
+| updated     | Sun Jun 15 21:47:45 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2329 :λ 2149 :# 7 :_ 173                                  |
+| lines       | 2328 :λ 2148 :# 7 :_ 173                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,7 +33,7 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    606 *******************
+: 2025-06    625 ********************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
@@ -43,7 +43,7 @@
 | [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:readme.org][readme]]    | 2025-06-12 21:40:18 |
+| [[file:readme.org][readme]]    | 2025-06-14 00:02:23 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -130,14 +130,6 @@
 | TODO     | C function declaration arguments                                        | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
 | TODO     | tempo                                                                   | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
 | TODO     | lint                                                                    | ~/comp/core/lib/                | (lisp syn)                   |                      |                      |
-| PROJECT  | skel [1/8]                                                              | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| TODO     | rule source                                                             | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| TODO     | ensure-rule-source                                                      | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| TODO     | implement task-pool                                                     | ~/comp/core/lib/                | (lisp skel thread)           |                      |                      |
-| WAIT     | implement vm                                                            | ~/comp/core/lib/                | (lisp skel)                  | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
-| TODO     | handle missing method errors or define default method when none defined | ~/comp/core/lib/                | (lisp skel bin cli)          |                      |                      |
-| TODO     | skel tasks/runner/timer                                                 | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
-| OUTLINE  | skel template objects                                                   | ~/comp/core/lib/                | (lisp skel)                  |                      |                      |
 | PROJECT  | cry                                                                     | ~/comp/core/lib/cry/            | (lisp crypto)                |                      |                      |
 | WIP      | ssl                                                                     | ~/comp/core/lib/cry/            | (lisp crypto)                |                      |                      |
 | WIP      | cl+ssl -> rustls                                                        | ~/comp/core/lib/cry/ssl/        | (lisp crypto)                |                      |                      |
@@ -201,6 +193,14 @@
 | TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/              | (emacs)                      |                      |                      |
 | TODO     | defpkg-format                                                           | ~/comp/core/emacs/              | (emacs lisp)                 |                      |                      |
 | PROJECT  | app                                                                     | ~/comp/core/app/                | (app lisp)                   |                      |                      |
+| PROJECT  | skel [1/8]                                                              | ~/comp/core/app/                | (app lisp skel)              |                      |                      |
+| TODO     | rule source                                                             | ~/comp/core/app/                | (app lisp skel)              |                      |                      |
+| TODO     | ensure-rule-source                                                      | ~/comp/core/app/                | (app lisp skel)              |                      |                      |
+| TODO     | implement task-pool                                                     | ~/comp/core/app/                | (app lisp skel thread)       |                      |                      |
+| WAIT     | implement vm                                                            | ~/comp/core/app/                | (app lisp skel)              | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
+| TODO     | handle missing method errors or define default method when none defined | ~/comp/core/app/                | (app lisp skel bin cli)      |                      |                      |
+| TODO     | skel tasks/runner/timer                                                 | ~/comp/core/app/                | (app lisp skel)              |                      |                      |
+| OUTLINE  | skel template objects                                                   | ~/comp/core/app/                | (app lisp skel)              |                      |                      |
 | WAIT     | homer [1/1]                                                             | ~/comp/core/app/                | (app lisp homer)             |                      |                      |
 | WIP      | mpk [0/2]                                                               | ~/comp/core/app/mpk/            | (app lisp)                   |                      |                      |
 | TODO     | setup API for tmdb and tvdb                                             | ~/comp/core/app/mpk/            | (app lisp)                   |                      |                      |
@@ -208,6 +208,7 @@
 | PROJECT  | pwn [0/2]                                                               | ~/comp/core/app/                | (app lisp pwn)               |                      |                      |
 | TODO     | diz                                                                     | ~/comp/core/app/                | (app lisp pwn asm)           |                      |                      |
 | TODO     | sassy                                                                   | ~/comp/core/app/                | (app lisp pwn net)           |                      |                      |
+| PROJECT  | krypt                                                                   | ~/comp/core/app/                | (app lisp)                   |                      |                      |
 | PROJECT  | bench                                                                   | ~/comp/core/                    | (test bench lisp)            |                      |                      |
 
 #+END:
