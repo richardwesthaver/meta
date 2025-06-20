@@ -174,11 +174,6 @@ cat * | wc -w
   echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
 #+end_src
 
-#+RESULTS: lines
-| 1584 |
-|    1 |
-|  127 |
-
 * langs                                                                  :fs:
 :PROPERTIES:
 :ID:       ff9682f0-bb64-427f-a87d-e0c655f9fdc9
@@ -299,20 +294,6 @@ return tab
     |awk 'BEGIN{print "file size updated"}{print $0}'
 #+end_src
 
-#+RESULTS: files
-| file          | size |          updated |
-|---------------+------+------------------|
-| babel.org     | 24K  | 2024-09-07-19:45 |
-| business.org  | 803  | 2024-08-19-21:19 |
-| glossary.org  | 1.2K | 2024-09-06-15:35 |
-| mindset.org   | 119  | 2024-08-15-21:20 |
-| pitch.org     | 1.6K | 2024-08-11-17:16 |
-| readme.org    | 1.1K | 2024-08-27-21:13 |
-| style.org     | 3.2K | 2024-08-21-16:18 |
-| tech.org      | 3.6K | 2024-08-21-18:16 |
-| ulang.org     | 12K  | 2024-09-06-16:12 |
-| workflows.org | 7.5K | 2024-09-03-16:59 |
-
 * skel-show                                                            :skel:
 :PROPERTIES:
 :ID:       f95ff011-cb4c-4fbb-b94c-d68b6d034710
@@ -368,58 +349,6 @@ return tab
   project--list
 #+end_src
 
-#+RESULTS: project-list
-| ~/comp/core/                    |
-| ~/comp/org/meta/                |
-| ~/.emacs.d/elpa/corfu-terminal/ |
-| ~/comp/core                     |
-| ~/comp/scratch/zig-pg/          |
-| ~/comp/scratch/wam/             |
-| ~/comp/scratch/vdeplug4/        |
-| ~/comp/scratch/tmux/            |
-| ~/comp/scratch/scryer-prolog/   |
-| ~/comp/scratch/screamer/        |
-| ~/comp/scratch/rerun/           |
-| ~/comp/scratch/r8k/             |
-| ~/comp/scratch/qemu/            |
-| ~/comp/scratch/octatrack/       |
-| ~/comp/scratch/nu_plugin_quic/  |
-| ~/comp/scratch/mpk/             |
-| ~/comp/scratch/lemmy/           |
-| ~/comp/scratch/io-uring/        |
-| ~/comp/scratch/infodb/          |
-| ~/comp/scratch/hy/              |
-| ~/comp/scratch/hg/              |
-| ~/comp/scratch/hackrf/          |
-| ~/comp/scratch/gengat/          |
-| ~/comp/scratch/fin/             |
-| ~/comp/scratch/egui/            |
-| ~/comp/scratch/egui-video/      |
-| ~/comp/scratch/dev/             |
-| ~/comp/scratch/davfs2/          |
-| ~/comp/scratch/crust-0/         |
-| ~/comp/scratch/cepl.examples/   |
-| ~/comp/scratch/cc-install/      |
-| ~/comp/scratch/blok/            |
-| ~/comp/scratch/archiso/         |
-| ~/comp/scratch/arch-boxes/      |
-| ~/comp/scratch/                 |
-| ~/comp/pod/                     |
-| ~/comp/org/notes/               |
-| ~/comp/org/docs/                |
-| ~/comp/org/blog/                |
-| ~/comp/org/archive/             |
-| ~/comp/org/                     |
-| ~/comp/infra/.stash/src/emacs/  |
-| ~/comp/infra/                   |
-| ~/comp/home/                    |
-| ~/comp/etc/                     |
-| ~/comp/demo/                    |
-| ~/comp/box/                     |
-| ~/.emacs.d/elpa/org-glossary/   |
-| ~/comp/org/plan/                |
-| ~/.emacs.d/elpa/eglot-x/        |
-
 * project-links                                                     :project:
 :PROPERTIES:
 :ID:       93f14331-cdd6-4528-9739-ae9edcb31a56
@@ -430,10 +359,12 @@ Return an org-mode unordered-list of project links.
   (let ((name (project-name (project-current nil project)))
         (link-fmt "https://%s/%s/%s.html"))
     (list (org-link-make-string (format link-fmt company-domain "docs" (format "%s/index" name)) "Docs")
-           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/stats" name)) "Stats")
-           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/man" name)) "Manual")
-           (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
+          (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
 #+end_src
+
+#+RESULTS: project-links
+- [[https://compiler.company/docs/meta/index.html][Docs]]
+- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
 
 #+RESULTS:
 - [[https://compiler.company/docs/meta/index.html][Docs]]
@@ -483,20 +414,6 @@ Return an org-mode unordered-list of project links.
       hline))
 #+end_src
 
-#+RESULTS: project-details
-|-------------+-----------------------------------------------------------|
-| name        | meta                                                      |
-| version     | :version 0.1.0                                            |
-| description | :description CC Org Files                                 |
-| skel-id     | :id 1784914079056115652                                   |
-| root        | ~/comp/org/meta/                                          |
-| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/7ad8b787d298][7ad8b787d298:65+]]        |
-| tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sat Jun 07 18:19:15 2025 -0400                            |
-| langs       | org                                                       |
-| lines       | 2323 :λ 2143 :# 7 :_ 173                                  |
-|-------------+-----------------------------------------------------------|
-
 * project-vc-files                                               :project:fs:
 :PROPERTIES:
 :ID:       cbe33095-3f50-4436-89e9-ed843d6d3a65
@@ -533,17 +450,6 @@ exist locally.
                                         (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
                                 (project-files proj)))))
 #+end_src
-
-#+RESULTS: project-vc-files
-| file          | size | modified            |
-|---------------+------+---------------------|
-| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 223k | 2025-03-15 15:41:17 |
-| [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 803  | 2024-08-19 21:19:33 |
-| [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 1.9k | 2024-12-30 22:28:33 |
-| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 3.2k | 2025-03-09 14:41:10 |
-| [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 3.2k | 2024-09-29 23:03:07 |
-| [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-02-21 20:05:31 |
-| [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 7.4k | 2025-02-10 20:41:01 |
 
 * project-html-files                                                :project:
 :PROPERTIES:
@@ -583,18 +489,6 @@ exist locally.
                                 (project-files proj)))))
 #+end_src
 
-#+RESULTS: project-html-files
-| file      | modified            |
-|-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2025-02-24 18:49:14 |
-| [[https://compiler.company/meta/index.html][index]]     | 2025-02-24 17:44:38 |
-| [[https://compiler.company/meta/business.html][business]]  | 2024-08-19 21:19:33 |
-| [[https://compiler.company/meta/glossary.html][glossary]]  | 2024-12-30 22:28:33 |
-| [[https://compiler.company/meta/pitch.html][pitch]]     | 2025-02-21 20:06:21 |
-| [[https://compiler.company/meta/style.html][style]]     | 2024-09-29 23:03:07 |
-| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-02-21 20:05:31 |
-| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-02-10 20:41:01 |
-
 * project-files                                                  :project:fs:
 :PROPERTIES:
 :ID:       6baaa31f-6507-423f-b730-2c399d9ae40a
@@ -628,17 +522,6 @@ exist locally.
   				    (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
   			    (project-files proj)))))
 #+end_src
-
-#+RESULTS: project-files
-| file      | modified            |
-|-----------+---------------------|
-| [[file:babel.org][babel]]     | 2025-05-13 17:31:11 |
-| [[file:readme.org][readme]]    | 2025-05-11 01:09:25 |
-| [[file:business.org][business]]  | 2024-08-19 21:19:33 |
-| [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:style.org][style]]     | 2024-09-29 23:03:07 |
-| [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
-| [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
 
 * project-tasks                                                 :project:org:
 :PROPERTIES:
@@ -850,11 +733,6 @@ hg id -n
 hg status
 #+end_src
 
-#+RESULTS: hg-status
-| M | babel.org    |
-| M | glossary.org |
-| M | ulang.org    |
-
 * hg-diff-stat                                                           :vc:
 :PROPERTIES:
 :ID:       df0bafb8-752c-4067-96fb-de9a9269bba3
@@ -863,12 +741,6 @@ hg status
 #+begin_src shell :dir "." :results output
 hg diff -S -g --stat
 #+end_src
-
-#+RESULTS: hg-diff-stat
-:  babel.org |  62 ++++++++++++++++++++++++++++++++++++++------------------------
-:  tech.org  |   3 +++
-:  ulang.org |  16 ++++++++--------
-:  3 files changed, 49 insertions(+), 32 deletions(-)
 
 * homer                                                               :homer:
 :PROPERTIES:
@@ -1048,15 +920,6 @@ dot -V 2>&1
       (:logical-hosts ,(length *logical-hosts*))))
 #+end_src
 
-#+RESULTS: lisp-stats
-| :SYSTEMS        | 5688 |
-| :PACKAGES       |  593 |
-| :SYMBOLS        | 3255 |
-| :FEATURES       |   86 |
-| :SHARED-OBJECTS |   20 |
-| :LINKAGE-INFO   | 2194 |
-| :LOGICAL-HOSTS  |    2 |
-
 * lisp-system-directory                                                :lisp:
 #+name: lisp-system-directory
 #+begin_src lisp :var system='user :results replace
@@ -1171,6 +1034,7 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
       (goto-char (org-table-end)))
     (buffer-string))
 #+END_SRC
+
 * insert-table-from-file                                           :table:fs:
 :PROPERTIES:
 :ID:       bde8705d-0969-493d-91b9-51a93ae09efa
@@ -1323,14 +1187,14 @@ dd if=/dev/urandom of=$file count=$count bs=$bs
 
 #+name: urand-stdout
 #+begin_src sh
-# generate random numbers to stdout
-od -d /dev/urandom
+  # generate random numbers to stdout
+  od -d /dev/urandom
 #+end_src
 
 #+name: random-sha512
-#+begin_src sh
-# generate hash of 128 random bytes
-dd if=/dev/urandom  count=1 bs=128 | sha512sum
+#+begin_src shell
+  # generate hash of 128 random bytes
+  dd if=/dev/urandom  count=1 bs=128 | sha512sum
 #+end_src
 
 #+RESULTS: random-sha512
