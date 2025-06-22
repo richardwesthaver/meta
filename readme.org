@@ -17,9 +17,9 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Tue Jun 17 20:45:53 2025 -0400                            |
+| updated     | Fri Jun 20 19:48:23 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2329 :λ 2149 :# 7 :_ 173                                  |
+| lines       | 2193 :λ 2021 :# 7 :_ 165                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -33,17 +33,17 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    676 **********************
+: 2025-06    842 ***************************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:babel.org][babel]]     | 2025-06-08 15:20:37 |
+| [[file:babel.org][babel]]     | 2025-06-19 17:49:11 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:readme.org][readme]]    | 2025-06-17 19:52:41 |
+| [[file:readme.org][readme]]    | 2025-06-17 23:34:30 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
