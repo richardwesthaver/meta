@@ -17,7 +17,7 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Mon Jun 23 18:16:04 2025 -0400                            |
+| updated     | Tue Jun 24 00:25:01 2025 -0400                            |
 | langs       | org                                                       |
 | lines       | 2193 :λ 2021 :# 7 :_ 165                                  |
 |-------------+-----------------------------------------------------------|
@@ -33,7 +33,7 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    858 ***************************
+: 2025-06    864 ****************************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
@@ -43,7 +43,7 @@
 | [[file:babel.org][babel]]     | 2025-06-19 17:49:11 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:readme.org][readme]]    | 2025-06-22 20:35:53 |
+| [[file:readme.org][readme]]    | 2025-06-23 18:23:04 |
 | [[file:style.org][style]]     | 2024-09-29 23:03:07 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -76,13 +76,12 @@
 | TODO     | xkb practical example                                                   | ~/comp/core/ffi/                | (lisp ffi example x kb)      |                      |                      |
 | TODO     | keyutils practical example                                              | ~/comp/core/ffi/                | (lisp ffi example crypto)    |                      |                      |
 | PROJECT  | lib                                                                     | ~/comp/core/lib/                | (lisp)                       |                      |                      |
-| PROJECT  | cli [1/5]                                                               | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
+| PROJECT  | cli [2/5]                                                               | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
 | PROJECT  | cli/clap [1/5]                                                          | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
 | TODO     | conditions implementation                                               | ~/comp/core/lib/cli/clap/       | (lisp cli)                   |                      |                      |
 | TODO     | minimal documentation                                                   | ~/comp/core/lib/cli.org         | (lisp cli doc)               |                      |                      |
 | TODO     | keyword selectors                                                       | ~/comp/core/lib/cli/clap/       | (lisp cli skel)              |                      |                      |
 | TODO     | clap fixtures                                                           | ~/comp/core/lib/cli/clap/       | (lisp cli test)              |                      |                      |
-| TODO     | linedit prefixes                                                        | ~/comp/core/lib/cli/            | (lisp)                       | 2025-06-13 Fri 00:00 |                      |
 | TODO     | accept CLI-OPTS from parent CLI-CMD in PROC-ARGS                        | ~/comp/core/lib/cli/            | (lisp)                       |                      |                      |
 | TODO     | destructure cli opts                                                    | ~/comp/core/lib/cli/            | (lisp macro)                 |                      |                      |
 | PROJECT  | q [0/4]                                                                 | ~/comp/core/lib/                | (lisp q)                     |                      |                      |
