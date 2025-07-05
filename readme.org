@@ -17,7 +17,7 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sat Jun 28 23:31:26 2025 -0400                            |
+| updated     | Sun Jun 29 23:02:00 2025 -0400                            |
 | langs       | org                                                       |
 | lines       | 2194 :λ 2022 :# 7 :_ 165                                  |
 |-------------+-----------------------------------------------------------|
@@ -33,14 +33,14 @@
 : 2025-03    508 ****************
 : 2025-04    172 *****
 : 2025-05    637 ********************
-: 2025-06    881 ****************************
+: 2025-06   1207 ***************************************
 
 #+CALL: project-files() :dir ~/comp/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:readme.org][readme]]    | 2025-06-28 23:39:50 |
+| [[file:readme.org][readme]]    | 2025-06-29 23:10:27 |
 | [[file:babel.org][babel]]     | 2025-06-19 17:49:11 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
