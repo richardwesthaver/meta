@@ -17,9 +17,9 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sat Jul 05 00:56:44 2025 -0400                            |
+| updated     | Sat Jul 05 17:43:12 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2194 :λ 2022 :# 7 :_ 165                                  |
+| lines       | 2197 :λ 2025 :# 7 :_ 165                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -35,7 +35,7 @@
 2025-04    172 *****
 2025-05    637 ********************
 2025-06   1207 ***************************************
-2025-07     10 
+2025-07     37 *
 #+end_example
 
 #+CALL: project-files() :dir ~/comp/org/meta/
@@ -43,10 +43,10 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
+| [[file:readme.org][readme]]    | 2025-07-05 17:51:41 |
 | [[file:babel.org][babel]]     | 2025-06-19 17:49:11 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
-| [[file:readme.org][readme]]    | 2025-07-02 19:56:25 |
 | [[file:style.org][style]]     | 2025-07-04 22:27:45 |
 | [[file:ulang.org][ulang]]     | 2025-02-21 20:05:31 |
 | [[file:workflows.org][workflows]] | 2025-02-10 20:41:01 |
@@ -165,12 +165,13 @@
 | PROJECT  | log [0/2]                                                               | ~/comp/core/lib/log/                                      | (lisp)                       |                      |                      |
 | TODO     | log-broadcast-stream                                                    | ~/comp/core/lib/log/                                      | (lisp)                       |                      |                      |
 | TODO     | async-db-log-file                                                       | ~/comp/core/lib/log/                                      | (lisp)                       |                      |                      |
-| PROJECT  | std [3/13]                                                              | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
+| PROJECT  | std [3/14]                                                              | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
 | WIP      | documentation sweep                                                     | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
 | TODO     | standard package sets                                                   | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
 | TODO     | more (useful) bit tricks                                                | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
 | HOLD     | defsys                                                                  | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
 |          | Modules                                                                 | ~/comp/core/std/                                          | (lisp std)                   |                      |                      |
+| TBD      | array index fmt                                                         | ~/comp/core/std/                                          | (lisp std fmt)               |                      |                      |
 | TODO     | test sweep                                                              | ~/comp/core/std/                                          | (lisp std test)              |                      |                      |
 | TODO     | thread-pool impl                                                        | ~/comp/core/std/thread.lisp                               | (lisp std thread)            |                      |                      |
 | TODO     | specify kernel function prototypes                                      | ~/comp/core/std/thread.lisp                               | (lisp std thread)            |                      |                      |
