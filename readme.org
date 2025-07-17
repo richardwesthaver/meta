@@ -17,9 +17,9 @@
 | skel-id     | :id 1784914079056115652                                   |
 | root        | ~/comp/org/meta/                                          |
 | tags        | :tags (org docs notes blog meta plan archive notes graph) |
-| updated     | Sat Jul 05 17:43:12 2025 -0400                            |
+| updated     | Sun Jul 06 22:04:39 2025 -0400                            |
 | langs       | org                                                       |
-| lines       | 2197 :λ 2025 :# 7 :_ 165                                  |
+| lines       | 2199 :λ 2027 :# 7 :_ 165                                  |
 |-------------+-----------------------------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -35,7 +35,7 @@
 2025-04    172 *****
 2025-05    637 ********************
 2025-06   1207 ***************************************
-2025-07     37 *
+2025-07     48 *
 #+end_example
 
 #+CALL: project-files() :dir ~/comp/org/meta/
@@ -43,7 +43,7 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[file:readme.org][readme]]    | 2025-07-05 17:51:41 |
+| [[file:readme.org][readme]]    | 2025-07-15 21:26:19 |
 | [[file:babel.org][babel]]     | 2025-06-19 17:49:11 |
 | [[file:business.org][business]]  | 2024-08-19 21:19:33 |
 | [[file:glossary.org][glossary]]  | 2025-05-08 20:48:48 |
@@ -78,6 +78,7 @@
 | TODO     | btrfs practical example                                                 | ~/comp/core/ffi/                                          | (lisp ffi example btrfs)     |                      |                      |
 | TODO     | xkb practical example                                                   | ~/comp/core/ffi/                                          | (lisp ffi example x kb)      |                      |                      |
 | TODO     | keyutils practical example                                              | ~/comp/core/ffi/                                          | (lisp ffi example crypto)    |                      |                      |
+| PROJECT  | bin                                                                     | ~/comp/core/                                              |                              |                      |                      |
 | PROJECT  | lib                                                                     | ~/comp/core/lib/                                          | (lisp)                       |                      |                      |
 | PROJECT  | cli [2/6]                                                               | ~/comp/core/lib/cli/                                      | (lisp)                       |                      |                      |
 | PROJECT  | cli/clap [1/5]                                                          | ~/comp/core/lib/cli/clap/                                 | (lisp cli)                   |                      |                      |
