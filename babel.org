@@ -842,7 +842,7 @@ dot -V 2>&1
 #+name: load-user
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :core/user))
+    (slime-eval '(ql:quickload :core/user))
     (slime-repl-set-package "USER"))
 #+end_src
 * std-slime                                                            :lisp:
