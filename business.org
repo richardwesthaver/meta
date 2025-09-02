@@ -4,14 +4,29 @@
 #+description: The Compiler Company Business Model
 #+setupfile: ../clean.theme
 In short, this document describes the business aspects of The Compiler
-Company LLC. We are designed to be small, fast, and agile. We
-infiltrate a market, apply our methodology, and develop solutions that
-are simply years ahead of the competition. We treat the market like
-we're the only supplier, because we can. This is in part due to our
-internal research & development pursuits, but also our approach to
-business. We build businesses and revenue streams the exact same way
-we build software -- with a bottom up approach. This is our secret
-weapon, and what gives us the ability to adapt to any environment
-where our interests lie.
+Company LLC.
 
-#+TOC: headlines 3
+Our objective is to infiltrate markets, apply our methodology, and
+develop competitive domain-specific solutions. 
+
+Our solutions respect users. We do not create black boxes. We protect
+user privacy and freedom no matter the cost. 
+
+Our software is different. So are we, and so are our customers. We do
+not design software for casual users, we design software for *power
+users*. When you use choose to use our software you are choosing to
+reject consumerist technology as much as humanly possible in a modern
+research environment. You are setting yourself up to never be at the
+mercy of a malicious tech company who create products first and
+software second. No matter the solutions (applications) we offer, we
+aim to provide a blueprint for establishing your own unique and
+extremely specialized environment using our tools and discovering the
+joy of complete software freedom.
+
+Our software puts you in the driver's seat and encourages you to take
+a peek under the hood to suit your specific needs because *that's
+what it takes to be the best at what you do*.
+
+We build businesses and programmatic revenue streams the exact same
+way we build software. Our businesses are effectively programs
+operated remotely using our software.

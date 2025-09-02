@@ -862,8 +862,7 @@ dot -V 2>&1
 #+name: load-tests
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :core/tests))
-    (slime-repl-set-package "CORE/TESTS"))
+    (slime-eval '(asdf:load-system :core/tests)))
 #+end_src
 * lisp-system-files*                                                   :lisp:
 #+name: lisp-system-files*
