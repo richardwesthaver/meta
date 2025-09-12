@@ -43,6 +43,9 @@ on code comments and developer docs.
 - save type declarations and hairy optimizations for when the API is
   polished
 - don't be afraid of macros
+- prefer the ='(foo . args)= pattern over =`(foo ,@args)= where
+  possible
+
 ** Systems
 :PROPERTIES:
 :ID:       2a323c4c-362c-429f-9849-587e2a7311f5
