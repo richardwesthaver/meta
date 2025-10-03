@@ -845,6 +845,14 @@ dot -V 2>&1
     (slime-eval '(ql:quickload :core))
     (slime-repl-set-package "USER"))
 #+end_src
+
+#+name: load-core
+#+begin_src emacs-lisp :results silent :eval no-export
+  (when (slime-connected-p)
+    (slime-eval '(ql:quickload :core :ffi))
+    (slime-repl-set-package "USER"))
+#+end_src
+
 * std-slime                                                            :lisp:
 :PROPERTIES:
 :ID:       334dae41-5c35-48bd-8368-71d79f5e48d8
@@ -862,7 +870,7 @@ dot -V 2>&1
 #+name: load-tests
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :core/tests)))
+    (slime-eval '(ql:quickload '(:core/tests :ffi/tests))))
 #+end_src
 * lisp-system-files*                                                   :lisp:
 #+name: lisp-system-files*
