@@ -464,7 +464,7 @@ exist locally.
          (project-vc-include-untracked nil)
          (exclude-files '(".hgignore" ".stash"))
          ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
-         (link-fmt "https://compiler.company/%s/%s"))
+         (link-fmt "https://otom8.dev/%s/%s"))
     `((file modified)
       hline
       ,@(mapcar (lambda (x)
