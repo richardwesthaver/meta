@@ -7,77 +7,78 @@
 :ID:       755feacc-24d1-4e6d-aff7-dd46270ee0b6
 :CUSTOM_ID: terms
 :END:
-- GNU/Linux :: An Operating System that is free software, consisting
-  of GNU packages released by the [[https://www.gnu.org/home.en.html][GNU Project]].
-- Linux :: A free and open-source Kernel. Not to be confused with
-  GNU/Linux the Operating System
-- Eval :: Evaluate
 - Alloc :: Allocate
-- Ret :: Return
-- Val :: Value
-- Srv :: Service or Server
-- Pkg :: Package
-- Err :: Error
-- Net :: Network
-- Lib :: Library
+- Arch :: Architecture or Arch Linux
 - Bin :: Binary
-- Pod :: OCI container
-- Pos :: Position
-- Std :: Standard
-- Req :: Request
-- Obj :: Object
-- Vec :: Vector
-- Proto :: Protocol
-- Ser :: Serialize
-- De :: Deserialize
-- Cry :: Cryptography
-- Syn :: Syntax
-- Sys :: System
-- Sxp :: S-Expression
 - Cfg :: Configuration
 - Comp :: Compiler
-- Arch :: Architecture or Arch Linux
+- Cry :: Cryptography
+- De :: Deserialize
+- Err :: Error
+- Eval :: Evaluate
+- GNU/Linux :: An Operating System that is free software, consisting
+  of GNU packages released by the [[https://www.gnu.org/home.en.html][GNU Project]].
+- Lib :: Library
+- Linux :: A free and open-source Kernel. Not to be confused with
+  GNU/Linux the Operating System
+- Net :: Network
+- Obj :: Object
+- Pkg :: Package
+- Pod :: OCI container
+- Pos :: Position
+- Proto :: Protocol
+- Req :: Request
+- Ret :: Return
+- Ser :: Serialize
+- Srv :: Service or Server
+- Std :: Standard
+- Sxp :: S-Expression
+- Syn :: Syntax
+- Sys :: System
+- Val :: Value
+- Vec :: Vector
 * Acronyms
 :PROPERTIES:
 :ID:       6ea8f879-29f1-4a52-8e39-4d0920318f8a
 :CUSTOM_ID: acronyms
 :END:
-- WRT :: With Respect To
-- IFF :: If and Only If
-- NYI :: Not Yet Implemented
-- WIP :: Work In Progress
-- TBD :: To Be Determined
-- TCO :: Tail-Call Optimization
-- GNU :: GNU Not Unix
-- LKG :: Last Known Good
-- RT :: Regression Testing
-- CL :: Common Lisp
-- EL :: Emacs Lisp
+- AST :: Abstract Syntax Tree
 - CC :: C Compiler
-- FC :: Fortran Compiler
-- VC :: Version Control
+- CL :: Common Lisp
 - CLI :: Command Line Interface
-- GUI :: Graphic User Interface
-- TUI :: Terminal User Interface
-- UX :: User Experience
-- DX :: Developer Experience
-- TLV :: Type, Length, Value
-- FFI :: Foreign Function Interface
-- SBCL :: Steel Bank Common Lisp
-- NLP :: Natural Language Processing
-- OSC :: Open Sound Control
+- CLIM :: Common Lisp Interface Manager
+- CLOS :: Common Lisp Object System
+- DB :: Database
 - DSP :: Digital Signal Processing
+- DX :: Developer Experience
+- EL :: Emacs Lisp
+- FC :: Fortran Compiler
+- FFI :: Foreign Function Interface
+- GNU :: GNU Not Unix
+- GUI :: Graphic User Interface
+- IFF :: If and Only If
+- KV :: Key:Value
+- LKG :: Last Known Good
+- LOB :: Library of Babel
+- LOL :: Let Over Lambda
+- MOP :: Meta Object Protocol
+- MRV :: Multiple Return Values
+- NLP :: Natural Language Processing
+- NYI :: Not Yet Implemented
+- OSC :: Open Sound Control
 - OS :: Operating System
 - OSS :: Open Source Software
-- DB :: Database
-- KV :: Key:Value
-- AST :: Abstract Syntax Tree
-- VM :: Virtual Machine
-- TAOMOP :: The Art Of The Meta Object Protocol
-- MOP :: Meta Object Protocol
 - PCL :: Practical Common Lisp
-- CLOS :: Common Lisp Object System
-- CLIM :: Common Lisp Interface Manager
-- LOL :: Let Over Lambda
-- LOB :: Library of Babel
 - PPCRE :: Portable Perl-Compatible Regular Expressions
+- RT :: Regression Testing
+- SBCL :: Steel Bank Common Lisp
+- TAOMOP :: The Art Of The Meta Object Protocol
+- TBD :: To Be Determined
+- TCO :: Tail-Call Optimization
+- TLV :: Type, Length, Value
+- TUI :: Terminal User Interface
+- UX :: User Experience
+- VC :: Version Control
+- VM :: Virtual Machine
+- WIP :: Work In Progress
+- WRT :: With Respect To

@@ -778,6 +778,68 @@ homer
     (edges ,(hash-table-count (org-graph-edges org-graph)))
     (files ,(length (org-graph-files t))))
 #+end_src
+
+* org-graph-ui                                                    :org:graph:
+:PROPERTIES:
+:ID:       b47eae4c-2173-4d75-8c2a-ccccdcd2c2fa
+:CREATED:  <2025-10-10 Fri 18:34>
+:END:
+#+name: org-graph-ui
+#+begin_src emacs-lisp :exports code :results html
+  (format "<div id='3d-graph'></div>
+
+  <script type='module'>
+      import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';
+      const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
+        { extraRenderers: [new CSS2DRenderer()] })
+        .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+        .nodeId('id')
+        .nodeLabel('id')
+        .nodeAutoColorBy('path')
+        .linkSource('in')
+        .linkTarget('out')
+      .nodeThreeObject(node => {
+        const e = document.createElement('a');
+        e.href = node.path;
+        e.textContent = node.name;
+        e.style.color = node.color;
+        e.className = 'node-label';
+        return new CSS2DObject(e);
+      })
+      .onNodeClick(node => { window.open(node.path); })
+      .nodeThreeObjectExtend(true);
+      Graph.d3Force('charge').strength(-140);
+    </script>")
+#+end_src
+
+#+RESULTS: org-graph-ui
+#+begin_export html
+<div id='3d-graph'></div>
+
+<script type='module'>
+    import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';
+    const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
+      { extraRenderers: [new CSS2DRenderer()] })
+      .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+      .nodeId('id')
+      .nodeLabel('id')
+      .nodeAutoColorBy('path')
+      .linkSource('in')
+      .linkTarget('out')
+    .nodeThreeObject(node => {
+      const e = document.createElement('a');
+      e.href = node.path;
+      e.textContent = node.name;
+      e.style.color = node.color;
+      e.className = 'node-label';
+      return new CSS2DObject(e);
+    })
+    .onNodeClick(node => { window.open(node.path); })
+    .nodeThreeObjectExtend(true);
+    Graph.d3Force('charge').strength(-140);
+  </script>
+#+end_export
+
 * org-graph-init                                                  :org:graph:
 :PROPERTIES:
 :CREATED:  <2025-03-09 Sun 14:32>
@@ -873,6 +935,9 @@ dot -V 2>&1
     (slime-eval '(ql:quickload '(:core/tests :ffi/tests))))
 #+end_src
 * lisp-system-files*                                                   :lisp:
+:PROPERTIES:
+:ID:       c3c52be9-d427-42b5-82ef-5ca296dbcb2a
+:END:
 #+name: lisp-system-files*
 #+begin_src lisp :var system='user :results replace
   (let ((*print-length* 512)
@@ -886,6 +951,9 @@ dot -V 2>&1
       (doc:doc-dependencies (doc:system-documentation system)))))
 #+end_src
 * lisp-system-files                                                    :lisp:
+:PROPERTIES:
+:ID:       e1e7ccad-6dea-45cc-adc6-cd709147678d
+:END:
 #+name: lisp-system-files
 #+begin_src lisp :var system='user :results replace
   (let ((system (asdf:find-system system)))
@@ -897,6 +965,9 @@ dot -V 2>&1
 #+end_src
 
 * lisp-stats                                                      :lisp:
+:PROPERTIES:
+:ID:       6ce69c48-8c02-4045-b77f-ff4578dde357
+:END:
 #+name: lisp-stats
 #+begin_src lisp :results replace :var dist="quicklisp"
   ;; TODO 2025-03-02: cc dist
@@ -911,70 +982,106 @@ dot -V 2>&1
 #+end_src
 
 * lisp-system-directory                                                :lisp:
+:PROPERTIES:
+:ID:       8b6da653-ad2b-4977-a9c6-60f8ceb8964c
+:END:
 #+name: lisp-system-directory
 #+begin_src lisp :var system='user :results replace
   (namestring (asdf:system-source-directory (asdf:find-system system)))
 #+end_src
 
 * lisp-system-depends-on                                               :lisp:
+:PROPERTIES:
+:ID:       03ba435f-f426-480b-8a17-122c0f6ec4b1
+:END:
 #+name: lisp-system-depends-on
 #+begin_src lisp :var system='user :results replace
   (asdf:system-depends-on (asdf:find-system system))
 #+end_src
 * lisp-system-dependents                                               :lisp:
+:PROPERTIES:
+:ID:       a4da4509-d9d4-4fdc-abdd-adef0e80eac4
+:END:
 #+name: lisp-system-dependents
 #+begin_src lisp :var system='user :results replace
   (mapcar 'asdf:component-name (doc::find-system-dependents (asdf:find-system system)))
 #+end_src
 * lisp-system-depencies                                                :lisp:
+:PROPERTIES:
+:ID:       31e5e381-efe0-47af-a693-7ea607e1cb06
+:END:
 #+name: lisp-system-dependencies
 #+begin_src lisp :var system='user :results replace
   (mapcar 'name (doc:doc-dependencies (doc:system-documentation system)))
 #+end_src
 
 * lisp-system-packages                                                 :lisp:
+:PROPERTIES:
+:ID:       f2155a94-2bd7-4a37-a158-6ba16c55fc74
+:END:
 #+name: lisp-system-packages
 #+begin_src lisp :var system='user :results replace
   (mapcar 'name (doc:doc-packages (doc:system-documentation system)))
 #+end_src
 
 * lisp-system-tests                                                    :lisp:
+:PROPERTIES:
+:ID:       d83b3c38-ad02-4a1f-b6db-57a1d4acd9d3
+:END:
 #+name: lisp-system-tests
 #+begin_src lisp :var system='std :results replace
   (mapcar 'name (rt:tests (rt:find-suite system)))
 #+end_src
 
 * lisp-test-system                                                     :lisp:
+:PROPERTIES:
+:ID:       0716fc3f-56e9-41ff-8b97-255fcc86297c
+:END:
 #+name: lisp-test-system
 #+begin_src lisp :var system='std :results replace
   (rt:do-tests (rt:find-suite system) :force t)
 #+end_src
 
 * lisp-package-dependencies                                            :lisp:
+:PROPERTIES:
+:ID:       a957c157-da68-4651-a136-befae41ea408
+:END:
 #+name: lisp-package-dependencies
 #+begin_src lisp :var package='skel :results replace
   (mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-dependents                                              :lisp:
+:PROPERTIES:
+:ID:       15fde8e1-b223-4185-a3cf-2cebacd0217a
+:END:
 #+name: lisp-package-dependents
 #+begin_src lisp :var package='std :results replace
   (mapcar 'name (flatten (doc:doc-dependents (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-files                                                   :lisp:
+:PROPERTIES:
+:ID:       43aa4573-46b1-49c7-b1d0-fee48c80c62d
+:END:
 #+name: lisp-package-files
 #+begin_src lisp :var package='std :results replace
   (mapcar 'namestring (map 'list 'path (doc:doc-files (doc:package-documentation package))))
 #+end_src
 
 * lisp-package-symbols                                                 :lisp:
+:PROPERTIES:
+:ID:       96c4e8d9-31f8-4d5f-8605-031d8a328cdb
+:END:
 #+name: lisp-package-symbols
 #+begin_src lisp :var package='std :results replace
   (map 'list 'name (doc:doc-symbols (doc:package-documentation package)))
 #+end_src
 
 * lisp-dist-systems                                                    :lisp:
+:PROPERTIES:
+:ID:       97639bea-6df8-4bd3-8e22-24b6db6057e9
+:END:
 #+name: lisp-dist-systems
 #+begin_src lisp :var dist="quicklisp" :results replace
   (map 'list 'ql-dist:name (doc::doc-systems (doc:dist-documentation dist)))
