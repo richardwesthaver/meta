@@ -779,17 +779,54 @@ homer
     (files ,(length (org-graph-files t))))
 #+end_src
 
-* org-graph-ui                                                    :org:graph:
+* org-graph-search                                             :org:graph:js:
+:PROPERTIES:
+:ID:       25c92633-1654-4a8a-ada1-0a15450ad010
+:CREATED:  <2025-10-11 Sat 23:22>
+:END:
+#+name: org-graph-search
+#+begin_src emacs-lisp :exports code :results html
+  (format "<input id='search' name='text' type='text' placeholder='?:' />
+
+  <script type='module'>
+      const Search = new MiniSearch({
+        fields: ['name','tags','content','id','path']
+        searchOptions: {
+          boost: { name: 3, tags: 2, content: 1 },
+          fuzzy: 0.2
+        }
+      });
+      Search.addAll(fetch('https://cdn.otom8.dev/data/org-graph-index.json'));
+    </script>")
+#+end_src
+
+#+RESULTS: org-graph-search
+#+begin_export html
+<input id='search' name='text' type='text' placeholder='?:' />
+
+<script type='module'>
+    const Search = new MiniSearch({
+      fields: ['name','tags','content','id','path']
+      searchOptions: {
+        boost: { name: 3, tags: 2, content: 1 },
+        fuzzy: 0.2
+      }
+    });
+    Search.addAll(fetch('https://cdn.otom8.dev/data/org-graph-index.json'));
+  </script>
+#+end_export
+
+* org-graph-3d                                                 :org:graph:js:
 :PROPERTIES:
 :ID:       b47eae4c-2173-4d75-8c2a-ccccdcd2c2fa
 :CREATED:  <2025-10-10 Fri 18:34>
 :END:
-#+name: org-graph-ui
+#+name: org-graph-3d
 #+begin_src emacs-lisp :exports code :results html
   (format "<div id='3d-graph'></div>
 
   <script type='module'>
-      import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';
+      import { CSS2DRenderer, CSS2DObject } from 'https://cdn.otom8.dev/js/CSS2DRenderer.mjs';
       const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
         { extraRenderers: [new CSS2DRenderer()] })
         .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
@@ -812,12 +849,12 @@ homer
     </script>")
 #+end_src
 
-#+RESULTS: org-graph-ui
+#+RESULTS: org-graph-3d
 #+begin_export html
 <div id='3d-graph'></div>
 
 <script type='module'>
-    import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';
+    import { CSS2DRenderer, CSS2DObject } from 'https://cdn.otom8.dev/js/CSS2DRenderer.mjs';
     const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
       { extraRenderers: [new CSS2DRenderer()] })
       .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
