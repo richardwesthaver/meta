@@ -3,6 +3,7 @@
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
 #+property: header-args :exports both :eval no-export
+#+options: props:t
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
 documentation.
