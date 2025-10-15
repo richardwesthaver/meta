@@ -780,41 +780,52 @@ homer
     (files ,(length (org-graph-files t))))
 #+end_src
 
-* org-graph-search                                             :org:graph:js:
+* TODO org-graph-search                                        :org:graph:js:
 :PROPERTIES:
 :ID:       25c92633-1654-4a8a-ada1-0a15450ad010
 :CREATED:  <2025-10-11 Sat 23:22>
 :END:
+:LOGBOOK:
+- State "TODO"       from              [2025-10-14 Tue 20:17]
+- Note taken on [2025-10-14 Tue 20:17] \\
+  need custom extractor for nested properties
+:END:
 #+name: org-graph-search
 #+begin_src emacs-lisp :exports code :results html
-  (format "<input id='search' name='text' type='text' placeholder='?:' />
-
+  (format "<input id='search' name='text' type='text' placeholder='search' />
   <script type='module'>
-      const Search = new MiniSearch({
-        fields: ['name','tags','content','id','path']
-        searchOptions: {
-          boost: { name: 3, tags: 2, content: 1 },
-          fuzzy: 0.2
-        }
+    let nodes = {}
+    const Search = new MiniSearch({
+      fields: ['title','tags','contents'],
+      searchOptions: {
+        fuzzy: 0.2
+      }
+    });
+    fetch('https://cdn.otom8.dev/data/org-graph-index.json')
+      .then(r => r.json())
+      .then((index) => {
+        return Search.addAll(index)
       });
-      Search.addAll(fetch('https://cdn.otom8.dev/data/org-graph-index.json'));
-    </script>")
+  </script>")
 #+end_src
 
 #+RESULTS: org-graph-search
 #+begin_export html
-<input id='search' name='text' type='text' placeholder='?:' />
-
+<input id='search' name='text' type='text' placeholder='search' />
 <script type='module'>
-    const Search = new MiniSearch({
-      fields: ['name','tags','content','id','path']
-      searchOptions: {
-        boost: { name: 3, tags: 2, content: 1 },
-        fuzzy: 0.2
-      }
+  let nodes = {}
+  const Search = new MiniSearch({
+    fields: ['title','tags','contents',],
+    searchOptions: {
+      fuzzy: 0.2
+    }
+  });
+  fetch('https://cdn.otom8.dev/data/org-graph-index.json')
+    .then(r => r.json())
+    .then((index) => {
+      return Search.addAll(index)
     });
-    Search.addAll(fetch('https://cdn.otom8.dev/data/org-graph-index.json'));
-  </script>
+</script>
 #+end_export
 
 * org-graph-3d                                                 :org:graph:js:
