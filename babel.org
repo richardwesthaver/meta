@@ -792,40 +792,34 @@ homer
 :END:
 #+name: org-graph-search
 #+begin_src emacs-lisp :exports code :results html
-  (format "<input id='search' name='text' type='text' placeholder='search' />
-  <script type='module'>
-    let nodes = {}
-    const Search = new MiniSearch({
-      fields: ['title','tags','contents'],
-      searchOptions: {
-        fuzzy: 0.2
-      }
-    });
-    fetch('https://cdn.otom8.dev/data/org-graph-index.json')
-      .then(r => r.json())
-      .then((index) => {
-        return Search.addAll(index)
-      });
-  </script>")
+  (format "<div class='search'>
+  <input type='text' placeholder='search' name='graph' autoComplete='none' autoCorrect='none' autoCapitalize='none' spellCheck='false'/>
+  <button class='clear'>&times;</button>
+</div>
+<ul class='suggestions'></ul>")
+  ;; <script type='module'>
+  ;;   let nodes = {}
+  ;;   const Search = new MiniSearch({
+  ;;     fields: ['title','tags','contents'],
+  ;;     searchOptions: {
+  ;;       fuzzy: 0.2
+  ;;     }
+  ;;   });
+  ;;   fetch('https://cdn.otom8.dev/data/org-graph-index.json')
+  ;;     .then(r => r.json())
+  ;;     .then((index) => {
+  ;;       return Search.addAll(index)
+  ;;     });
+  ;; </script>
 #+end_src
 
 #+RESULTS: org-graph-search
 #+begin_export html
-<input id='search' name='text' type='text' placeholder='search' />
-<script type='module'>
-  let nodes = {}
-  const Search = new MiniSearch({
-    fields: ['title','tags','contents',],
-    searchOptions: {
-      fuzzy: 0.2
-    }
-  });
-  fetch('https://cdn.otom8.dev/data/org-graph-index.json')
-    .then(r => r.json())
-    .then((index) => {
-      return Search.addAll(index)
-    });
-</script>
+<div class='search'>
+  <input type='text' placeholder='search' name='graph' autoComplete='none' autoCorrect='none' autoCapitalize='none' spellCheck='false'/>
+  <button class='clear'>&times;</button>
+</div>
+<ul class='suggestions'></ul>
 #+end_export
 
 * org-graph-3d                                                 :org:graph:js:
