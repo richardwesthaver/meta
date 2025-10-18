@@ -797,20 +797,6 @@ homer
   <button class='clear'>&times;</button>
 </div>
 <ul class='suggestions'></ul>")
-  ;; <script type='module'>
-  ;;   let nodes = {}
-  ;;   const Search = new MiniSearch({
-  ;;     fields: ['title','tags','contents'],
-  ;;     searchOptions: {
-  ;;       fuzzy: 0.2
-  ;;     }
-  ;;   });
-  ;;   fetch('https://cdn.otom8.dev/data/org-graph-index.json')
-  ;;     .then(r => r.json())
-  ;;     .then((index) => {
-  ;;       return Search.addAll(index)
-  ;;     });
-  ;; </script>
 #+end_src
 
 #+RESULTS: org-graph-search
@@ -832,27 +818,28 @@ homer
   (format "<div id='3d-graph'></div>
 
   <script type='module'>
-      import { CSS2DRenderer, CSS2DObject } from 'https://cdn.otom8.dev/js/CSS2DRenderer.mjs';
-      const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
-        { extraRenderers: [new CSS2DRenderer()] })
+      import SpriteText from 'https://esm.sh/three-spritetext';
+      const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
         .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+        .showNavInfo(false)
         .nodeId('id')
         .nodeLabel('id')
         .nodeAutoColorBy('path')
         .linkSource('in')
         .linkTarget('out')
-      .nodeThreeObject(node => {
-        const e = document.createElement('a');
-        e.href = node.path;
-        e.textContent = node.name;
-        e.style.color = node.color;
-        e.className = 'node-label';
-        return new CSS2DObject(e);
-      })
-      .onNodeClick(node => { window.open(node.path); })
-      .nodeThreeObjectExtend(true);
-      Graph.d3Force('charge').strength(-140);
-    </script>")
+        .onNodeClick(node => window.open(node.path,'_blank'))
+        .linkWidth(4)
+        .linkDirectionalParticles(8)
+        .nodeThreeObject(node => {
+          const sprite = new SpriteText(node.name);
+          sprite.material.depthWrite = false; // make sprite background transparent
+          sprite.color = node.color;
+          sprite.textHeight = 8;
+          sprite.center.y = -0.6; // shift above node
+          return sprite;
+        })
+        .nodeThreeObjectExtend(true);
+  </script>")
 #+end_src
 
 #+RESULTS: org-graph-3d
@@ -860,27 +847,28 @@ homer
 <div id='3d-graph'></div>
 
 <script type='module'>
-    import { CSS2DRenderer, CSS2DObject } from 'https://cdn.otom8.dev/js/CSS2DRenderer.mjs';
-    const Graph = new ForceGraph3D(document.getElementById('3d-graph'),
-      { extraRenderers: [new CSS2DRenderer()] })
+    import SpriteText from 'https://esm.sh/three-spritetext';
+    const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
       .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+      .showNavInfo(false)
       .nodeId('id')
       .nodeLabel('id')
       .nodeAutoColorBy('path')
       .linkSource('in')
       .linkTarget('out')
-    .nodeThreeObject(node => {
-      const e = document.createElement('a');
-      e.href = node.path;
-      e.textContent = node.name;
-      e.style.color = node.color;
-      e.className = 'node-label';
-      return new CSS2DObject(e);
-    })
-    .onNodeClick(node => { window.open(node.path); })
-    .nodeThreeObjectExtend(true);
-    Graph.d3Force('charge').strength(-140);
-  </script>
+      .onNodeClick(node => window.open(node.path,'_blank'))
+      .linkWidth(4)
+      .linkDirectionalParticles(8)
+      .nodeThreeObject(node => {
+        const sprite = new SpriteText(node.name);
+        sprite.material.depthWrite = false; // make sprite background transparent
+        sprite.color = node.color;
+        sprite.textHeight = 8;
+        sprite.center.y = 0.6; // shift below node
+        return sprite;
+      })
+      .nodeThreeObjectExtend(true);
+</script>
 #+end_export
 
 * org-graph-init                                                  :org:graph:
