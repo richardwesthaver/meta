@@ -1117,6 +1117,19 @@ dot -V 2>&1
 #+begin_src lisp :var dist="quicklisp" :results replace
   (map 'list 'ql-dist:name (doc::doc-systems (doc:dist-documentation dist)))
 #+end_src
+* lisp-docs                                                        :lisp:doc:
+#+name: file-commentary
+#+begin_src lisp :var file="" :results replace
+  (doc:file-commentary (doc:file-documentation file))
+#+end_src
+#+name: file-summary
+#+begin_src lisp :var file="" :results replace
+  (doc:file-summary (doc:file-documentation file))
+#+end_src
+#+name: file-description
+#+begin_src lisp :var file="" :results replace
+  (doc:file-description (doc:file-documentation file))
+#+end_src
 
 * cargo-update-dir                                                     :rust:
 :PROPERTIES:
