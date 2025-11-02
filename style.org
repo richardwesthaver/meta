@@ -21,22 +21,30 @@ on code comments and developer docs.
 - page-length ~ 32
 - module-length ~ 512
 - file-size ~ 1024
-
-- start every source-file with a header comment
-- use outline headings to organize your program
+- start every source-file with a /header comment/
+  - consists of at least a /headline/ and a /summary/
+  - optionally contains a =Commentary= section
+  - ends at the start of the =Code= section
+- use [[id:e69bdfe7-3e00-4c67-a5ec-8cd86e117db8][outline]] and [[id:40e5417f-6830-4cb7-8353-4b5a7a08010c][allout]] headings to organize the contents of your
+  program (inside the =Code= section). See the [[id:ed035298-f7fa-4726-ad58-2d542323bb61][Headings]] section of the
+  Ulang document for additional details.
+  - automatically recognized top-level headings include the following:
+    - Variables, Constants, Globals, Types, Conditions, Util, Env,
+      Protocol, Classes, Helpers, Objects, Interface, Macros,
+      Functions, Tests
 - use ulang-comments as needed for referencing bugs, notes, etc.
 - inline documentation should be declarative. your code explains your
   comments for you.
 - variables, imports, and exports belong at the top of a file
-- =main= functions belong at the bottom of a file
-- use LSP wherever possible (eglot, slime)
+- =main= functions for executables belong at the bottom of a file
+
 * Common Lisp
 :PROPERTIES:
 :ID:       d4c25810-ce35-411e-a371-67ab7e814260
 :END:
+- always prefer =core= libraries over vendored dependencies
 - prefer symbol docs to comments
 - use stdin/stdout/stderr correctly - see [[https://zenodo.org/records/3414191][CDR-11]]
-- always prefer =core= libraries over vendored dependencies
 - use the compiler built-ins - if a function or class is generally
   useful, add it to the core
 - use conditions, restarts, and error handling where appropriate
@@ -53,7 +61,7 @@ on code comments and developer docs.
 - define systems using keyword symbols
 - use slash instead of dash for path separation in system names: =:foo/bar=
 - define your test system in the same file with a name of: =:foo/tests=
-- where possible, avoid collisions with systems in Quicklisp
+- where possible, avoid name collisions with systems in Quicklisp
 ** Packages
 :PROPERTIES:
 :ID:       f735b4b5-4818-408b-a244-e2fb506c7ded
@@ -61,7 +69,8 @@ on code comments and developer docs.
 - declare packages in a file named =pkg.lisp=
 - when multiple packages are being declared, consider a wrapper
   package
-  - declare with ~UIOP:DEFINE-PACKAGE~ and ~:USE-REEXPORT~
+  - declare with ~UIOP:DEFINE-PACKAGE~ or ~STD:DEFPKG~ and
+    ~:USE-REEXPORT~
 - package names are either the same as their system name or have the
   system name as their root path.
 - use ~:NICKNAMES~ to declare alternative names for your package
@@ -69,31 +78,40 @@ on code comments and developer docs.
 :PROPERTIES:
 :ID:       5068e164-764a-4843-be8f-126754938ef9
 :END:
-- prefer =:default-initargs= over =:initform=.
+- use =:default-initargs= instead of =:initform= for inherited slots.
+* Emacs Lisp
+:PROPERTIES:
+:ID:       8b17f8a3-74f2-44cd-a5ce-7df540e2544c
+:END:
+- always prefer =core= libraries over vendored dependencies
 * Rust
 :PROPERTIES:
 :ID:       8e414073-36b6-45d4-9a11-e6de8a0a65e9
 :END:
-- always prefer =core= libraries to vendored dependencies
 - don't make =mod.rs= files
   - use the =foo.rs=, =foo/*= pattern instead
 - derive =Debug= and =Clone= always
 - write a sensible =Display= impl
 - derive default methods for =Default=, =Hash=, =Copy=, etc where possible
 - use generics where appropriate: =foo<P:AsRef<Path>>(path:P){p.as_ref();}=
-* Emacs Lisp
+* C
 :PROPERTIES:
-:ID:       8b17f8a3-74f2-44cd-a5ce-7df540e2544c
-:END:
-* Org-mode
-:PROPERTIES:
-:ID:       ea4fa698-7a46-46d6-a7a0-5b497119edf2
+:ID:       0ec664f6-944f-4603-abe8-379b9cb38234
+:CREATED:  <2025-11-02 Sun 15:43>
 :END:
 * Shell
 :PROPERTIES:
 :ID:       10904e36-e4ac-4841-b602-d4dc68a54c71
 :END:
-* Python
+- use =shellcheck=
+* Javascript
 :PROPERTIES:
-:ID:       5b402ced-2329-4a16-b512-76859157a9d6
+:ID:       a3979e38-10de-4c89-a5c9-e67553285fcf
+:CREATED:  <2025-11-02 Sun 15:45>
 :END:
+- always host your own dependencies - use a CDN to ship JS modules in
+  prod.
+- [[id:161d575a-30e7-466c-bff8-df5d05b21d8a][Minify]] your JS modules before shipping to prod
+- never support old browsers
+- always support plain HTML (no-JS browsers)
+- prefer standard web APIs to libraries wherever possible

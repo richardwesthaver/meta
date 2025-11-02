@@ -7,20 +7,31 @@
 :PROPERTIES:
 :ID:       ad4a24f8-7de4-479b-bc5a-7065e4b43087
 :END:
+To achieve quality work, we need durable and expressive workflows. In
+this document we describe some of the fundamental elements of our
+_workflows_. We apply several models as needed throughout the lifetime
+of our projects and use custom tools to capture and refile information
+into workable items.
+
 * Workflows
 :PROPERTIES:
 :ID:       51b210fd-0ba1-41c1-a4ec-85c3d9295c02
 :END:
+
 ** Items
 :PROPERTIES:
 :ID:       249ae0a5-0ef8-4d8a-be61-f408fb2b2cff
 :END:
+Items are the building blocks of our workflows. An /item/ is typically
+considered as a _unit of work_ and may contain a number of things
+including other items.
+
 *** Simple Items
 :PROPERTIES:
 :ID:       b7f9c275-90fd-407f-aa39-615fa6ab64d6
 :END:
 When an item has no task-related state associated with it, it is
-considered a /non-task/ or /simple item/.
+considered a /non-task/ or _simple item_.
 
 Simple items imply that there's no action directly associated with
 this item, but it may contain child items which are tasks with action.
@@ -159,9 +170,6 @@ for user notes.
 :END:
 Graphs are a set of inter-connected nodes inspired by Roam and
 Zettelkasten (see [[https://github.com/org-roam/org-roam][org-roam]]).
-
-As of [2024-08-24 Sat] this has not been implemented, but we intend to
-implement a fully connected knowledge graph. See [[vc:core/file/tip/emacs/lib/graph.el][graph.el]].
 ** Documentation
 :PROPERTIES:
 :ID:       03e13d7e-6cda-46d4-830f-5671518bd32f

@@ -979,7 +979,7 @@ dot -V 2>&1
         (mapcar 
          (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
          (doc:doc-files s)))
-      (doc:doc-dependencies (doc:system-documentation system)))))
+      (doc:doc-dependencies (doc:asdf-system-documentation system)))))
 #+end_src
 * lisp-system-files                                                    :lisp:
 :PROPERTIES:
@@ -991,7 +991,7 @@ dot -V 2>&1
     (flatten
      (mapcar 
       (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
-      (doc:doc-files (doc:system-documentation system)))))
+      (doc:doc-files (doc:asdf-system-documentation system)))))
 
 #+end_src
 
@@ -1043,7 +1043,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-dependencies
 #+begin_src lisp :var system='user :results replace
-  (mapcar 'name (doc:doc-dependencies (doc:system-documentation system)))
+  (mapcar 'name (doc:doc-dependencies (doc:asdf-system-documentation system)))
 #+end_src
 
 * lisp-system-packages                                                 :lisp:
@@ -1052,7 +1052,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-packages
 #+begin_src lisp :var system='user :results replace
-  (mapcar 'name (doc:doc-packages (doc:system-documentation system)))
+  (mapcar 'name (doc:doc-packages (doc:asdf-system-documentation system)))
 #+end_src
 
 * lisp-system-tests                                                    :lisp:
@@ -1118,6 +1118,9 @@ dot -V 2>&1
   (map 'list 'ql-dist:name (doc::doc-systems (doc:dist-documentation dist)))
 #+end_src
 * lisp-docs                                                        :lisp:doc:
+:PROPERTIES:
+:ID:       30bca974-89dd-4fca-bca4-fe8e6260e08b
+:END:
 #+name: file-commentary
 #+begin_src lisp :var file="" :results replace
   (doc:file-commentary (doc:file-documentation file))

@@ -86,9 +86,9 @@ markup:
 - ~code~
 - +strike-through+
 
-- Text emphasis markers /may/ appear in code comments as long as they do
-  not cause any conflicts with the host language, although they /should/
-  be restricted to the =Commentary= section.
+- Text emphasis markers /may/ appear in code comments as long as they
+  do not cause any conflicts with the host language, although they
+  /should/ be restricted to the =Commentary= section.
 - ~code~ may sometimes be written instead with =verbatim= emphasis -
   the distinction is only important for specific export backends which
   support it - see [[https://emacs.stackexchange.com/a/77822][this thread]] for details.
@@ -141,8 +141,8 @@ H1=. Headings can be nested or 'demoted' by prepending another star:
 This is a useful pattern which we apply outside of Org - most commonly
 in our code comments.
 
-In our source code, we use the comment character instead of a star:
-#+begin_src lisp
+In our source code, we may use the comment character instead of a star:
+#+begin_src lisp :eval no
 ;;; foo
 (print "H1") ;; just an inline comment
 ;;;; bar
@@ -151,13 +151,25 @@ In our source code, we use the comment character instead of a star:
 (print "H1")
 #+end_src
 
-#+begin_src rust
+#+begin_src rust :eval no
   /// foo
   println!("H1");
   //// bar
   println!("H2");
   /// baz
   println!("H1");
+#+end_src
+
+This is the default behavior of the [[id:e69bdfe7-3e00-4c67-a5ec-8cd86e117db8][outline]] mode provided by Emacs. We
+also support [[id:40e5417f-6830-4cb7-8353-4b5a7a08010c][allout]] syntax which prefixes headings with an underscore
+'_' followed by a bullet character. Unless otherwise specified we
+follow the default conventions provided by =allout-mode=.
+
+#+begin_src lisp :eval no
+  ;;;_* top-level heading
+  ;;;_ . plain sibling
+  ;;;_ . plain sibling
+  ;;;_  , plain child
 #+end_src
 
 ** Todo Keywords
