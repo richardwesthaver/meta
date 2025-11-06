@@ -23,6 +23,7 @@
   GNU/Linux the Operating System
 - Net :: Network
 - Obj :: Object
+- Operator :: user of CC core software on a machine which supports all features
 - Pkg :: Package
 - Pod :: OCI container
 - Pos :: Position
@@ -30,12 +31,16 @@
 - Req :: Request
 - Ret :: Return
 - Ser :: Serialize
+- Serde :: Serialize (and|or) Deserialize
 - Srv :: Service or Server
 - Std :: Standard
 - Sxp :: S-Expression
 - Syn :: Syntax
 - Sys :: System
 - Val :: Value
+- Vanilla :: Unmodified; Unprovisioned; Usually in reference to
+  applications which do not include a set of extensions, often
+  intentionally or by design.
 - Vec :: Vector
 * Acronyms
 :PROPERTIES:
