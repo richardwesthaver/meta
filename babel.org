@@ -1012,6 +1012,26 @@ dot -V 2>&1
       (:logical-hosts ,(length *logical-hosts*))))
 #+end_src
 
+* describe-lisp-symbol
+:PROPERTIES:
+:ID:       b5ede971-acbe-4b2d-9485-b395dff8b9b7
+:CREATED:  <2025-12-10 Wed 20:46>
+:END:
+#+name: describe-lisp-symbol
+#+begin_src lisp :var sym='nil :results output replace
+  (describe sym)
+#+end_src
+
+#+RESULTS: describe-lisp-symbol
+: COMMON-LISP:NIL
+:   [null]
+: 
+: NIL names a constant variable:
+:   Value: NIL
+: 
+: NIL names an undefined function
+:   Assumed type: FUNCTION
+
 * lisp-system-directory                                                :lisp:
 :PROPERTIES:
 :ID:       8b6da653-ad2b-4977-a9c6-60f8ceb8964c
@@ -1108,7 +1128,7 @@ dot -V 2>&1
 #+begin_src lisp :var package='std :results replace
   (map 'list 'name (doc:doc-symbols (doc:package-documentation package)))
 #+end_src
-
+w
 * lisp-dist-systems                                                    :lisp:
 :PROPERTIES:
 :ID:       97639bea-6df8-4bd3-8e22-24b6db6057e9
