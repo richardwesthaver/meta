@@ -300,11 +300,12 @@ return tab
 :ID:       f95ff011-cb4c-4fbb-b94c-d68b6d034710
 :END:
 #+name: skel-show
-#+begin_src shell :var key="id" :results replace
-  skel show $key
+#+begin_src shell :var key="id" :results replace output
+  skel $key
 #+end_src
 
 #+RESULTS: skel-show
+: 18c549e5e4bbb7c4
 
 #+RESULTS:
 : (core lisp rust emacs c)
@@ -387,7 +388,7 @@ Return an org-mode unordered-list of project links.
          (age (org-sbe hg-log-age ''(dir %root)))
          (rev (org-sbe hg-rev ''(dir %root)))
          (num (org-sbe hg-id-num ''(dir %root)))
-         (tags (org-sbe skel-show (key "'tags'")))
+         (tags (string-replace (string ?\n) " " (org-sbe skel-show (key "'tags'"))))
          (id (org-sbe skel-show (key "':id'") ''(dir %root)))
          (version (org-sbe skel-show (key "'version'") ''(dir %root)))
          (description (org-sbe skel-show (key "'description'") ''(dir %root)))
@@ -398,7 +399,7 @@ Return an org-mode unordered-list of project links.
          (langs (mapconcat (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir %root)))) " "))
          (line-counts (flatten (read (org-sbe lines ''(dir %root)))))
          (line-sum (cl-reduce '+ line-counts))
-         (lines (format "%s :λ %s :# %s :_ %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
+         (lines (format "%s :code %s :comment %s :blank %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
     `(hline
       (name ,name)
       (version ,version)
