@@ -10,17 +10,17 @@
 #+CALL: project-details(vc='nil) :dir ~/comp/org/meta/
 
 #+RESULTS:
-|-------------+-----------------------------------------------------|
-| name        | meta                                                |
-| version     | 0.1.0                                               |
-| description | NIL                                                 |
-| skel-id     | 1784914079056115652                                 |
-| root        | ~/comp/org/meta/                                    |
-| tags        | (org docs notes blog meta plan archive notes graph) |
-| updated     | Sun Nov 02 16:07:44 2025 -0500                      |
-| langs       | org                                                 |
-| lines       | 2409 :λ 2223 :# 7 :_ 179                            |
-|-------------+-----------------------------------------------------|
+|-------------+----------------------------------------|
+| name        | meta                                   |
+| version     | 0.1.0                                  |
+| description | CC Org Files                           |
+| skel-id     | 1784914079056115652                    |
+| root        | ~/comp/org/meta/                       |
+| tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
+| updated     | Sun Jan 04 20:37:20 2026 -0500         |
+| langs       | org                                    |
+| lines       | 2304 :code 2113 :comment 7 :blank 184  |
+|-------------+----------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
 
@@ -39,7 +39,9 @@
 2025-08     82 **
 2025-09     54 *
 2025-10    470 ***************
-2025-11    105 ***
+2025-11    360 ***********
+2025-12     22 
+2026-01      9 
 #+end_example
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
@@ -47,12 +49,12 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://otom8.dev/meta/index.html][index]]     | 2025-11-05 19:36:00 |
-| [[https://otom8.dev/meta/babel.html][babel]]     | 2025-11-01 02:17:43 |
+| [[https://otom8.dev/meta/babel.html][babel]]     | 2026-01-03 16:37:11 |
 | [[https://otom8.dev/meta/business.html][business]]  | 2025-09-03 17:34:46 |
-| [[https://otom8.dev/meta/glossary.html][glossary]]  | 2025-10-09 20:25:51 |
+| [[https://otom8.dev/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
+| [[https://otom8.dev/meta/index.html][index]]     | 2025-11-05 19:36:06 |
 | [[https://otom8.dev/meta/style.html][style]]     | 2025-11-02 15:54:27 |
 | [[https://otom8.dev/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
-| [[https://otom8.dev/meta/workflows.html][workflows]] | 2025-11-02 16:01:40 |
+| [[https://otom8.dev/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
 
 #+END:
