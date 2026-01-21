@@ -301,11 +301,11 @@ return tab
 :END:
 #+name: skel-show
 #+begin_src shell :var key="id" :results replace output
-  skel $key
+  skel show $key
 #+end_src
 
 #+RESULTS: skel-show
-: 18c549e5e4bbb7c4
+: 1784914079056115652
 
 #+RESULTS:
 : (core lisp rust emacs c)
@@ -389,7 +389,7 @@ Return an org-mode unordered-list of project links.
          (rev (org-sbe hg-rev ''(dir %root)))
          (num (org-sbe hg-id-num ''(dir %root)))
          (tags (string-replace (string ?\n) " " (org-sbe skel-show (key "'tags'"))))
-         (id (org-sbe skel-show (key "':id'") ''(dir %root)))
+         (id (org-sbe skel-show (key "'id'") ''(dir %root)))
          (version (org-sbe skel-show (key "'version'") ''(dir %root)))
          (description (org-sbe skel-show (key "'description'") ''(dir %root)))
          (vc (when vc 
@@ -404,7 +404,7 @@ Return an org-mode unordered-list of project links.
       (name ,name)
       (version ,version)
       (description ,description)
-      (skel-id ,id)
+      (id ,id)
       (root ,(if (not (zerop (length root)))
                  root
                %root))
