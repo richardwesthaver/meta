@@ -954,7 +954,7 @@ dot -V 2>&1
 #+name: load-std
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(asdf:load-system :std))
+    (slime-eval '(load-system :std))
     (slime-repl-set-package "STD-USER"))
 #+end_src
 * test-slime                                                           :lisp:
@@ -973,12 +973,12 @@ dot -V 2>&1
 #+name: lisp-system-files*
 #+begin_src lisp :var system='user :results replace
   (let ((*print-length* 512)
-        (system (asdf:find-system system)))
+        (system (find-system system)))
     (flatten
      (mapcar 
       (lambda (s)
         (mapcar 
-         (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
+         (lambda (x) (remove-string (namestring (system-home system)) (namestring x)))
          (doc:doc-files s)))
       (doc:doc-dependencies (doc:asdf-system-documentation system)))))
 #+end_src
@@ -988,10 +988,10 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-files
 #+begin_src lisp :var system='user :results replace
-  (let ((system (asdf:find-system system)))
+  (let ((system (find-system system)))
     (flatten
      (mapcar 
-      (lambda (x) (remove-string (namestring (asdf:system-source-directory system)) (namestring x)))
+      (lambda (x) (remove-string (namestring (system-home system)) (namestring x)))
       (doc:doc-files (doc:asdf-system-documentation system)))))
 
 #+end_src
@@ -1039,7 +1039,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-directory
 #+begin_src lisp :var system='user :results replace
-  (namestring (asdf:system-source-directory (asdf:find-system system)))
+  (namestring (system-homne system))
 #+end_src
 
 * lisp-system-depends-on                                               :lisp:
@@ -1048,7 +1048,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-depends-on
 #+begin_src lisp :var system='user :results replace
-  (asdf:system-depends-on (asdf:find-system system))
+  (slot-value (find-system system) 'std/defsys::require)
 #+end_src
 * lisp-system-dependents                                               :lisp:
 :PROPERTIES:
@@ -1056,7 +1056,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-dependents
 #+begin_src lisp :var system='user :results replace
-  (mapcar 'asdf:component-name (doc::find-system-dependents (asdf:find-system system)))
+  (mapcar 'std:name (doc::find-system-dependents (find-system system)))
 #+end_src
 * lisp-system-depencies                                                :lisp:
 :PROPERTIES:
