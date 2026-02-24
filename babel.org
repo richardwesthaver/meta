@@ -364,16 +364,6 @@ Return an org-mode unordered-list of project links.
           (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
 #+end_src
 
-#+RESULTS: project-links
-- [[https://compiler.company/docs/meta/index.html][Docs]]
-- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
-
-#+RESULTS:
-- [[https://compiler.company/docs/meta/index.html][Docs]]
-- [[https://compiler.company/docs/meta/stats.html][Stats]]
-- [[https://compiler.company/docs/meta/man.html][Manual]]
-- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
-
 * project-details                                                   :project:
 :PROPERTIES:
 :ID:       bd56995e-b153-4468-b845-aadd92e456c6
