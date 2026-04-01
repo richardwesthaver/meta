@@ -39,20 +39,85 @@ input
     (buffer-string)))
 #+end_src
 
+#+RESULTS: read
+#+begin_example
+,#+title: Meta
+,#+author: Richard Westhaver
+,#+email: ellis@rwest.io
+,#+description: CC Meta
+,#+html_link_up: ../
+,#+setupfile: ../clean.theme
+,#+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
+,#+EXPORT_FILE_NAME: index
+,#+BEGIN: project-info :status nil :html t :vc nil :tasks nil
+,#+CALL: project-details(vc='nil) :dir ~/comp/org/meta/
+
+,#+RESULTS:
+|-------------+----------------------------------------|
+| name        | meta                                   |
+| version     | 0.1.0                                  |
+| description | CC Org Files                           |
+| skel-id     | 1784914079056115652                    |
+| root        | ~/comp/org/meta/                       |
+| tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
+| updated     | Sun Jan 04 20:37:20 2026 -0500         |
+| langs       | org                                    |
+| lines       | 2304 :code 2113 :comment 7 :blank 184  |
+|-------------+----------------------------------------|
+
+,#+CALL: hg-churn() :dir ~/comp/org/meta/
+
+,#+RESULTS:
+,#+begin_example
+2024-08   1873 *************************************************************
+2024-09    886 ****************************
+2024-12     99 ***
+2025-01     39 *
+2025-02    617 ********************
+2025-03    508 ****************
+2025-04    172 *****
+2025-05    637 ********************
+2025-06   1207 ***************************************
+2025-07    127 ****
+2025-08     82 **
+2025-09     54 *
+2025-10    470 ***************
+2025-11    360 ***********
+2025-12     22 
+2026-01      9 
+,#+end_example
+
+,#+CALL: project-html-files() :dir ~/comp/org/meta/
+
+,#+RESULTS:
+| file      | modified            |
+|-----------+---------------------|
+| [[https://otom8.dev/meta/babel.html][babel]]     | 2026-01-03 16:37:11 |
+| [[https://otom8.dev/meta/business.html][business]]  | 2025-09-03 17:34:46 |
+| [[https://otom8.dev/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
+| [[https://otom8.dev/meta/index.html][index]]     | 2025-11-05 19:36:06 |
+| [[https://otom8.dev/meta/style.html][style]]     | 2025-11-02 15:54:27 |
+| [[https://otom8.dev/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
+| [[https://otom8.dev/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
+
+,#+END:
+#+end_example
+
 * write                                                                  :fs:
 :PROPERTIES:
 :ID:       a866820f-e67c-49aa-ba7d-697c4f708654
 :END:
 #+name: write
-#+begin_src emacs-lisp :var data="" :var file="" :var ext='()
-(cl-flet ((echo (r) (if (stringp r) r (format "%S" r))))
-  (with-temp-file file
-    (case (and (listp data)
-               (or ext (intern (file-name-extension file))))
-      ('tsv (insert (orgtbl-to-tsv data '(:fmt echo))))
-      ('csv (insert (orgtbl-to-csv data '(:fmt echo))))
-      (t    (org-babel-insert-result data)))))
-nil
+#+begin_src emacs-lisp :var data="" :var file="" :var ext='() :eval never
+  (cl-flet ((echo (r) (if (stringp r) r (format "%S" r))))
+    (with-temp-file file
+      (cl-case (and (listp data)
+                 (or ext (intern (file-name-extension file))))
+        ('tsv (insert (orgtbl-to-tsv data '(:fmt echo))))
+        ('csv (insert (orgtbl-to-csv data '(:fmt echo))))
+        (t    ; (org-babel-insert-result data)
+         ))))
+
 #+end_src
 * json                                                                 :json:
 :PROPERTIES:
@@ -74,40 +139,50 @@ nil
     (json-read))))
 #+end_src
 
+#+RESULTS: json
+
 * headline                                                              :org:
 :PROPERTIES:
 :ID:       e21d6130-804d-4ac7-bccf-8303fd33f509
 :END:
 #+name: headline
-#+begin_src emacs-lisp :var headline="" :var file='()
-(save-excursion
-  (when file (get-file-buffer file))
-  (org-open-link-from-string (org-make-link-string headline))
-  (save-restriction
-    (org-narrow-to-subtree)
-    (buffer-string)))
+#+begin_src emacs-lisp :var headline="index" :var file='() :eval no
+  (save-excursion
+    (when file (get-file-buffer file))
+    (org-open-link-from-string (org-make-link-string headline))
+    (save-restriction
+      (org-narrow-to-subtree)
+      (buffer-string)))
 #+end_src
 * transpose                                                           :table:
 :PROPERTIES:
 :ID:       8efce18f-0056-480d-a24c-1d14ce633160
 :END:
 #+name: transpose
-#+begin_src emacs-lisp
-  (unless (or (null *this*) (equal 'NIL *this*)) (apply #'mapcar #'list (list *this*)))
+#+begin_src emacs-lisp :var x='nil
+  (unless (or (null x) (equal 'NIL x)) (apply #'mapcar #'list (list x)))
 #+end_src
+
+#+RESULTS: transpose
+
 * codify-list                                                         :table:
 :PROPERTIES:
 :ID:       e35c9901-73b6-4794-8900-42860378c7dd
 :END:
 #+name: codify-list
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :var *this*='nil
   (unless (null *this*) (mapcar (lambda (x) (format "~%s~" x)) *this*))
 #+end_src
+
+#+RESULTS: codify-list
+
 #+name: codify-transpose
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :var *this*='nil
   (unless (null *this*)
     (mapcar 'list (mapcar (lambda (x) (format "~%s~" x)) *this*)))
 #+end_src
+
+#+RESULTS: codify-transpose
 
 * all-to-string                                                       :table:
 :PROPERTIES:
@@ -123,6 +198,9 @@ nil
       (format "%s" tbl))))
 (all-to-string tbl)
 #+end_src
+
+#+RESULTS: all-to-string
+
 * systemd-list-units                                                     :os:
 :PROPERTIES:
 :ID:       3b23c98d-a286-4988-846d-2dab3d25803d
@@ -131,6 +209,18 @@ nil
 #+begin_src sh :results replace
 systemctl list-units --state=running | grep -v systemd | awk '{print $1}' | grep service
 #+end_src
+
+#+RESULTS: systemd-list-units
+| bluetooth.service    |
+| dbus-broker.service  |
+| fail2ban.service     |
+| getty@tty1.service   |
+| iwd.service          |
+| polkit.service       |
+| rtkit-daemon.service |
+| sshd.service         |
+| upower.service       |
+| user@1003.service    |
 
 * wc-lines                                                               :fs:
 :PROPERTIES:
@@ -142,7 +232,7 @@ cat * | wc -l
 #+end_src
 
 #+RESULTS: wc-lines
-: 1574
+: 2386
 
 * wc-words                                                               :fs:
 :PROPERTIES:
@@ -154,7 +244,7 @@ cat * | wc -w
 #+end_src
 
 #+RESULTS: wc-words
-: 5944
+: 8469
 
 * buffer-name                                                          :util:
 :PROPERTIES:
@@ -165,6 +255,9 @@ cat * | wc -w
 (buffer-name)
 #+end_src
 
+#+RESULTS: buffer-name
+: babel.org<meta>
+
 * lines                                                                  :fs:
 :PROPERTIES:
 :ID:       670e9855-f8d2-43eb-86af-3ef7292f90b9
@@ -174,6 +267,11 @@ cat * | wc -w
   input=`tokei -C -o json`
   echo $input | jq -r '.["Total"] | .code, .comments, .blanks'
 #+end_src
+
+#+RESULTS: lines
+| 2177 |
+|    7 |
+|  202 |
 
 * langs                                                                  :fs:
 :PROPERTIES:
@@ -193,7 +291,7 @@ cat * | wc -w
 :ID:       d3c4ac69-337f-430b-a4db-760504f099ea
 :END:
 #+name: sum-str-nums
-#+begin_src emacs-lisp :var str=lines()
+#+begin_src emacs-lisp :var str=""
   (let ((tot 0))
     (cl-loop
      with tot = 0
@@ -201,6 +299,9 @@ cat * | wc -w
      (setf tot (+ tot (string-to-number i)))
      finally return tot))
 #+end_src
+
+#+RESULTS: sum-str-nums
+: 0
 
 * org-task-tbl                                                          :org:
 :PROPERTIES:
@@ -248,6 +349,10 @@ cat * | wc -w
       item-types)))
 #+end_src
 
+#+RESULTS: org-task-tbl
+| Item | echo | read | write | json | headline | transpose | codify-list | all-to-string | systemd-list-units | wc-lines | wc-words | buffer-name | lines | langs | sum-str-nums | org-task-tbl | org-headlines-map | trim | files | skel-show | project-root | project-name | project-vc | project-list | project-links | project-details | project-vc-files | project-html-files | project-files | project-tasks | env-table | get-env | org-current-h1-title | get-emacs-version | vc-buffer-log | git-clone | hg-clone | hg-rev | hg-id-num | hg-log-since | hg-log-age | hg-churn | hg-status | hg-diff-stat | homer | sh-ob-tangle | org-graph-info | org-graph-search | org-graph-3d | org-graph-init | make-dot-tree | gen-dot-tree | dot-version | slime | user-slime | std-slime | test-slime | lisp-system-files* | lisp-system-files | lisp-stats | describe-lisp-symbol | lisp-system-directory | lisp-system-depends-on | lisp-system-dependents | lisp-system-depencies | lisp-system-packages | lisp-system-tests | lisp-test-system | lisp-package-dependencies | lisp-package-dependents | lisp-package-files | lisp-package-symbols | lisp-docs | cargo-update-dir | rust-target-triple | post-align-table | insert-table-from-file | load-file | filter-table | filter-table-re | group-table | insert-file | random |
+|------+------+------+-------+------+----------+-----------+-------------+---------------+--------------------+----------+----------+-------------+-------+-------+--------------+--------------+-------------------+------+-------+-----------+--------------+--------------+------------+--------------+---------------+-----------------+------------------+--------------------+---------------+---------------+-----------+---------+----------------------+-------------------+---------------+-----------+----------+--------+-----------+--------------+------------+----------+-----------+--------------+-------+--------------+----------------+------------------+--------------+----------------+---------------+--------------+-------------+-------+------------+-----------+------------+--------------------+-------------------+------------+----------------------+-----------------------+------------------------+------------------------+-----------------------+----------------------+-------------------+------------------+---------------------------+-------------------------+--------------------+----------------------+-----------+------------------+--------------------+------------------+------------------------+-----------+--------------+-----------------+-------------+-------------+--------|
+
 * org-headlines-map                                                     :org:
 :PROPERTIES:
 :ID:       05955228-ca76-48bc-b769-f648b4310a9c
@@ -263,6 +368,8 @@ cat * | wc -w
 
 #+end_src
 
+#+RESULTS: org-headlines-map
+
 * trim                                                                 :util:
 :PROPERTIES:
 :ID:       2477d796-4925-4feb-bd89-d57b8be69941
@@ -277,7 +384,6 @@ cat * | wc -w
 #+end_src
 
 #+RESULTS: trim
-: a b c
 
 * files                                                                  :fs:
 :PROPERTIES:
@@ -288,12 +394,26 @@ cat * | wc -w
 return tab
 #+end_src
 
+#+RESULTS: format-files
+|   |
+
 #+name: files
 #+begin_src sh :results replace table :dir "." :colnames yes :hlines yes :post format-files(*this*)
   ls -lh $PWD --time-style=long-iso \
     |awk '{if (NR!=1) print $8, $5, $6"-"$7}' \
     |awk 'BEGIN{print "file size updated"}{print $0}'
 #+end_src
+
+#+RESULTS: files
+| file          | size |          updated |
+|---------------+------+------------------|
+| babel.org     | 48K  | 2026-03-30-21:18 |
+| business.org  | 1.4K | 2025-09-03-17:34 |
+| glossary.org  | 2.5K | 2025-11-05-20:45 |
+| readme.org    | 2.2K | 2026-01-14-19:38 |
+| style.org     | 4.3K | 2025-11-02-15:54 |
+| ulang.org     | 13K  | 2025-11-02-15:35 |
+| workflows.org | 10K  | 2025-11-05-21:43 |
 
 * skel-show                                                            :skel:
 :PROPERTIES:
@@ -330,6 +450,9 @@ return tab
   (project-name (project-current nil project))
 #+end_src
 
+#+RESULTS: project-name
+: meta
+
 * project-vc                                                        :project:
 :PROPERTIES:
 :ID:       80a4eb7d-2fe5-47df-8730-1b105d8b2966
@@ -351,6 +474,9 @@ return tab
   project--list
 #+end_src
 
+#+RESULTS: project-list
+: unset
+
 * project-links                                                     :project:
 :PROPERTIES:
 :ID:       93f14331-cdd6-4528-9739-ae9edcb31a56
@@ -363,6 +489,10 @@ Return an org-mode unordered-list of project links.
     (list (org-link-make-string (format link-fmt company-domain "docs" (format "%s/index" name)) "Docs")
           (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
 #+end_src
+
+#+RESULTS: project-links
+- [[https://compiler.company/docs/meta/index.html][Docs]]
+- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
 
 * project-details                                                   :project:
 :PROPERTIES:
@@ -406,6 +536,20 @@ Return an org-mode unordered-list of project links.
       hline))
 #+end_src
 
+#+RESULTS: project-details
+|-------------+-----------------------------------------------------|
+| name        | meta                                                |
+| version     | 0.1.0                                               |
+| description | CC Org Files                                        |
+| id          | 1784914079056115652                                 |
+| root        | ~/comp/org/meta/                                    |
+| vc          | :hg [[https://vc.compiler.company/meta][vc.compiler.company/meta]] :rev [[https://vc.compiler.company/meta/rev/df072b42865a][df072b42865a:118+]] |
+| tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH              |
+| updated     | Mon Feb 23 22:45:35 2026 -0500                      |
+| langs       | org                                                 |
+| lines       | 2386 :code 2177 :comment 7 :blank 202               |
+|-------------+-----------------------------------------------------|
+
 * project-vc-files                                               :project:fs:
 :PROPERTIES:
 :ID:       cbe33095-3f50-4436-89e9-ed843d6d3a65
@@ -443,6 +587,17 @@ exist locally.
                                 (project-files proj)))))
 #+end_src
 
+#+RESULTS: project-vc-files
+| file          | size | modified            |
+|---------------+------+---------------------|
+| [[https://github.com/richardwesthaver/meta/blob/default/babel.org][babel.org]]     | 48k  | 2026-03-30 21:18:14 |
+| [[https://github.com/richardwesthaver/meta/blob/default/business.org][business.org]]  | 1.3k | 2025-09-03 17:34:46 |
+| [[https://github.com/richardwesthaver/meta/blob/default/glossary.org][glossary.org]]  | 2.4k | 2025-11-05 20:45:46 |
+| [[https://github.com/richardwesthaver/meta/blob/default/readme.org][readme.org]]    | 2.2k | 2026-01-14 19:38:44 |
+| [[https://github.com/richardwesthaver/meta/blob/default/style.org][style.org]]     | 4.3k | 2025-11-02 15:54:27 |
+| [[https://github.com/richardwesthaver/meta/blob/default/ulang.org][ulang.org]]     | 12k  | 2025-11-02 15:35:44 |
+| [[https://github.com/richardwesthaver/meta/blob/default/workflows.org][workflows.org]] | 9.9k | 2025-11-05 21:43:03 |
+
 * project-html-files                                                :project:
 :PROPERTIES:
 :ID:       aa8fe3d4-5653-4359-9ef7-102ff20dce14
@@ -456,7 +611,7 @@ exist locally.
          (project-vc-include-untracked nil)
          (exclude-files '(".hgignore" ".stash"))
          ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
-         (link-fmt "https://otom8.dev/%s/%s"))
+         (link-fmt "https://compiler.company/%s/%s"))
     `((file modified)
       hline
       ,@(mapcar (lambda (x)
@@ -480,6 +635,17 @@ exist locally.
                                         (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
                                 (project-files proj)))))
 #+end_src
+
+#+RESULTS: project-html-files
+| file      | modified            |
+|-----------+---------------------|
+| [[https://compiler.company/meta/babel.html][babel]]     | 2026-03-30 21:18:14 |
+| [[https://compiler.company/meta/business.html][business]]  | 2025-09-03 17:34:46 |
+| [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
+| [[https://compiler.company/meta/index.html][index]]     | 2026-01-14 19:38:44 |
+| [[https://compiler.company/meta/style.html][style]]     | 2025-11-02 15:54:27 |
+| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
 
 * project-files                                                  :project:fs:
 :PROPERTIES:
@@ -514,6 +680,17 @@ exist locally.
   				    (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
   			    (project-files proj)))))
 #+end_src
+
+#+RESULTS: project-files
+| file      | modified            |
+|-----------+---------------------|
+| [[file:babel.org][babel]]     | 2026-03-30 21:18:14 |
+| [[file:business.org][business]]  | 2025-09-03 17:34:46 |
+| [[file:glossary.org][glossary]]  | 2025-11-05 20:45:46 |
+| [[file:readme.org][readme]]    | 2026-01-14 19:38:44 |
+| [[file:style.org][style]]     | 2025-11-02 15:54:27 |
+| [[file:ulang.org][ulang]]     | 2025-11-02 15:35:44 |
+| [[file:workflows.org][workflows]] | 2025-11-05 21:43:03 |
 
 * project-tasks                                                 :project:org:
 :PROPERTIES:
@@ -553,6 +730,177 @@ List all project tasks.
       (append hdr (nreverse tbl))))
 #+end_src
 
+#+RESULTS: project-tasks
+| status   | item                                                                    | location                             | tags                         | scheduled            | deadline             |
+|----------+-------------------------------------------------------------------------+--------------------------------------+------------------------------+----------------------+----------------------|
+| FIXME    | inline TODOs                                                            | ~/comp/core/                         |                              |                      |                      |
+| TODO     | lorem ipsum generator                                                   | ~/comp/core/                         |                              |                      |                      |
+| TODO     | component require total ordering                                        | ~/comp/core/                         |                              |                      |                      |
+| PROJECT  | alien [2/7]                                                             | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| PROJECT  | tree-sitter [0/1]                                                       | ~/comp/core/ffi/                     | (lisp ffi syn)               |                      |                      |
+| FIXME    | ts-query-cursor-next-match                                              | ~/comp/core/ffi/                     | (lisp ffi syn)               |                      |                      |
+| PROJECT  | ssh2                                                                    | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| NOPE     | cl+ssl -> rustls                                                        | ~/comp/core/ffi/ssl/                 | (lisp ffi)                   |                      |                      |
+| TODO     | syslog -> sys                                                           | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| TODO     | ICMP                                                                    | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| PROJECT  | blas                                                                    | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| TODO     | Tests                                                                   | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| TODO     | improve API                                                             | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| TODO     | Conditions                                                              | ~/comp/core/ffi/                     | (lisp ffi)                   |                      |                      |
+| TBD      | examples [0/6]                                                          | ~/comp/core/ffi/                     | (lisp ffi example)           |                      |                      |
+| TODO     | gstreamer practical example                                             | ~/comp/core/ffi/                     | (lisp ffi example gstreamer) |                      |                      |
+| TODO     | ublk practical example                                                  | ~/comp/core/ffi/                     | (lisp ffi example ublk)      |                      |                      |
+| TODO     | uring read/write file example                                           | ~/comp/core/ffi/                     | (lisp ffi example uring)     |                      |                      |
+| TODO     | btrfs practical example                                                 | ~/comp/core/ffi/                     | (lisp ffi example btrfs)     |                      |                      |
+| TODO     | xkb practical example                                                   | ~/comp/core/ffi/                     | (lisp ffi example x kb)      |                      |                      |
+| TODO     | keyutils practical example                                              | ~/comp/core/ffi/                     | (lisp ffi example crypto)    |                      |                      |
+| TODO     | prune internal packages                                                 | ~/comp/core/                         |                              |                      |                      |
+| PROJECT  | lib [1/17]                                                              | ~/comp/core/lib/                     | (lisp)                       |                      |                      |
+| PROJECT  | cli [2/6]                                                               | ~/comp/core/lib/cli/                 | (lisp)                       |                      |                      |
+| PROJECT  | cli/clap [3/4]                                                          | ~/comp/core/lib/cli/clap/            | (lisp cli)                   |                      |                      |
+| WIP      | hooks                                                                   | ~/comp/core/lib/cli/clap/            | (lisp cli)                   |                      |                      |
+| TODO     | cli fixtures                                                            | ~/comp/core/lib/cli/                 | (lisp test)                  |                      |                      |
+| TODO     | linedit keyboard macros                                                 | ~/comp/core/lib/cli/linedit.lisp     | (lisp)                       |                      |                      |
+| TODO     | accept CLI-OPTS from parent CLI-CMD in PROC-ARGS                        | ~/comp/core/lib/cli/                 | (lisp)                       |                      |                      |
+| TODO     | destructure cli opts                                                    | ~/comp/core/lib/cli/                 | (lisp macro)                 |                      |                      |
+| TODO     | test SET-TTY-MODE :echo nil vs WITHOUT-ECHO                             | ~/comp/core/lib/cli/                 | (lisp)                       |                      |                      |
+| PROJECT  | q [0/4]                                                                 | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | SQL                                                                     | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | DQL                                                                     | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | top-level macros                                                        | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | conditions                                                              | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | basic predicates                                                        | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | compiler design                                                         | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | runtime design                                                          | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | q/tests/fuzz [0/2]                                                      | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | sql-fuzzer                                                              | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | dql-fuzzer                                                              | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| TODO     | #? reader macro                                                         | ~/comp/core/lib/                     | (lisp q)                     |                      |                      |
+| WIP      | complete base query protocol [1/2]                                      | ~/comp/core/lib/q/query.lisp         | (lisp q db)                  |                      |                      |
+| TODO     | Basic Testing                                                           | ~/comp/core/lib/q/query.lisp         | (lisp q db)                  |                      |                      |
+| PROJECT  | parse [1/2]                                                             | ~/comp/core/lib/                     | (lisp lib)                   |                      |                      |
+| TODO     | tests                                                                   | ~/comp/core/lib/                     | (lisp lib)                   |                      |                      |
+| PROJECT  | organ [0/4]                                                             | ~/comp/core/lib/                     | (lisp organ)                 |                      |                      |
+| TBD      | organ-export                                                            | ~/comp/core/lib/                     | (lisp organ)                 |                      |                      |
+| TODO     | org-parse                                                               | ~/comp/core/lib/                     | (lisp organ)                 |                      |                      |
+| TBD      | parse org-elements as sxp                                               | ~/comp/core/lib/                     | (lisp organ sxp)             |                      |                      |
+| WIP      | org-heading refinement                                                  | ~/comp/core/lib/                     | (lisp organ)                 |                      |                      |
+| PROJECT  | rdb [1/13]                                                              | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | error handling                                                          | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | client api                                                              | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | sequence/iterator impl                                                  | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | comparator impl                                                         | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | type system                                                             | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | set-opt/get-opt                                                         | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | handle pinned vs non-pinned RocksDB accessors                           | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | move backup-db from rdb to rdb-database                                 | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | rdb prefix keys                                                         | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | with-latest-options                                                     | ~/comp/core/lib/                     | (lisp rdb rocksdb)           |                      |                      |
+| TBD      | can only open rocksdb column families on OPEN                           | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| TODO     | undefined RDB/STORE symbols                                             | ~/comp/core/lib/                     | (lisp rdb)                   |                      |                      |
+| PROJECT  | vc [0/2]                                                                | ~/comp/core/lib/                     | (lisp vc)                    |                      |                      |
+| TODO     | github atom feed queries                                                | ~/comp/core/lib/                     | (lisp vc)                    |                      |                      |
+| WIP      | vc-mirrors-update replacement                                           | ~/.config/nushell/scripts/vc.nu      | (lisp vc)                    |                      |                      |
+| PROJECT  | dat [0/3]                                                               | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| WIP      | dat/parquet                                                             | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| TODO     | RLE                                                                     | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| TODO     | tcompact                                                                | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| TODO     | dat/csv column selectors                                                | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| TODO     | dat/sxp                                                                 | ~/comp/core/lib/                     | (lisp dat)                   |                      |                      |
+| PROJECT  | syn [0/4]                                                               | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| WIP      | gen                                                                     | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| FIXME    | deref op                                                                | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| TODO     | tempo                                                                   | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| TODO     | grovel                                                                  | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| TODO     | lint                                                                    | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| TODO     | whitespace cleanup                                                      | ~/comp/core/lib/                     | (lisp syn)                   |                      |                      |
+| PROJECT  | cry                                                                     | ~/comp/core/lib/cry/                 | (lisp crypto)                |                      |                      |
+| PROJECT  | obj [5/11]                                                              | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| TODO     | object schema                                                           | ~/comp/core/lib/obj/                 | (lisp obj schema)            | 2025-11-10 Mon 00:00 | 2025-11-08 Sat 00:00 |
+| TODO     | command parents                                                         | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| TODO     | equiv                                                                   | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| TODO     | documentation                                                           | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| OUTLINE  | next steps                                                              | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| WIP      | tensor [3/7]                                                            | ~/comp/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
+| TBD      | arrow interface                                                         | ~/comp/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
+| TODO     | graph-idx loop-path                                                     | ~/comp/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
+| TODO     | slice loop-path                                                         | ~/comp/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
+| RESEARCH | SB-SIMD                                                                 | ~/comp/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
+| TODO     | color/theme                                                             | ~/comp/core/lib/obj/color/theme.lisp | (lisp obj)                   |                      |                      |
+| RESEARCH | major-modes                                                             | ~/comp/core/lib/obj/                 | (lisp obj)                   |                      |                      |
+| PROJECT  | net [2/7]                                                               | ~/comp/core/lib/net/                 | (lisp net)                   |                      |                      |
+| WIP      | dbus                                                                    | ~/comp/core/lib/net/                 | (lisp net)                   |                      |                      |
+| TODO     | fixtures                                                                | ~/comp/core/lib/net/                 | (lisp net rt)                |                      |                      |
+| TODO     | tcp                                                                     | ~/comp/core/lib/net/                 | (lisp net)                   |                      |                      |
+| TODO     | udp                                                                     | ~/comp/core/lib/net/                 | (lisp net)                   |                      |                      |
+| WAIT     | net/srv                                                                 | ~/comp/core/lib/net/                 | (net lisp)                   |                      |                      |
+| NOPE     | wayland protocol bindings                                               | ~/comp/core/lib/gui/                 | (lisp gui)                   |                      |                      |
+| NOPE     | wayland compositor                                                      | ~/comp/core/lib/gui/                 | (gui rust lisp)              |                      |                      |
+| PROJECT  | rt [0/6]                                                                | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| TODO     | redirect I/O in tests                                                   | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| TODO     | *test-on-def*                                                           | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| TODO     | test-directory                                                          | ~/comp/core/lib/                     | (lisp test rt)               |                      |                      |
+| TODO     | fixtures v2                                                             | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| TODO     | TEST-FUNCTION v2                                                        | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| FIXME    | test-result false-positives                                             | ~/comp/core/lib/                     | (lisp rt test)               |                      |                      |
+| PROJECT  | io [3/9]                                                                | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| WIP      | mux                                                                     | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| RESEARCH | wm impl                                                                 | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| TODO     | uring                                                                   | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| NOPE     | stream-write-sequence for deflate                                       | ~/comp/core/lib/io/                  | (lisp io)                    | 2025-06-17 Tue 00:00 |                      |
+| FIXME    | flate/deflate                                                           | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| FIXME    | zstd streams                                                            | ~/comp/core/lib/io/                  | (lisp io)                    | 2025-06-17 Tue 00:00 |                      |
+| TODO     | wm:kbd -> io/kbd:kbd                                                    | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| WIP      | virtual streams                                                         | ~/comp/core/lib/io/                  | (lisp io)                    |                      |                      |
+| PROJECT  | math                                                                    | ~/comp/core/lib/math                 | (lisp math)                  |                      |                      |
+| RESEARCH | in-vector iterator                                                      | ~/comp/core/lib/math                 | (lisp math)                  |                      |                      |
+| PROJECT  | box                                                                     | ~/comp/core/lib/                     | (lisp)                       |                      |                      |
+| PROJECT  | log [0/2]                                                               | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
+| TODO     | log-broadcast-stream                                                    | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
+| TODO     | async-db-log-file                                                       | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
+| PROJECT  | std [3/4]                                                               | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
+| NOPE     | sstring<->cstring                                                       | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
+| TODO     | return* proto                                                           | ~/comp/core/std/                     | (lisp std)                   | 2026-03-14 Sat 00:00 |                      |
+| NOPE     | DEFAPI                                                                  | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
+| PROJECT  | emacs [2/17]                                                            | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| WIP      | comp/org capture templates                                              | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | comp/org agenda views, export, dblock                                   | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | agenda views                                                            | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| FIXME    | compiler warnings                                                       | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| WIP      | graph                                                                   | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TODO     | default values for link commands                                        | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TODO     | org-graph edge relative links                                           | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TBD      | org-timeline upgrades [0/3]                                             | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TODO     | timeline selection update on pointer hover                              | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TODO     | org-agenda-follow impl                                                  | ~/comp/core/emacs/                   | (emacs org)                  |                      |                      |
+| TODO     | align org-timeline properties with ulang                                | ~/comp/core/emacs/                   | (emacs org ulang)            |                      |                      |
+| TODO     | skel.el project integration                                             | ~/comp/core/emacs/                   | (emacs skel)                 |                      |                      |
+| TODO     | allout-mode support                                                     | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | skel widgets                                                            | ~/comp/core/emacs/                   | (emacs skel)                 |                      |                      |
+| TODO     | desktop save functions                                                  | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | skel.el hack-dir-local-variables                                        | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| WIP      | skel.el indentation rules                                               | ~/comp/core/emacs/lib/skel.el        | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
+| TODO     | project-tasks timestamp -> date when no h/m info                        | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | defpkg-format                                                           | ~/comp/core/emacs/                   | (emacs lisp)                 |                      |                      |
+| TODO     | speedbar-obj-alist for cl                                               | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| TODO     | new graph property: pronunciation                                       | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
+| PROJECT  | skel [3/13]                                                             | ~/comp/core/                         | (skel)                       |                      |                      |
+| TODO     | defer skel components                                                   | ~/comp/core/                         | (skel)                       |                      |                      |
+| TODO     | rule source                                                             | ~/comp/core/                         | (skel)                       |                      |                      |
+| TODO     | ensure-rule-source                                                      | ~/comp/core/                         | (skel)                       |                      |                      |
+| TODO     | implement task-pool                                                     | ~/comp/core/                         | (skel thread)                |                      |                      |
+| NOPE     | implement vm                                                            | ~/comp/core/                         | (skel)                       | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
+| TODO     | handle missing method errors or define default method when none defined | ~/comp/core/                         | (skel bin cli)               |                      |                      |
+| TODO     | skel tasks/runner/timer                                                 | ~/comp/core/                         | (skel)                       |                      |                      |
+| OUTLINE  | skel template objects                                                   | ~/comp/core/                         | (skel)                       |                      |                      |
+| NEXT     | homer [1/1]                                                             | ~/comp/core/                         | (skel lisp homer)            |                      |                      |
+| TODO     | project desktop config                                                  | ~/comp/core/                         | (skel)                       |                      |                      |
+| PROJECT  | krypt                                                                   | ~/comp/core/                         | (skel)                       |                      |                      |
+| WIP      | mpk [0/2]                                                               | ~/comp/core/mpk/                     | (skel)                       |                      |                      |
+| TODO     | setup API for tmdb and tvdb                                             | ~/comp/core/mpk/                     | (skel)                       |                      |                      |
+| WAIT     | clean                                                                   | ~/comp/core/mpk/clean.lisp           | (skel)                       |                      |                      |
+| TODO     | media logging                                                           | ~/comp/core/mpk/                     | (skel)                       |                      |                      |
+
 * env-table                                                              :os:
 :PROPERTIES:
 :ID:       4c824478-0eaa-49b9-905f-2c9a6d4220eb
@@ -563,6 +911,33 @@ List all project tasks.
       echo "$i|" | sed '0,/=/s//|/'
   done
 #+end_src
+
+#+RESULTS:
+| SHELL                    | /bin/bash                                                                                                                                                                                                                                                                                                                                                                                  |
+| SSH_AUTH_SOCK            | /run/user/1003/gcr/ssh                                                                                                                                                                                                                                                                                                                                                                     |
+| MEMORY_PRESSURE_WRITE    | c29tZSAyMDAwMDAgMjAwMDAwMAA=                                                                                                                                                                                                                                                                                                                                                               |
+| PWD                      | /home/ellis/comp/org/meta                                                                                                                                                                                                                                                                                                                                                                  |
+| LOGNAME                  | ellis                                                                                                                                                                                                                                                                                                                                                                                      |
+| SYSTEMD_EXEC_PID         | 124272                                                                                                                                                                                                                                                                                                                                                                                     |
+| _                        | /usr/bin/env                                                                                                                                                                                                                                                                                                                                                                               |
+| HOME                     | /home/ellis                                                                                                                                                                                                                                                                                                                                                                                |
+| LANG                     | en_US.UTF-8                                                                                                                                                                                                                                                                                                                                                                                |
+| CARGO_HOME               | /home/ellis/.local/lib/rust                                                                                                                                                                                                                                                                                                                                                                |
+| MEMORY_PRESSURE_WATCH    | /sys/fs/cgroup/user.slice/user-1003.slice/user@1003.service/app.slice/emacs.service/memory.pressure                                                                                                                                                                                                                                                                                        |
+| INVOCATION_ID            | 81302c582a234ef9bc10b12374d8a597                                                                                                                                                                                                                                                                                                                                                           |
+| MANAGERPID               | 986                                                                                                                                                                                                                                                                                                                                                                                        |
+| TERM                     | dumb                                                                                                                                                                                                                                                                                                                                                                                       |
+| USER                     | ellis                                                                                                                                                                                                                                                                                                                                                                                      |
+| NOTIFY_SOCKET            | /run/user/1003/systemd/notify                                                                                                                                                                                                                                                                                                                                                              |
+| DISPLAY                  | :0                                                                                                                                                                                                                                                                                                                                                                                         |
+| SHLVL                    | 0                                                                                                                                                                                                                                                                                                                                                                                          |
+| MANAGERPIDFDID           | 987                                                                                                                                                                                                                                                                                                                                                                                        |
+| LISP_HOME                | /home/ellis/.local/lib/lisp                                                                                                                                                                                                                                                                                                                                                                |
+| XDG_RUNTIME_DIR          | /run/user/1003                                                                                                                                                                                                                                                                                                                                                                             |
+| JOURNAL_STREAM           | 9:281939                                                                                                                                                                                                                                                                                                                                                                                   |
+| XDG_DATA_DIRS            | /home/ellis/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/                                                                                                                                                                                                                                                                                |
+| PATH                     | /home/ellis/.cargo/bin:/home/ellis/.local/share/pyenv/shims:/home/ellis/.local/bin:/home/ellis/.local/lib/lisp/bin:/home/ellis/.local/lib/go/bin:/home/ellis/.local/lib/rust/bin:/home/ellis/.local/share/pyenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/opt/cuda/bin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl |
+| DBUS_SESSION_BUS_ADDRESS | unix:path=/run/user/1003/bus                                                                                                                                                                                                                                                                                                                                                               |
 
 * get-env                                                                :os:
 :PROPERTIES:
@@ -598,6 +973,11 @@ List all project tasks.
 		 (format "Org v%s" (org-version))))
 #+end_src
 
+#+RESULTS: get-emacs-version
+: GNU Emacs 31.0.50 (build 1, x86_64-pc-linux-gnu, X toolkit, cairo version 1.18.4, Xaw scroll bars)
+:  of 2026-01-19
+: Org v9.8-pre
+
 * vc-buffer-log                                                          :vc:
 :PROPERTIES:
 :ID:       b2d9f6f0-2ac7-4e45-abbe-b32cc2d0f7aa
@@ -627,6 +1007,262 @@ List all project tasks.
             (sit-for 1 t)))
         (buffer-string)))))
 #+end_src
+
+#+RESULTS: vc-buffer-log
+#+begin_example
+changeset:   118:df072b42865a
+tag:         tip
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Feb 23 22:45:35 2026 -0500
+summary:     bump
+
+changeset:   117:47048f43a010
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Feb 23 20:41:21 2026 -0500
+summary:     bump
+
+changeset:   116:97cfa3f5b87d
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Feb 23 18:08:20 2026 -0500
+summary:     bump
+
+changeset:   115:005574f5e0d2
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue Jan 20 22:42:34 2026 -0500
+summary:     core updates
+
+changeset:   113:53c712b40109
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Jan 04 20:37:20 2026 -0500
+summary:     bump
+
+changeset:   112:bb6b342f2eee
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue Dec 30 21:00:06 2025 -0500
+summary:     bump
+
+changeset:   110:23d77b4668e7
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Nov 02 16:07:44 2025 -0500
+summary:     bump
+
+changeset:   109:ac5a6e6d8a29
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Wed Oct 29 21:23:05 2025 -0400
+summary:     scm1, techne, dat/exe
+
+changeset:   108:dcba611d2499
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Oct 18 18:56:33 2025 -0400
+summary:     bump
+
+changeset:   107:4b2b2fc4ac94
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Thu Oct 16 21:01:47 2025 -0400
+summary:     search
+
+changeset:   106:a5c0d1347eb8
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue Oct 14 20:20:58 2025 -0400
+summary:     bump
+
+changeset:   105:8524a88c8b64
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Oct 13 00:19:49 2025 -0400
+summary:     bump
+
+changeset:   104:2cb695433044
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Oct 12 00:35:07 2025 -0400
+summary:     bump
+
+changeset:   103:088f5f478106
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Oct 10 22:27:27 2025 -0400
+summary:     lang stuff, graph-ui
+
+changeset:   102:d9c2d317a5fe
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Oct 03 22:16:02 2025 -0400
+summary:     css updates
+
+changeset:   101:2e5a63a9bdc0
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Oct 03 00:03:50 2025 -0400
+summary:     update docs
+
+changeset:   100:ef5e9b85e8df
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Thu Oct 02 23:32:20 2025 -0400
+summary:     css updates
+
+changeset:   98:3813c0f87ed4
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Sep 01 21:48:03 2025 -0400
+summary:     bump
+
+changeset:   90:a709434b72cd
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue Aug 05 21:56:05 2025 -0400
+summary:     bump
+
+changeset:   87:9677188c6286
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Jul 25 23:57:30 2025 -0400
+summary:     bump
+
+changeset:   75:58f23dff7896
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Jun 20 19:48:23 2025 -0400
+summary:     bump
+
+changeset:   66:0671a0f1cb66
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Jun 08 15:31:25 2025 -0400
+summary:     project-details vc update
+
+changeset:   62:d45be2b39f91
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Wed Jun 04 20:55:28 2025 -0400
+summary:     doc updates
+
+changeset:   50:bca552bcb411
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue May 13 17:59:10 2025 -0400
+summary:     bump
+
+changeset:   49:952a028c159a
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun May 11 01:01:10 2025 -0400
+summary:     task updates, math notes
+
+changeset:   41:749abcd5cf0f
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Thu Apr 24 21:40:29 2025 -0400
+summary:     more graph stuff, sbcl-pg in notes
+
+changeset:   35:14e88312c544
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Apr 04 16:22:19 2025 -0400
+summary:     bump
+
+changeset:   34:6ba7c2ebfc8b
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Mar 15 20:49:54 2025 -0400
+summary:     bump
+
+changeset:   33:f3000e8fc269
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Mar 15 19:12:29 2025 -0400
+summary:     bump
+
+changeset:   32:5c550780874e
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Mar 09 16:37:02 2025 -0400
+summary:     publish updates - auto sitemap generation
+
+changeset:   29:6caa6bb1894e
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Mar 02 20:33:18 2025 -0500
+summary:     bump
+
+changeset:   28:88b6e64c3b05
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Mar 02 20:02:49 2025 -0500
+summary:     lisp babel
+
+changeset:   27:7231c7e26f12
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Mar 02 00:04:17 2025 -0500
+summary:     lisp docs babel
+
+changeset:   26:14a0c3ba3dc9
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Mar 01 23:58:35 2025 -0500
+summary:     lisp doc utils
+
+changeset:   24:cdbca94b9a27
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Feb 24 21:38:56 2025 -0500
+summary:     bump
+
+changeset:   23:4295f363bee6
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Feb 23 21:30:38 2025 -0500
+summary:     bump
+
+changeset:   20:2e7552a37f4d
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Feb 16 19:29:00 2025 -0500
+summary:     bump
+
+changeset:   18:e2cc8a474453
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Feb 15 16:19:12 2025 -0500
+summary:     update links, fixes
+
+changeset:   17:0e7fc660547c
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Feb 14 19:28:14 2025 -0500
+summary:     update docs
+
+changeset:   14:4c50dd0d0898
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Jan 17 23:10:47 2025 -0500
+summary:     graph updates
+
+changeset:   13:8160535ac709
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Thu Dec 12 22:40:45 2024 -0500
+summary:     hgsub update
+
+changeset:   12:f6df7eaa3684
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Sep 22 21:29:45 2024 -0400
+summary:     id updates
+
+changeset:   11:6e53b8dc7795
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Sep 20 20:00:07 2024 -0400
+summary:     bump
+
+changeset:   10:65bf0057ca35
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Fri Sep 13 21:21:53 2024 -0400
+summary:     style updates
+
+changeset:   9:995df3d48af0
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Sep 07 22:38:02 2024 -0400
+summary:     ulang
+
+changeset:   8:06698c6708de
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Wed Sep 04 16:59:32 2024 -0400
+summary:     fixes
+
+changeset:   7:4728f14839e4
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Tue Aug 27 21:35:44 2024 -0400
+summary:     publishing updates
+
+changeset:   6:f747ffac7f40
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Aug 25 00:15:40 2024 -0400
+summary:     meta and task work
+
+changeset:   5:6538a100c792
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Aug 18 22:16:12 2024 -0400
+summary:     weekend warrior
+
+changeset:   2:a4e233714062
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Aug 12 18:31:37 2024 -0400
+summary:     meta and task updates
+
+#+end_example
+
 * git-clone                                                              :vc:
 :PROPERTIES:
 :ID:       4635bea5-fc64-40bc-8ce2-40d6fd0ae71f
@@ -653,7 +1289,7 @@ hg log -l 1 --template '{node|short}'
 #+end_src
 
 #+RESULTS: hg-rev
-: 06698c6708de
+: df072b42865a
 * hg-id-num                                                              :vc:
 :PROPERTIES:
 :ID:       9602faee-5522-445b-a568-be603e20a978
@@ -664,7 +1300,7 @@ hg id -n
 #+end_src
 
 #+RESULTS: hg-id-num
-: 8+
+: 118+
 
 * hg-log-since                                                           :vc:
 :PROPERTIES:
@@ -676,7 +1312,7 @@ hg id -n
 #+end_src
 
 #+RESULTS: hg-log-since
-: 3 days ago
+: 4 weeks ago
 
 * hg-log-age                                                             :vc:
 :PROPERTIES:
@@ -689,7 +1325,7 @@ hg id -n
 #+end_src
 
 #+RESULTS: hg-log-age
-: Sat Sep 07 22:38:02 2024 -0400
+: Mon Feb 23 22:45:35 2026 -0500
 
 * hg-churn                                                               :vc:
 :PROPERTIES:
@@ -702,18 +1338,36 @@ hg id -n
 
 #+RESULTS: hg-churn
 #+begin_example
-2023-10  36394 ************************************
-2023-11  12777 ************
-2023-12  61624 *************************************************************
-2024-01   4923 ****
-2024-02   5701 *****
-2024-03  27292 ***************************
-2024-04  23322 ***********************
-2024-05  24141 ***********************
-2024-06  17608 *****************
-2024-07   9757 *********
-2024-08  16177 ****************
-2024-09   2430 **
+2023-10  36394 ********
+2023-11  12777 **
+2023-12  61624 **************
+2024-01   4923 *
+2024-02   5701 *
+2024-03  27292 ******
+2024-04  23322 *****
+2024-05  24141 *****
+2024-06  17608 ****
+2024-07   9757 **
+2024-08  16177 ***
+2024-09  13250 ***
+2024-10  24165 *****
+2024-11  28112 ******
+2024-12  14002 ***
+2025-01   6372 *
+2025-02 268444 *************************************************************
+2025-03  12410 **
+2025-04  13766 ***
+2025-05  59220 *************
+2025-06  41588 *********
+2025-07  16728 ***
+2025-08  15034 ***
+2025-09  21740 ****
+2025-10  10504 **
+2025-11  18331 ****
+2025-12  36153 ********
+2026-01  18034 ****
+2026-02  90798 ********************
+2026-03  20723 ****
 #+end_example
 
 * hg-status                                                              :vc:
@@ -725,6 +1379,10 @@ hg id -n
 hg status
 #+end_src
 
+#+RESULTS: hg-status
+| M | babel.org   |
+| ? | .#babel.org |
+
 * hg-diff-stat                                                           :vc:
 :PROPERTIES:
 :ID:       df0bafb8-752c-4067-96fb-de9a9269bba3
@@ -733,6 +1391,10 @@ hg status
 #+begin_src shell :dir "." :results output
 hg diff -S -g --stat
 #+end_src
+
+#+RESULTS: hg-diff-stat
+:  babel.org |  155 +++++++++++++++++++++++++++++++++++++++++++++++++++----------
+:  1 files changed, 128 insertions(+), 27 deletions(-)
 
 * homer                                                               :homer:
 :PROPERTIES:
@@ -743,6 +1405,32 @@ homer
 #+end_src
 
 #+RESULTS:
+| #<HOME-CONFIG     | :ID  | 2311-2a42-c41f-c920>              |               |           |       |             |         |             |           |
+| [standard-object] |      |                                   |               |           |       |             |         |             |           |
+|                   |      |                                   |               |           |       |             |         |             |           |
+| Slots             | with | :INSTANCE                         | allocation:   |           |       |             |         |             |           |
+| ID                | =    | 2526847332178184480               |               |           |       |             |         |             |           |
+| AST               | =    | NIL                               |               |           |       |             |         |             |           |
+| USER              | =    | ELLIS                             |               |           |       |             |         |             |           |
+| PATH              | =    | #P"/home/ellis/.config/homerc"    |               |           |       |             |         |             |           |
+| SRC               | =    | #P"~/.stash/home/"                |               |           |       |             |         |             |           |
+| SKEL              | =    | NIL                               |               |           |       |             |         |             |           |
+| KRYPT             | =    | NIL                               |               |           |       |             |         |             |           |
+| MPK               | =    | NIL                               |               |           |       |             |         |             |           |
+| PACKY             | =    | #<SKEL/PACKY:PACKY-USER-CONFIG    | {120459D1B3}> |           |       |             |         |             |           |
+| LOGGER            | =    | #<LOGGER-CONFIG                   | {120492F673}> |           |       |             |         |             |           |
+| MAIL              | =    | ~/mail                            |               |           |       |             |         |             |           |
+| TERM              | =    | #<ALACRITTY-CONFIG                | #<TOML-TABLE  | (terminal | .     | shell)>>    |         |             |           |
+| TMUX              | =    | NIL                               |               |           |       |             |         |             |           |
+| SHELL             | =    | :BASH                             |               |           |       |             |         |             |           |
+| TASKS             | =    | (#<HOMER-TASK                     | :state        | NIL>)     |       |             |         |             |           |
+| JOBS              | =    | (#<homer-job                      | STARTX        | (bt       | mnt)> | #<homer-job | REBOOT> | #<homer-job | BACKUP>.. |
+| EDITOR            | =    | #<EMACS-CONFIG                    | {12049CE3A3}> |           |       |             |         |             |           |
+| BROWSER           | =    | :EWW                              |               |           |       |             |         |             |           |
+| KEYBOARD          | =    | #<unbound                         | slot>         |           |       |             |         |             |           |
+| BOXES             | =    | #<unbound                         | slot>         |           |       |             |         |             |           |
+| PODS              | =    | NIL                               |               |           |       |             |         |             |           |
+| SERVICES          | =    | (#<SKEL/HOMER/CORE::HOMER-SERVICE | MPD>..        |           |       |             |         |             |           |
 
 * sh-ob-tangle                                                          :org:
 :PROPERTIES:
@@ -759,6 +1447,8 @@ homer
     " "$@"
 #+end_src
 
+#+RESULTS: sh-ob-tangle
+
 * org-graph-info                                                  :org:graph:
 :PROPERTIES:
 :CREATED:  <2025-03-09 Sun 14:30>
@@ -770,6 +1460,11 @@ homer
     (edges ,(hash-table-count (org-graph-edges org-graph)))
     (files ,(length (org-graph-files t))))
 #+end_src
+
+#+RESULTS: org-graph-info
+| nodes | 1247 |
+| edges |  829 |
+| files |  143 |
 
 * TODO org-graph-search                                        :org:graph:js:
 :PROPERTIES:
@@ -811,7 +1506,7 @@ homer
   <script type='module'>
       import SpriteText from 'https://esm.sh/three-spritetext';
       const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
-        .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+        .jsonUrl('https://cdn.compiler.company/data/org-graph.json')
         .showNavInfo(false)
         .nodeId('id')
         .nodeLabel('id')
@@ -840,7 +1535,7 @@ homer
 <script type='module'>
     import SpriteText from 'https://esm.sh/three-spritetext';
     const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
-      .jsonUrl('https://cdn.otom8.dev/data/org-graph.json')
+      .jsonUrl('https://cdn.compiler.company/data/org-graph.json')
       .showNavInfo(false)
       .nodeId('id')
       .nodeLabel('id')
@@ -855,7 +1550,7 @@ homer
         sprite.material.depthWrite = false; // make sprite background transparent
         sprite.color = node.color;
         sprite.textHeight = 8;
-        sprite.center.y = 0.6; // shift below node
+        sprite.center.y = -0.6; // shift above node
         return sprite;
       })
       .nodeThreeObjectExtend(true);
