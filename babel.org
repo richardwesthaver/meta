@@ -1592,6 +1592,9 @@ digraph {
   }
 #+end_src
 
+#+RESULTS: gen-dot-tree
+[[file:/tmp/tree.png]]
+
 * dot-version                                                           :dot:
 :PROPERTIES:
 :ID:       13c8a47f-a8bc-4955-8038-8b7fbef42bf7
@@ -1618,14 +1621,14 @@ dot -V 2>&1
 #+name: load-user
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(ql:quickload :core))
+    (slime-eval '(load-system :core))
     (slime-repl-set-package "USER"))
 #+end_src
 
 #+name: load-core
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(ql:quickload :core :ffi))
+    (slime-eval '(progn (load-system :alien) (load-system :core)))
     (slime-repl-set-package "USER"))
 #+end_src
 
@@ -1646,7 +1649,7 @@ dot -V 2>&1
 #+name: load-tests
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(ql:quickload '(:core/tests :ffi/tests))))
+    (slime-eval '(progn (load-system :core/tests) (load-system :alien/tests))))
 #+end_src
 * lisp-system-files*                                                   :lisp:
 :PROPERTIES:
@@ -1718,8 +1721,8 @@ dot -V 2>&1
 :ID:       8b6da653-ad2b-4977-a9c6-60f8ceb8964c
 :END:
 #+name: lisp-system-directory
-#+begin_src lisp :var system='user :results replace
-  (namestring (system-homne system))
+#+begin_src lisp :var system="core" :results replace
+(namestring (system-home (string-upcase system)))
 #+end_src
 
 * lisp-system-depends-on                                               :lisp:
@@ -1727,16 +1730,16 @@ dot -V 2>&1
 :ID:       03ba435f-f426-480b-8a17-122c0f6ec4b1
 :END:
 #+name: lisp-system-depends-on
-#+begin_src lisp :var system='user :results replace
-  (slot-value (find-system system) 'std/defsys::require)
+#+begin_src lisp :var system="core" :results replace
+(slot-value (find-system (string-upcase system)) 'std/defsys::require)
 #+end_src
 * lisp-system-dependents                                               :lisp:
 :PROPERTIES:
 :ID:       a4da4509-d9d4-4fdc-abdd-adef0e80eac4
 :END:
 #+name: lisp-system-dependents
-#+begin_src lisp :var system='io :results replace
-  (mapcar 'std:name (doc::find-system-dependents (find-system system)))
+#+begin_src lisp :var system="core" :results replace
+(mapcar 'std:name (doc::find-system-dependents (find-system (string-upcase system))))
 #+end_src
 
 * lisp-system-depencies                                                :lisp:
@@ -1744,9 +1747,9 @@ dot -V 2>&1
 :ID:       31e5e381-efe0-47af-a693-7ea607e1cb06
 :END:
 #+name: lisp-system-dependencies
-#+begin_src lisp :var system="CORE" :results replace
-  (when-let ((sys (doc:doc-system (doc:system-documentation system))))
-    (mapcar 'name (component-require sys)))
+#+begin_src lisp :var system="core" :results replace
+(when-let ((sys (doc:doc-system (doc:system-documentation (string-upcase system)))))
+  (mapcar 'name (component-require sys)))
 #+end_src
 
 * lisp-system-packages                                                 :lisp:
@@ -1754,8 +1757,8 @@ dot -V 2>&1
 :ID:       f2155a94-2bd7-4a37-a158-6ba16c55fc74
 :END:
 #+name: lisp-system-packages
-#+begin_src lisp :var system="STD" :results replace
-  (mapcar 'name (doc:doc-packages (doc:system-documentation system)))
+#+begin_src lisp :var system="core" :results replace
+  (mapcar 'name (doc:doc-packages (doc:system-documentation (string-upcase system))))
 #+end_src
 
 * lisp-system-tests                                                    :lisp:
@@ -1763,17 +1766,22 @@ dot -V 2>&1
 :ID:       d83b3c38-ad02-4a1f-b6db-57a1d4acd9d3
 :END:
 #+name: lisp-system-tests
-#+begin_src lisp :var system="STD" :results replace
-  (mapcar 'name (rt:tests (rt:find-suite system)))
+#+begin_src lisp :var system="core" :results replace
+(when-let ((s (rt:find-suite system)))
+  (mapcar 'name (rt:tests s)))
 #+end_src
+
+#+RESULTS: lisp-system-tests
+: NIL
 
 * lisp-test-system                                                     :lisp:
 :PROPERTIES:
 :ID:       0716fc3f-56e9-41ff-8b97-255fcc86297c
 :END:
 #+name: lisp-test-system
-#+begin_src lisp :var system="STD" :results replace
-  (rt:do-tests :suite (rt:find-suite system) :force t)
+#+begin_src lisp :var system="std" :results replace
+(when-let ((s (rt:find-suite system)))
+  (rt:do-tests :suite s :force t))
 #+end_src
 
 * lisp-package-dependencies                                            :lisp:
@@ -1781,8 +1789,8 @@ dot -V 2>&1
 :ID:       a957c157-da68-4651-a136-befae41ea408
 :END:
 #+name: lisp-package-dependencies
-#+begin_src lisp :var package="SKEL" :results replace
-  (mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation package))))
+#+begin_src lisp :var package="core" :results replace
+(mapcar 'name (flatten (doc:doc-dependencies (doc:package-documentation (string-upcase package)))))
 #+end_src
 
 * lisp-package-dependents                                              :lisp:
@@ -1790,8 +1798,8 @@ dot -V 2>&1
 :ID:       15fde8e1-b223-4185-a3cf-2cebacd0217a
 :END:
 #+name: lisp-package-dependents
-#+begin_src lisp :var package='std :results replace
-  (mapcar 'name (flatten (doc:doc-dependents (doc:package-documentation package))))
+#+begin_src lisp :var package="core" :results replace
+(mapcar 'name (flatten (doc:doc-dependents (doc:package-documentation (string-upcase package)))))
 #+end_src
 
 * lisp-package-files                                                   :lisp:
@@ -1799,8 +1807,8 @@ dot -V 2>&1
 :ID:       43aa4573-46b1-49c7-b1d0-fee48c80c62d
 :END:
 #+name: lisp-package-files
-#+begin_src lisp :var package='std :results replace
-  (mapcar 'namestring (map 'list 'path (doc:doc-files (doc:package-documentation package))))
+#+begin_src lisp :var package="core" :results replace
+  (mapcar 'namestring (map 'list 'path (doc:doc-files (doc:package-documentation (string-upcase package)))))
 #+end_src
 
 * lisp-package-symbols                                                 :lisp:
@@ -1808,10 +1816,10 @@ dot -V 2>&1
 :ID:       96c4e8d9-31f8-4d5f-8605-031d8a328cdb
 :END:
 #+name: lisp-package-symbols
-#+begin_src lisp :var package='std :results replace
-  (map 'list 'name (doc:doc-symbols (doc:package-documentation package)))
+#+begin_src lisp :var package="core" :results replace
+  (map 'list 'name (doc:doc-symbols (doc:package-documentation (string-upcase package))))
 #+end_src
-w
+
 * lisp-docs                                                        :lisp:doc:
 :PROPERTIES:
 :ID:       30bca974-89dd-4fca-bca4-fe8e6260e08b
