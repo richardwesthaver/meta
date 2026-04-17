@@ -14,12 +14,12 @@
 | name        | meta                                   |
 | version     | 0.1.0                                  |
 | description | CC Org Files                           |
-| skel-id     | 1784914079056115652                    |
+| id          | 1784914079056115652                    |
 | root        | ~/comp/org/meta/                       |
 | tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
-| updated     | Sun Jan 04 20:37:20 2026 -0500         |
+| updated     | Sun Apr 05 00:25:49 2026 -0400         |
 | langs       | org                                    |
-| lines       | 2304 :code 2113 :comment 7 :blank 184  |
+| lines       | 2988 :code 2706 :comment 7 :blank 275  |
 |-------------+----------------------------------------|
 
 #+CALL: hg-churn() :dir ~/comp/org/meta/
@@ -41,7 +41,10 @@
 2025-10    470 ***************
 2025-11    360 ***********
 2025-12     22 
-2026-01      9 
+2026-01     51 *
+2026-02     81 **
+2026-03    783 *************************
+2026-04     62 **
 #+end_example
 
 #+CALL: project-html-files() :dir ~/comp/org/meta/
@@ -49,12 +52,12 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://otom8.dev/meta/babel.html][babel]]     | 2026-01-03 16:37:11 |
-| [[https://otom8.dev/meta/business.html][business]]  | 2025-09-03 17:34:46 |
-| [[https://otom8.dev/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
-| [[https://otom8.dev/meta/index.html][index]]     | 2025-11-05 19:36:06 |
-| [[https://otom8.dev/meta/style.html][style]]     | 2025-11-02 15:54:27 |
-| [[https://otom8.dev/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
-| [[https://otom8.dev/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2026-04-04 21:42:30 |
+| [[https://compiler.company/meta/business.html][business]]  | 2025-09-03 17:34:46 |
+| [[https://compiler.company/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
+| [[https://compiler.company/meta/index.html][index]]     | 2026-01-14 19:38:44 |
+| [[https://compiler.company/meta/style.html][style]]     | 2025-11-02 15:54:27 |
+| [[https://compiler.company/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
 
 #+END:

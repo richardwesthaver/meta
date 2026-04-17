@@ -29,7 +29,7 @@ input
 :ID:       dade8198-f8ff-4ae9-a52d-becdc1a9c3ce
 :END:
 #+name: read
-#+begin_src emacs-lisp :var file="readme.org" :var format=""
+#+begin_src emacs-lisp :var file="" :var format=""
 (if (string= format "csv")
     (with-temp-buffer
       (org-table-import (expand-file-name file) nil)
@@ -38,71 +38,6 @@ input
     (insert-file-contents (expand-file-name file))
     (buffer-string)))
 #+end_src
-
-#+RESULTS: read
-#+begin_example
-,#+title: Meta
-,#+author: Richard Westhaver
-,#+email: ellis@rwest.io
-,#+description: CC Meta
-,#+html_link_up: ../
-,#+setupfile: ../clean.theme
-,#+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
-,#+EXPORT_FILE_NAME: index
-,#+BEGIN: project-info :status nil :html t :vc nil :tasks nil
-,#+CALL: project-details(vc='nil) :dir ~/comp/org/meta/
-
-,#+RESULTS:
-|-------------+----------------------------------------|
-| name        | meta                                   |
-| version     | 0.1.0                                  |
-| description | CC Org Files                           |
-| skel-id     | 1784914079056115652                    |
-| root        | ~/comp/org/meta/                       |
-| tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
-| updated     | Sun Jan 04 20:37:20 2026 -0500         |
-| langs       | org                                    |
-| lines       | 2304 :code 2113 :comment 7 :blank 184  |
-|-------------+----------------------------------------|
-
-,#+CALL: hg-churn() :dir ~/comp/org/meta/
-
-,#+RESULTS:
-,#+begin_example
-2024-08   1873 *************************************************************
-2024-09    886 ****************************
-2024-12     99 ***
-2025-01     39 *
-2025-02    617 ********************
-2025-03    508 ****************
-2025-04    172 *****
-2025-05    637 ********************
-2025-06   1207 ***************************************
-2025-07    127 ****
-2025-08     82 **
-2025-09     54 *
-2025-10    470 ***************
-2025-11    360 ***********
-2025-12     22 
-2026-01      9 
-,#+end_example
-
-,#+CALL: project-html-files() :dir ~/comp/org/meta/
-
-,#+RESULTS:
-| file      | modified            |
-|-----------+---------------------|
-| [[https://otom8.dev/meta/babel.html][babel]]     | 2026-01-03 16:37:11 |
-| [[https://otom8.dev/meta/business.html][business]]  | 2025-09-03 17:34:46 |
-| [[https://otom8.dev/meta/glossary.html][glossary]]  | 2025-11-05 20:45:46 |
-| [[https://otom8.dev/meta/index.html][index]]     | 2025-11-05 19:36:06 |
-| [[https://otom8.dev/meta/style.html][style]]     | 2025-11-02 15:54:27 |
-| [[https://otom8.dev/meta/ulang.html][ulang]]     | 2025-11-02 15:35:44 |
-| [[https://otom8.dev/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
-
-,#+END:
-#+end_example
-
 * write                                                                  :fs:
 :PROPERTIES:
 :ID:       a866820f-e67c-49aa-ba7d-697c4f708654
