@@ -1666,6 +1666,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-depends-on
 #+begin_src lisp :var system="core" :results replace
+(std:load-system system)
 (slot-value (find-system (string-upcase system)) 'std/defsys::require)
 #+end_src
 * lisp-system-dependents                                               :lisp:
@@ -1674,6 +1675,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-dependents
 #+begin_src lisp :var system="core" :results replace
+(std:load-system system)
 (mapcar 'std:name (doc::find-system-dependents (find-system (string-upcase system))))
 #+end_src
 
@@ -1683,6 +1685,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-dependencies
 #+begin_src lisp :var system="core" :results replace
+(std:load-system system)
 (when-let ((sys (doc:doc-system (doc:system-documentation (string-upcase system)))))
   (mapcar 'name (component-require sys)))
 #+end_src
@@ -1693,7 +1696,8 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-packages
 #+begin_src lisp :var system="core" :results replace
-  (mapcar 'name (doc:doc-packages (doc:system-documentation (string-upcase system))))
+(std:load-system system)
+(mapcar 'name (doc:doc-packages (doc:system-documentation (string-upcase system))))
 #+end_src
 
 * lisp-system-tests                                                    :lisp:
@@ -1702,6 +1706,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-system-tests
 #+begin_src lisp :var system="core" :results replace
+(std:load-system system)
 (when-let ((s (rt:find-suite system)))
   (mapcar 'name (rt:tests s)))
 #+end_src
@@ -1715,6 +1720,7 @@ dot -V 2>&1
 :END:
 #+name: lisp-test-system
 #+begin_src lisp :var system="std" :results replace
+(std:load-system system)
 (when-let ((s (rt:find-suite system)))
   (rt:do-tests :suite s :force t))
 #+end_src
