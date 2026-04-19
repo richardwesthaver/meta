@@ -1584,7 +1584,7 @@ dot -V 2>&1
 #+name: load-tests
 #+begin_src emacs-lisp :results silent :eval no-export
   (when (slime-connected-p)
-    (slime-eval '(progn (load-system :core/tests) (load-system :alien/tests))))
+    (slime-eval '(progn (load-module :core :tests) (load-module :alien :tests))))
 #+end_src
 * lisp-system-files*                                                   :lisp:
 :PROPERTIES:
