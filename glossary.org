@@ -47,6 +47,7 @@
 :ID:       6ea8f879-29f1-4a52-8e39-4d0920318f8a
 :CUSTOM_ID: acronyms
 :END:
+- AO :: As Of
 - AST :: Abstract Syntax Tree
 - CC :: C Compiler
 - CL :: Common Lisp

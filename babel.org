@@ -94,8 +94,8 @@ input
 :ID:       8efce18f-0056-480d-a24c-1d14ce633160
 :END:
 #+name: transpose
-#+begin_src emacs-lisp :var x='nil
-  (unless (or (null x) (equal 'NIL x)) (apply #'mapcar #'list (list x)))
+#+begin_src emacs-lisp
+(when (and (boundp '*this*) (not (equal 'NIL *this*)) *this*) (apply #'mapcar #'list (list *this*)))
 #+end_src
 
 #+RESULTS: transpose
@@ -1602,12 +1602,16 @@ dot -V 2>&1
          (doc:doc-files s)))
       (doc:doc-dependencies (doc:system-documentation system)))))
 #+end_src
+
+#+RESULTS: lisp-system-files*
+| /home/ellis/comp/core/ppcre/ppcre.sys | /home/ellis/comp/core/ppcre/pkg.lisp | /home/ellis/comp/core/ppcre/var.lisp | /home/ellis/comp/core/ppcre/util.lisp | /home/ellis/comp/core/ppcre/errors.lisp | /home/ellis/comp/core/ppcre/charset.lisp | /home/ellis/comp/core/ppcre/charmap.lisp | /home/ellis/comp/core/ppcre/chartest.lisp | /home/ellis/comp/core/ppcre/lexer.lisp | /home/ellis/comp/core/ppcre/parser.lisp | /home/ellis/comp/core/ppcre/regex-class.lisp | /home/ellis/comp/core/ppcre/regex-class-util.lisp | /home/ellis/comp/core/ppcre/convert.lisp | /home/ellis/comp/core/ppcre/optimize.lisp | /home/ellis/comp/core/ppcre/closures.lisp | /home/ellis/comp/core/ppcre/repetition-closures.lisp | /home/ellis/comp/core/ppcre/scanner.lisp | /home/ellis/comp/core/ppcre/api.lisp |
+
 * lisp-system-files                                                    :lisp:
 :PROPERTIES:
 :ID:       e1e7ccad-6dea-45cc-adc6-cd709147678d
 :END:
 #+name: lisp-system-files
-#+begin_src lisp :var system='user :results replace
+#+begin_src lisp :var system='std :results replace
   (let ((system (find-system system)))
     (flatten
      (mapcar 
@@ -1615,6 +1619,9 @@ dot -V 2>&1
       (doc:doc-files (doc:system-documentation system)))))
 
 #+end_src
+
+#+RESULTS: lisp-system-files
+| std.sys | defpkg.lisp | pkg.lisp | condition.lisp | sym.lisp | list.lisp | prim.lisp | kernel.lisp | named-readtables.lisp | num/parse.lisp | num/math.lisp | num/leb128.lisp | num/float.lisp | type.lisp | string.lisp | stream.lisp | curry.lisp | hash.lisp | readtable.lisp | macs/ana.lisp | macs/pan.lisp | macs/control.lisp | macs/sugar.lisp | macs/unit.lisp | macs/memo.lisp | array.lisp | pipe.lisp | sys.lisp | io.lisp | alien.lisp | comp.lisp | meta.lisp | bit.lisp | seq.lisp | thread.lisp | async.lisp | defpun.lisp | task.lisp | print.lisp | path.lisp | os.lisp | file.lisp | rand.lisp | defsys.lisp |
 
 * lisp-stats                                                      :lisp:
 :PROPERTIES:
@@ -1665,10 +1672,14 @@ dot -V 2>&1
 :ID:       03ba435f-f426-480b-8a17-122c0f6ec4b1
 :END:
 #+name: lisp-system-depends-on
-#+begin_src lisp :var system="core" :results replace
+#+begin_src lisp :var system="std" :results replace
 (std:load-system system)
 (slot-value (find-system (string-upcase system)) 'std/defsys::require)
 #+end_src
+
+#+RESULTS: lisp-system-depends-on
+| :PPCRE |
+
 * lisp-system-dependents                                               :lisp:
 :PROPERTIES:
 :ID:       a4da4509-d9d4-4fdc-abdd-adef0e80eac4
@@ -1700,15 +1711,21 @@ dot -V 2>&1
 (mapcar 'name (doc:doc-packages (doc:system-documentation (string-upcase system))))
 #+end_src
 
+#+RESULTS: lisp-system-packages
+| CORE-LISP | CORE/USER | CORE |
+
 * lisp-system-tests                                                    :lisp:
 :PROPERTIES:
 :ID:       d83b3c38-ad02-4a1f-b6db-57a1d4acd9d3
 :END:
 #+name: lisp-system-tests
-#+begin_src lisp :var system="core" :results replace
-(std:load-system system)
-(when-let ((s (rt:find-suite system)))
-  (mapcar 'name (rt:tests s)))
+#+begin_src lisp :var system="std" :results replace
+(when system
+  (let ((sys (keywordicate (string-upcase system))))
+    (load-system sys)
+    (load-module sys :tests)
+    (when-let ((s (rt:find-suite sys)))
+      (mapcar 'name (rt:tests s)))))
 #+end_src
 
 #+RESULTS: lisp-system-tests

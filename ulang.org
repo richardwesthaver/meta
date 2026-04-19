@@ -181,8 +181,6 @@ TODO keywords are often used to keep track of the state of a [[https://orgmode.o
 Item]], but may also be [[https://orgmode.org/manual/TODO-Extensions.html][extended]] to support a variety of stateful item
 types beyond just simple tasks.
 
-We /do not/ specify any
-
 The following keywords form the simple set of task states.
 
 - TBD
