@@ -284,26 +284,103 @@ cat * | wc -w
       item-types)))
 #+end_src
 
-#+RESULTS: org-task-tbl
-| Item | echo | read | write | json | headline | transpose | codify-list | all-to-string | systemd-list-units | wc-lines | wc-words | buffer-name | lines | langs | sum-str-nums | org-task-tbl | org-headlines-map | trim | files | skel-show | project-root | project-name | project-vc | project-list | project-links | project-details | project-vc-files | project-html-files | project-files | project-tasks | env-table | get-env | org-current-h1-title | get-emacs-version | vc-buffer-log | git-clone | hg-clone | hg-rev | hg-id-num | hg-log-since | hg-log-age | hg-churn | hg-status | hg-diff-stat | homer | sh-ob-tangle | org-graph-info | org-graph-search | org-graph-3d | org-graph-init | make-dot-tree | gen-dot-tree | dot-version | slime | user-slime | std-slime | test-slime | lisp-system-files* | lisp-system-files | lisp-stats | describe-lisp-symbol | lisp-system-directory | lisp-system-depends-on | lisp-system-dependents | lisp-system-depencies | lisp-system-packages | lisp-system-tests | lisp-test-system | lisp-package-dependencies | lisp-package-dependents | lisp-package-files | lisp-package-symbols | lisp-docs | cargo-update-dir | rust-target-triple | post-align-table | insert-table-from-file | load-file | filter-table | filter-table-re | group-table | insert-file | random |
-|------+------+------+-------+------+----------+-----------+-------------+---------------+--------------------+----------+----------+-------------+-------+-------+--------------+--------------+-------------------+------+-------+-----------+--------------+--------------+------------+--------------+---------------+-----------------+------------------+--------------------+---------------+---------------+-----------+---------+----------------------+-------------------+---------------+-----------+----------+--------+-----------+--------------+------------+----------+-----------+--------------+-------+--------------+----------------+------------------+--------------+----------------+---------------+--------------+-------------+-------+------------+-----------+------------+--------------------+-------------------+------------+----------------------+-----------------------+------------------------+------------------------+-----------------------+----------------------+-------------------+------------------+---------------------------+-------------------------+--------------------+----------------------+-----------+------------------+--------------------+------------------+------------------------+-----------+--------------+-----------------+-------------+-------------+--------|
-
 * org-headlines-map                                                     :org:
 :PROPERTIES:
 :ID:       05955228-ca76-48bc-b769-f648b4310a9c
 :END:
 #+name: org-headlines-map
 #+begin_src elisp
-  (org-element-map (org-element-parse-buffer 'headline)
-      'headline
-    (lambda(hl)
-      (let ((parent (org-element-property :parent hl)))
-        (and (eq (org-element-type parent) 'headline)
-             (list (org-element-property :title parent) (org-element-property :title hl))))))
-
+(org-element-map (org-element-parse-buffer 'headline)
+    'headline
+  (lambda (hl)
+    (let ((parent (org-element-property :parent hl)))
+      (list (org-element-property :title parent)
+	    (org-element-property :title hl)))))
 #+end_src
 
 #+RESULTS: org-headlines-map
+| nil | echo                      |
+| nil | read                      |
+| nil | write                     |
+| nil | json                      |
+| nil | headline                  |
+| nil | transpose                 |
+| nil | codify-list               |
+| nil | all-to-string             |
+| nil | systemd-list-units        |
+| nil | wc-lines                  |
+| nil | wc-words                  |
+| nil | buffer-name               |
+| nil | lines                     |
+| nil | langs                     |
+| nil | sum-str-nums              |
+| nil | org-task-tbl              |
+| nil | org-headlines-map         |
+| nil | trim                      |
+| nil | files                     |
+| nil | skel-show                 |
+| nil | project-root              |
+| nil | project-name              |
+| nil | project-vc                |
+| nil | project-list              |
+| nil | project-links             |
+| nil | project-details           |
+| nil | project-vc-files          |
+| nil | project-html-files        |
+| nil | project-files             |
+| nil | project-tasks             |
+| nil | env-table                 |
+| nil | get-env                   |
+| nil | org-current-h1-title      |
+| nil | get-emacs-version         |
+| nil | vc-buffer-log             |
+| nil | git-clone                 |
+| nil | hg-clone                  |
+| nil | hg-rev                    |
+| nil | hg-id-num                 |
+| nil | hg-log-since              |
+| nil | hg-log-age                |
+| nil | hg-churn                  |
+| nil | hg-status                 |
+| nil | hg-diff-stat              |
+| nil | sh-ob-tangle              |
+| nil | org-graph-info            |
+| nil | org-graph-search          |
+| nil | org-graph-3d              |
+| nil | org-graph-init            |
+| nil | make-dot-tree             |
+| nil | gen-dot-tree              |
+| nil | dot-version               |
+| nil | slime                     |
+| nil | user-slime                |
+| nil | std-slime                 |
+| nil | test-slime                |
+| nil | lisp-system-files*        |
+| nil | lisp-system-files         |
+| nil | lisp-stats                |
+| nil | describe-lisp-symbol      |
+| nil | lisp-system-directory     |
+| nil | lisp-system-depends-on    |
+| nil | lisp-system-dependents    |
+| nil | lisp-system-depencies     |
+| nil | lisp-system-packages      |
+| nil | lisp-system-tests         |
+| nil | lisp-test-system          |
+| nil | lisp-package-dependencies |
+| nil | lisp-package-dependents   |
+| nil | lisp-package-files        |
+| nil | lisp-package-symbols      |
+| nil | lisp-docs                 |
+| nil | cargo-update-dir          |
+| nil | rust-target-triple        |
+| nil | post-align-table          |
+| nil | insert-table-from-file    |
+| nil | load-file                 |
+| nil | filter-table              |
+| nil | filter-table-re           |
+| nil | group-table               |
+| nil | insert-file               |
+| nil | random                    |
 
 * trim                                                                 :util:
 :PROPERTIES:
@@ -418,15 +495,34 @@ return tab
 :END:
 Return an org-mode unordered-list of project links.
 #+name: project-links
-#+begin_src emacs-lisp :var project="." :results list
-  (let ((name (project-name (project-current nil project)))
-        (link-fmt "https://%s/%s/%s.html"))
-    (list (org-link-make-string (format link-fmt company-domain "docs" (format "%s/index" name)) "Docs")
-          (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
+#+begin_src emacs-lisp :var project="." include='nil :results list
+(let* ((name (project-name (project-current nil project)))
+       (link-fmt "https://%s/%s/%s.html")
+       (docs (org-link-make-string (format link-fmt 
+					   company-domain "docs" 
+					   (format "%s/index" name)) 
+				   "Documentation")))
+  (list 
+   (pcase include
+     ('all (format "%s \n  - %s\n  - %s" docs
+		   (org-link-make-string (format link-fmt company-domain "docs" (format "%s/man" name)) 
+					 "Manual")
+		   (org-link-make-string (format link-fmt company-domain "docs" (format "%s/api" name)) 
+					 "API")))
+     ('man (format "%s \n  - %s" docs
+		   (org-link-make-string 
+		    (format link-fmt company-domain "docs" (format "%s/man" name)) 
+		    "Manual")))
+     ('api (format "%s \n  - %s" docs
+		   (org-link-make-string 
+		    (format link-fmt company-domain "docs" (format "%s/api" name)) 
+		    "API")))
+     (_ docs))
+   (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
 #+end_src
 
 #+RESULTS: project-links
-- [[https://compiler.company/docs/meta/index.html][Docs]]
+- [[https://compiler.company/docs/meta/index.html][Documentation]]
 - [[https://compiler.company/plan/tasks/meta.html][Tasks]]
 
 * project-details                                                   :project:
@@ -634,35 +730,35 @@ exist locally.
 List all project tasks.
 #+name: project-tasks
 #+begin_src emacs-lisp :results replace :var project="~/comp/core"
-  (let ((name (project-name (project-current nil project)))
-         (hdr (list '(status item location tags scheduled deadline)
-                    'hline))
-         (tbl))
-    (save-excursion
-      (with-current-buffer (find-file-noselect
-                            (join-paths company-org-directory 
-                                        "plan/tasks/" 
-                                        (format "%s.org" name)))
-        (org-with-wide-buffer
-         (org-map-entries (lambda ()
-                            (let ((row))
-                              (push (or (org-get-todo-state) "") row)
-                              (push (org-get-heading t t t t) row)
-                              (push (org-get-location (point)) row)
-                              (push (or (remove name (org-get-tags)) "") row)
-                              (push (if-let ((ts (org-get-scheduled-time (point) t)))
-                                        (format-time-string (cdr org-timestamp-formats) ts)
-                                      "")
-                                    row)
-                              (push (if-let ((ts (org-get-deadline-time (point) t)))
-                                        (format-time-string (cdr org-timestamp-formats) ts)
-                                      "")
-                                    row)
-                              (push (nreverse row) tbl)))
-                          "TODO<>\"DONE\"" nil)
-         )))
-    (unless (null tbl)
-      (append hdr (nreverse tbl))))
+(let ((name (project-name (project-current nil project)))
+       (hdr (list '(status item location tags scheduled deadline)
+                  'hline))
+       (tbl))
+  (save-excursion
+    (with-current-buffer (find-file-noselect
+                          (join-paths company-org-directory 
+                                      "plan/tasks/" 
+                                      (format "%s.org" name)))
+      (org-with-wide-buffer
+       (org-map-entries (lambda ()
+                          (let ((row))
+                            (push (or (org-get-todo-state) "") row)
+                            (push (org-get-heading t t t t) row)
+                            (push (org-get-location (point)) row)
+                            (push (or (remove name (org-get-tags)) "") row)
+			    ;; (push (org-priority-show) row)
+                            (push (if-let ((ts (org-get-scheduled-time (point) t)))
+                                      (format-time-string (cdr org-timestamp-formats) ts)
+                                    "")
+                                  row)
+			    (push (if-let ((ts (org-get-deadline-time (point) t)))
+				      (format-time-string (cdr org-timestamp-formats) ts)
+				    "")
+				  row)
+                            (push (nreverse row) tbl)))
+                        "TODO<>\"DONE\"" nil))))
+  (unless (null tbl)
+    (append hdr (nreverse tbl))))
 #+end_src
 
 #+RESULTS: project-tasks
@@ -793,9 +889,10 @@ List all project tasks.
 | PROJECT  | log [0/2]                                                               | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
 | TODO     | log-broadcast-stream                                                    | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
 | TODO     | async-db-log-file                                                       | ~/comp/core/lib/log/                 | (lisp)                       |                      |                      |
-| PROJECT  | std [3/4]                                                               | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
+| PROJECT  | std [3/5]                                                               | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
 | NOPE     | sstring<->cstring                                                       | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
-| TODO     | return* proto                                                           | ~/comp/core/std/                     | (lisp std)                   | 2026-03-14 Sat 00:00 |                      |
+| WIP      | fix register-module append                                              | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
+| TBD      | return* proto                                                           | ~/comp/core/std/                     | (lisp std)                   | 2026-03-14 Sat 00:00 |                      |
 | NOPE     | DEFAPI                                                                  | ~/comp/core/std/                     | (lisp std)                   |                      |                      |
 | PROJECT  | emacs [2/17]                                                            | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
 | WIP      | comp/org capture templates                                              | ~/comp/core/emacs/                   | (emacs)                      |                      |                      |
@@ -910,8 +1007,8 @@ List all project tasks.
 
 #+RESULTS: get-emacs-version
 : GNU Emacs 31.0.50 (build 1, x86_64-pc-linux-gnu, X toolkit, cairo version 1.18.4, Xaw scroll bars)
-:  of 2026-01-19
-: Org v9.8-pre
+:  of 2026-04-18
+: Org v9.8.2
 
 * vc-buffer-log                                                          :vc:
 :PROPERTIES:
@@ -1331,42 +1428,6 @@ hg diff -S -g --stat
 :  babel.org |  155 +++++++++++++++++++++++++++++++++++++++++++++++++++----------
 :  1 files changed, 128 insertions(+), 27 deletions(-)
 
-* homer                                                               :homer:
-:PROPERTIES:
-:ID:       37624eaa-0a25-465b-ab59-600d83b48903
-:END:
-#+begin_src shell
-homer
-#+end_src
-
-#+RESULTS:
-| #<HOME-CONFIG     | :ID  | 2311-2a42-c41f-c920>              |               |           |       |             |         |             |           |
-| [standard-object] |      |                                   |               |           |       |             |         |             |           |
-|                   |      |                                   |               |           |       |             |         |             |           |
-| Slots             | with | :INSTANCE                         | allocation:   |           |       |             |         |             |           |
-| ID                | =    | 2526847332178184480               |               |           |       |             |         |             |           |
-| AST               | =    | NIL                               |               |           |       |             |         |             |           |
-| USER              | =    | ELLIS                             |               |           |       |             |         |             |           |
-| PATH              | =    | #P"/home/ellis/.config/homerc"    |               |           |       |             |         |             |           |
-| SRC               | =    | #P"~/.stash/home/"                |               |           |       |             |         |             |           |
-| SKEL              | =    | NIL                               |               |           |       |             |         |             |           |
-| KRYPT             | =    | NIL                               |               |           |       |             |         |             |           |
-| MPK               | =    | NIL                               |               |           |       |             |         |             |           |
-| PACKY             | =    | #<SKEL/PACKY:PACKY-USER-CONFIG    | {120459D1B3}> |           |       |             |         |             |           |
-| LOGGER            | =    | #<LOGGER-CONFIG                   | {120492F673}> |           |       |             |         |             |           |
-| MAIL              | =    | ~/mail                            |               |           |       |             |         |             |           |
-| TERM              | =    | #<ALACRITTY-CONFIG                | #<TOML-TABLE  | (terminal | .     | shell)>>    |         |             |           |
-| TMUX              | =    | NIL                               |               |           |       |             |         |             |           |
-| SHELL             | =    | :BASH                             |               |           |       |             |         |             |           |
-| TASKS             | =    | (#<HOMER-TASK                     | :state        | NIL>)     |       |             |         |             |           |
-| JOBS              | =    | (#<homer-job                      | STARTX        | (bt       | mnt)> | #<homer-job | REBOOT> | #<homer-job | BACKUP>.. |
-| EDITOR            | =    | #<EMACS-CONFIG                    | {12049CE3A3}> |           |       |             |         |             |           |
-| BROWSER           | =    | :EWW                              |               |           |       |             |         |             |           |
-| KEYBOARD          | =    | #<unbound                         | slot>         |           |       |             |         |             |           |
-| BOXES             | =    | #<unbound                         | slot>         |           |       |             |         |             |           |
-| PODS              | =    | NIL                               |               |           |       |             |         |             |           |
-| SERVICES          | =    | (#<SKEL/HOMER/CORE::HOMER-SERVICE | MPD>..        |           |       |             |         |             |           |
-
 * sh-ob-tangle                                                          :org:
 :PROPERTIES:
 :ID:       7b311df4-83a3-489d-89a0-929928bce051
@@ -1513,6 +1574,8 @@ homer
 	  table)
 #+end_src
 
+#+RESULTS: make-dot-tree
+
 * gen-dot-tree                                                          :dot:
 :PROPERTIES:
 :ID:       a51c943d-0f01-4c8f-96ec-db28ae7fef26
@@ -1539,7 +1602,7 @@ dot -V 2>&1
 #+end_src
 
 #+RESULTS:
-: dot - graphviz version 12.2.1 (0)
+: dot - graphviz version 13.0.0~dev.20250304.0759 (20250304.0759)
 * slime                                                                :lisp:
 :PROPERTIES:
 :ID:       44284aa6-fe21-4178-93f7-a0ed710a3638
