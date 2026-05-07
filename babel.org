@@ -1654,7 +1654,7 @@ dot -V 2>&1
 :ID:       c3c52be9-d427-42b5-82ef-5ca296dbcb2a
 :END:
 #+name: lisp-system-files*
-#+begin_src lisp :var system="STD" :results replace
+#+begin_src lisp :var system="STD"
   (let ((*print-length* 512)
         (system (find-system system)))
     (flatten
