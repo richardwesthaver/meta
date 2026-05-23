@@ -87,7 +87,7 @@ Projects often contain additional metadata, such as =CATEGORY= and
 ** Inbox
 :PROPERTIES:
 :ID:       1b426ef7-b88b-4b66-8413-df37d8312dcd
-:LOCATION: [[vc:core/file/tip/emacs/lib/inbox.el][inbox.el]]
+:LOCATION: [[vc:core:etc/emacs/lib/inbox.el][inbox.el]]
 :END:
 The inbox is a flat list of [[id:249ae0a5-0ef8-4d8a-be61-f408fb2b2cff][items]] usually found in the
 =org-inbox-file= (default is ~/org/inbox.org). Items are [[https://orgmode.org/manual/Capture.html][captured]] by
@@ -99,7 +99,7 @@ via org-protocol and email as well as peer-aware/group inboxing.
 ** Scrum
 :PROPERTIES:
 :ID:       44e6ff33-ad62-4ef0-a188-506f837648d8
-:LOCATION: [[vc:core/file/tip/emacs/lib/scrum.el][scrum.el]]
+:LOCATION: [[vc:core:etc/emacs/lib/scrum.el][scrum.el]]
 :END:
 We apply a [[https://www.scrum.org/resources/what-scrum-module][scrum]]-like framework to plan our projects and tasks.
 
