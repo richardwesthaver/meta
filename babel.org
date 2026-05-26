@@ -204,9 +204,6 @@ cat * | wc -w
 #+end_src
 
 #+RESULTS: lines
-| 2177 |
-|    7 |
-|  202 |
 
 * langs                                                                  :fs:
 :PROPERTIES:
@@ -531,40 +528,40 @@ Return an org-mode unordered-list of project links.
 :END:
 #+name: project-details
 #+begin_src emacs-lisp :var project="." root="" vc=""
-  (let* ((project (project-current nil project))
-         (name (project-name project))
-         (%root (project-root project))
-         (default-directory %root)
-         (vc-type (downcase (symbol-name (cadr project))))
-         (age (org-sbe hg-log-age ''(dir %root)))
-         (rev (org-sbe hg-rev ''(dir %root)))
-         (num (org-sbe hg-id-num ''(dir %root)))
-         (tags (string-replace (string ?\n) " " (org-sbe skel-show (key "'tags'"))))
-         (id (org-sbe skel-show (key "'id'") ''(dir %root)))
-         (version (org-sbe skel-show (key "'version'") ''(dir %root)))
-         (description (org-sbe skel-show (key "'description'") ''(dir %root)))
-         (vc (when vc 
-  	     (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
-                       vc-type name name
-                       (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num))))
-         (langs (mapconcat (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir %root)))) " "))
-         (line-counts (flatten (read (org-sbe lines ''(dir %root)))))
-         (line-sum (cl-reduce '+ line-counts))
-         (lines (format "%s :code %s :comment %s :blank %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
-    `(hline
-      (name ,name)
-      (version ,version)
-      (description ,description)
-      (id ,id)
-      (root ,(if (not (zerop (length root)))
-                 root
-               %root))
-      ,@(unless (seq-empty-p vc) `((vc ,vc)))
-      (tags ,tags)
-      (updated ,age)
-      (langs ,langs)
-      (lines ,lines)
-      hline))
+(let* ((project (project-current nil project))
+       (name (project-name project))
+       (%root (project-root project))
+       (default-directory %root)
+       (vc-type (downcase (symbol-name (cadr project))))
+       (age (org-sbe hg-log-age ''(dir %root)))
+       (rev (org-sbe hg-rev ''(dir %root)))
+       (num (org-sbe hg-id-num ''(dir %root)))
+       (tags (string-replace (string ?\n) " " (org-sbe skel-show (key "'tags'"))))
+       (id (org-sbe skel-show (key "'id'") ''(dir %root)))
+       (version (org-sbe skel-show (key "'version'") ''(dir %root)))
+       (description (org-sbe skel-show (key "'description'") ''(dir %root)))
+       (vc (when vc 
+	     (format ":%s [[https://vc.compiler.company/%s][vc.compiler.company/%s]] :rev %s"
+                     vc-type name name
+                     (format "[[https://vc.compiler.company/%s/rev/%s][%s:%s]]" name rev rev num))))
+       (langs (mapconcat (lambda (x) (downcase (format "%s" x))) (flatten (read (org-sbe langs ''(dir %root)))) " "))
+       (line-counts (flatten (read (org-sbe lines ''(dir %root)))))
+       (line-sum (cl-reduce '+ line-counts))
+       (lines (format "%s :code %s :comment %s :blank %s" line-sum (pop line-counts) (pop line-counts) (pop line-counts))))
+  `(hline
+    (name ,name)
+    (version ,version)
+    (description ,description)
+    (id ,id)
+    (root ,(if (not (zerop (length root)))
+               root
+             %root))
+    ,@(unless (seq-empty-p vc) `((vc ,vc)))
+    (tags ,tags)
+    (updated ,age)
+    (langs ,langs)
+    (lines ,lines)
+    hline))
 #+end_src
 
 #+RESULTS: project-details
@@ -2067,3 +2064,18 @@ dd if=/dev/urandom of=$file count=$count bs=$bs
 
 #+RESULTS: random-sha512
 : 5f6ce6c42a70f997248c5b811a31057943b786082a9954483d675061c4c2b0195d5645d98f5b2433a0dbdb8fffbd00bafaf3b17ba1137e173d268b2adf8d8c74  -
+* HOLD nu
+:PROPERTIES:
+:ID:       c8f126b9-b69f-463c-bb9b-c44406238b3a
+:CREATED:  <2026-05-25 Mon 21:08>
+:END:
+:LOGBOOK:
+- State "HOLD"       from              [2026-05-25 Mon 21:10] \\
+  not used much, but convenient and pretty :)
+:END:
+#+name: nu-http-head
+#+begin_src shell :results output replace :shebang #!/usr/bin/env nu :exports both
+  http head $url
+#+end_src
+
+#+RESULTS: nu-http-head
