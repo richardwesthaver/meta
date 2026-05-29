@@ -7,7 +7,7 @@
 #+OPTIONS: ^:nil toc:nil num:nil html-postamble:nil
 #+EXPORT_FILE_NAME: index
 #+BEGIN: project-info :status nil :html t :vc nil :tasks nil
-#+CALL: project-details(vc='nil) :dir ~/comp/org/meta/
+#+CALL: project-details(vc='nil) :dir ~/src/org/meta/
 
 #+RESULTS:
 |-------------+----------------------------------------|
@@ -15,14 +15,14 @@
 | version     | 0.1.0                                  |
 | description | CC Org Files                           |
 | id          | 1784914079056115652                    |
-| root        | ~/comp/org/meta/                       |
+| root        | ~/src/org/meta/                        |
 | tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
-| updated     | Mon Apr 20 19:03:00 2026 -0400         |
+| updated     | Mon May 25 21:12:32 2026 -0400         |
 | langs       | org                                    |
-| lines       | 3011 :code 2735 :comment 7 :blank 269  |
+| lines       | 3023 :code 2746 :comment 7 :blank 270  |
 |-------------+----------------------------------------|
 
-#+CALL: hg-churn() :dir ~/comp/org/meta/
+#+CALL: hg-churn() :dir ~/src/org/meta/
 
 #+RESULTS:
 #+begin_example
@@ -45,19 +45,20 @@
 2026-02     81 **
 2026-03    783 *************************
 2026-04    437 **************
+2026-05    106 ***
 #+end_example
 
-#+CALL: project-html-files() :dir ~/comp/org/meta/
+#+CALL: project-html-files() :dir ~/src/org/meta/
 
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2026-05-07 16:56:02 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2026-05-27 21:46:12 |
+| [[https://compiler.company/meta/index.html][index]]     | 2026-05-27 21:48:49 |
 | [[https://compiler.company/meta/business.html][business]]  | 2025-09-03 17:34:46 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2026-04-18 21:46:32 |
-| [[https://compiler.company/meta/index.html][index]]     | 2026-04-16 21:49:11 |
 | [[https://compiler.company/meta/style.html][style]]     | 2025-11-02 15:54:27 |
 | [[https://compiler.company/meta/ulang.html][ulang]]     | 2026-04-18 23:09:06 |
-| [[https://compiler.company/meta/workflows.html][workflows]] | 2025-11-05 21:43:03 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2026-05-23 00:04:53 |
 
 #+END:
