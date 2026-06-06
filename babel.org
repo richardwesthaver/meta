@@ -2017,9 +2017,8 @@ find "$dir/.." -name Cargo.toml -execdir cargo update \;
 :PROPERTIES:
 :ID:       57196c4d-a275-4023-8462-a5847676347c
 :END:
-#+NAME: lobInsertFile
-#+HEADER: :var filename="/tmp/foo"
-#+begin_src elisp :results value raw drawer
+#+NAME: insert-file
+#+begin_src elisp :results value raw drawer :var filename="/tmp/foo"
   (cl-labels ((wrap-src
   	      (lang)
   	      (list (format "#+BEGIN_SRC %s :eval never :exports source\n" lang)
@@ -2068,14 +2067,26 @@ dd if=/dev/urandom of=$file count=$count bs=$bs
 :PROPERTIES:
 :ID:       c8f126b9-b69f-463c-bb9b-c44406238b3a
 :CREATED:  <2026-05-25 Mon 21:08>
+:HEADER-ARGS+: :results output replace :shebang #!/usr/bin/env nu :exports both
 :END:
 :LOGBOOK:
 - State "HOLD"       from              [2026-05-25 Mon 21:10] \\
   not used much, but convenient and pretty :)
 :END:
 #+name: nu-http-head
-#+begin_src shell :results output replace :shebang #!/usr/bin/env nu :exports both
-  http head $url
+#+begin_src nu :var url="https://compiler.company"
+http head $url
 #+end_src
 
 #+RESULTS: nu-http-head
+* term
+:PROPERTIES:
+:ID:       a631cdcc-fd30-41b7-b00f-440e851ae192
+:CREATED:  <2026-06-02 Tue 19:09>
+:END:
+#+name: term-check
+#+begin_src shell :results output replace
+# stty -a #current settings of all terminal attributes
+bind -p #key bindings
+infocmp #print out a terminfo description
+#+end_src
