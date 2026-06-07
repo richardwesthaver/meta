@@ -501,11 +501,13 @@ Return an org-mode unordered-list of project links.
 				   "Documentation")))
   (list 
    (pcase include
-     ('all (format "%s \n  - %s\n  - %s" docs
+     ('all (format "%s \n  - %s\n  - %s\n  - %s" docs
 		   (org-link-make-string (format link-fmt company-domain "docs" (format "%s/man" name)) 
-					 "Manual")
-		   (org-link-make-string (format link-fmt company-domain "docs" (format "%s/api" name)) 
-					 "API")))
+					             "User Manual")
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/api" name)) 
+                                 "API Reference")
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/info" name))
+                                 "Info")))
      ('man (format "%s \n  - %s" docs
 		   (org-link-make-string 
 		    (format link-fmt company-domain "docs" (format "%s/man" name)) 
@@ -726,32 +728,34 @@ exist locally.
 :END:
 List all project tasks.
 #+name: project-tasks
-#+begin_src emacs-lisp :results replace :var project="~/src/core"
-(let ((name (project-name (project-current nil project)))
-       (hdr (list '(status item location tags scheduled deadline)
+#+begin_src emacs-lisp :results replace :var project="."
+(let ((name (project-name (project-current nil (or project default-directory))))
+       (hdr (list '(status item tags)
                   'hline))
        (tbl))
   (save-excursion
     (with-current-buffer (find-file-noselect
-                          (join-paths company-org-directory 
+                          (join-paths company-org-directory
                                       "plan/tasks/" 
                                       (format "%s.org" name)))
       (org-with-wide-buffer
        (org-map-entries (lambda ()
-                          (let ((row))
+                          (print (org-store-link nil))
+                          (let ((row)
+                                (lvl (1- (org-current-level))))
                             (push (or (org-get-todo-state) "") row)
-                            (push (org-get-heading t t t t) row)
-                            (push (org-get-location (point)) row)
+                            (push (format "%s%s" (make-string lvl ?.) (org-store-link nil)) row)
+                            ;; (push (org-get-location (point)) row)
                             (push (or (remove name (org-get-tags)) "") row)
 			    ;; (push (org-priority-show) row)
-                            (push (if-let ((ts (org-get-scheduled-time (point) t)))
-                                      (format-time-string (cdr org-timestamp-formats) ts)
-                                    "")
-                                  row)
-			    (push (if-let ((ts (org-get-deadline-time (point) t)))
-				      (format-time-string (cdr org-timestamp-formats) ts)
-				    "")
-				  row)
+                            ;; (push (if-let ((ts (org-get-scheduled-time (point) t)))
+                            ;;           (format-time-string (cdr org-timestamp-formats) ts)
+                            ;;         "")
+                            ;;       row)
+                            ;; (push (if-let ((ts (org-get-deadline-time (point) t)))
+                            ;;           (format-time-string (cdr org-timestamp-formats) ts)
+                            ;;         "")
+                            ;;       row)
                             (push (nreverse row) tbl)))
                         "TODO<>\"DONE\"" nil))))
   (unless (null tbl)
@@ -759,176 +763,6 @@ List all project tasks.
 #+end_src
 
 #+RESULTS: project-tasks
-| status   | item                                                                    | location                             | tags                         | scheduled            | deadline             |
-|----------+-------------------------------------------------------------------------+--------------------------------------+------------------------------+----------------------+----------------------|
-| FIXME    | inline TODOs                                                            | ~/src/core/                         |                              |                      |                      |
-| TODO     | lorem ipsum generator                                                   | ~/src/core/                         |                              |                      |                      |
-| TODO     | component require total ordering                                        | ~/src/core/                         |                              |                      |                      |
-| PROJECT  | alien [2/7]                                                             | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| PROJECT  | tree-sitter [0/1]                                                       | ~/src/core/ffi/                     | (lisp ffi syn)               |                      |                      |
-| FIXME    | ts-query-cursor-next-match                                              | ~/src/core/ffi/                     | (lisp ffi syn)               |                      |                      |
-| PROJECT  | ssh2                                                                    | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| NOPE     | cl+ssl -> rustls                                                        | ~/src/core/ffi/ssl/                 | (lisp ffi)                   |                      |                      |
-| TODO     | syslog -> sys                                                           | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| TODO     | ICMP                                                                    | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| PROJECT  | blas                                                                    | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| TODO     | Tests                                                                   | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| TODO     | improve API                                                             | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| TODO     | Conditions                                                              | ~/src/core/ffi/                     | (lisp ffi)                   |                      |                      |
-| TBD      | examples [0/6]                                                          | ~/src/core/ffi/                     | (lisp ffi example)           |                      |                      |
-| TODO     | gstreamer practical example                                             | ~/src/core/ffi/                     | (lisp ffi example gstreamer) |                      |                      |
-| TODO     | ublk practical example                                                  | ~/src/core/ffi/                     | (lisp ffi example ublk)      |                      |                      |
-| TODO     | uring read/write file example                                           | ~/src/core/ffi/                     | (lisp ffi example uring)     |                      |                      |
-| TODO     | btrfs practical example                                                 | ~/src/core/ffi/                     | (lisp ffi example btrfs)     |                      |                      |
-| TODO     | xkb practical example                                                   | ~/src/core/ffi/                     | (lisp ffi example x kb)      |                      |                      |
-| TODO     | keyutils practical example                                              | ~/src/core/ffi/                     | (lisp ffi example crypto)    |                      |                      |
-| TODO     | prune internal packages                                                 | ~/src/core/                         |                              |                      |                      |
-| PROJECT  | lib [1/17]                                                              | ~/src/core/lib/                     | (lisp)                       |                      |                      |
-| PROJECT  | cli [2/6]                                                               | ~/src/core/lib/cli/                 | (lisp)                       |                      |                      |
-| PROJECT  | cli/clap [3/4]                                                          | ~/src/core/lib/cli/clap/            | (lisp cli)                   |                      |                      |
-| WIP      | hooks                                                                   | ~/src/core/lib/cli/clap/            | (lisp cli)                   |                      |                      |
-| TODO     | cli fixtures                                                            | ~/src/core/lib/cli/                 | (lisp test)                  |                      |                      |
-| TODO     | linedit keyboard macros                                                 | ~/src/core/lib/cli/linedit.lisp     | (lisp)                       |                      |                      |
-| TODO     | accept CLI-OPTS from parent CLI-CMD in PROC-ARGS                        | ~/src/core/lib/cli/                 | (lisp)                       |                      |                      |
-| TODO     | destructure cli opts                                                    | ~/src/core/lib/cli/                 | (lisp macro)                 |                      |                      |
-| TODO     | test SET-TTY-MODE :echo nil vs WITHOUT-ECHO                             | ~/src/core/lib/cli/                 | (lisp)                       |                      |                      |
-| PROJECT  | q [0/4]                                                                 | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | SQL                                                                     | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | DQL                                                                     | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | top-level macros                                                        | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | conditions                                                              | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | basic predicates                                                        | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | compiler design                                                         | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | runtime design                                                          | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | q/tests/fuzz [0/2]                                                      | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | sql-fuzzer                                                              | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | dql-fuzzer                                                              | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| TODO     | #? reader macro                                                         | ~/src/core/lib/                     | (lisp q)                     |                      |                      |
-| WIP      | complete base query protocol [1/2]                                      | ~/src/core/lib/q/query.lisp         | (lisp q db)                  |                      |                      |
-| TODO     | Basic Testing                                                           | ~/src/core/lib/q/query.lisp         | (lisp q db)                  |                      |                      |
-| PROJECT  | parse [1/2]                                                             | ~/src/core/lib/                     | (lisp lib)                   |                      |                      |
-| TODO     | tests                                                                   | ~/src/core/lib/                     | (lisp lib)                   |                      |                      |
-| PROJECT  | organ [0/4]                                                             | ~/src/core/lib/                     | (lisp organ)                 |                      |                      |
-| TBD      | organ-export                                                            | ~/src/core/lib/                     | (lisp organ)                 |                      |                      |
-| TODO     | org-parse                                                               | ~/src/core/lib/                     | (lisp organ)                 |                      |                      |
-| TBD      | parse org-elements as sxp                                               | ~/src/core/lib/                     | (lisp organ sxp)             |                      |                      |
-| WIP      | org-heading refinement                                                  | ~/src/core/lib/                     | (lisp organ)                 |                      |                      |
-| PROJECT  | rdb [1/13]                                                              | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | error handling                                                          | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | client api                                                              | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | sequence/iterator impl                                                  | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | comparator impl                                                         | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | type system                                                             | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | set-opt/get-opt                                                         | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | handle pinned vs non-pinned RocksDB accessors                           | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | move backup-db from rdb to rdb-database                                 | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | rdb prefix keys                                                         | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | with-latest-options                                                     | ~/src/core/lib/                     | (lisp rdb rocksdb)           |                      |                      |
-| TBD      | can only open rocksdb column families on OPEN                           | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| TODO     | undefined RDB/STORE symbols                                             | ~/src/core/lib/                     | (lisp rdb)                   |                      |                      |
-| PROJECT  | vc [0/2]                                                                | ~/src/core/lib/                     | (lisp vc)                    |                      |                      |
-| TODO     | github atom feed queries                                                | ~/src/core/lib/                     | (lisp vc)                    |                      |                      |
-| WIP      | vc-mirrors-update replacement                                           | ~/.config/nushell/scripts/vc.nu      | (lisp vc)                    |                      |                      |
-| PROJECT  | dat [0/3]                                                               | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| WIP      | dat/parquet                                                             | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| TODO     | RLE                                                                     | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| TODO     | tcompact                                                                | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| TODO     | dat/csv column selectors                                                | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| TODO     | dat/sxp                                                                 | ~/src/core/lib/                     | (lisp dat)                   |                      |                      |
-| PROJECT  | syn [0/4]                                                               | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| WIP      | gen                                                                     | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| FIXME    | deref op                                                                | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| TODO     | tempo                                                                   | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| TODO     | grovel                                                                  | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| TODO     | lint                                                                    | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| TODO     | whitespace cleanup                                                      | ~/src/core/lib/                     | (lisp syn)                   |                      |                      |
-| PROJECT  | cry                                                                     | ~/src/core/lib/cry/                 | (lisp crypto)                |                      |                      |
-| PROJECT  | obj [5/11]                                                              | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| TODO     | object schema                                                           | ~/src/core/lib/obj/                 | (lisp obj schema)            | 2025-11-10 Mon 00:00 | 2025-11-08 Sat 00:00 |
-| TODO     | command parents                                                         | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| TODO     | equiv                                                                   | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| TODO     | documentation                                                           | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| OUTLINE  | next steps                                                              | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| WIP      | tensor [3/7]                                                            | ~/src/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
-| TBD      | arrow interface                                                         | ~/src/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
-| TODO     | graph-idx loop-path                                                     | ~/src/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
-| TODO     | slice loop-path                                                         | ~/src/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
-| RESEARCH | SB-SIMD                                                                 | ~/src/core/lib/obj/tensor/          | (lisp obj)                   |                      |                      |
-| TODO     | color/theme                                                             | ~/src/core/lib/obj/color/theme.lisp | (lisp obj)                   |                      |                      |
-| RESEARCH | major-modes                                                             | ~/src/core/lib/obj/                 | (lisp obj)                   |                      |                      |
-| PROJECT  | net [2/7]                                                               | ~/src/core/lib/net/                 | (lisp net)                   |                      |                      |
-| WIP      | dbus                                                                    | ~/src/core/lib/net/                 | (lisp net)                   |                      |                      |
-| TODO     | fixtures                                                                | ~/src/core/lib/net/                 | (lisp net rt)                |                      |                      |
-| TODO     | tcp                                                                     | ~/src/core/lib/net/                 | (lisp net)                   |                      |                      |
-| TODO     | udp                                                                     | ~/src/core/lib/net/                 | (lisp net)                   |                      |                      |
-| WAIT     | net/srv                                                                 | ~/src/core/lib/net/                 | (net lisp)                   |                      |                      |
-| NOPE     | wayland protocol bindings                                               | ~/src/core/lib/gui/                 | (lisp gui)                   |                      |                      |
-| NOPE     | wayland compositor                                                      | ~/src/core/lib/gui/                 | (gui rust lisp)              |                      |                      |
-| PROJECT  | rt [0/6]                                                                | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| TODO     | redirect I/O in tests                                                   | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| TODO     | *test-on-def*                                                           | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| TODO     | test-directory                                                          | ~/src/core/lib/                     | (lisp test rt)               |                      |                      |
-| TODO     | fixtures v2                                                             | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| TODO     | TEST-FUNCTION v2                                                        | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| FIXME    | test-result false-positives                                             | ~/src/core/lib/                     | (lisp rt test)               |                      |                      |
-| PROJECT  | io [3/9]                                                                | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| WIP      | mux                                                                     | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| RESEARCH | wm impl                                                                 | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| TODO     | uring                                                                   | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| NOPE     | stream-write-sequence for deflate                                       | ~/src/core/lib/io/                  | (lisp io)                    | 2025-06-17 Tue 00:00 |                      |
-| FIXME    | flate/deflate                                                           | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| FIXME    | zstd streams                                                            | ~/src/core/lib/io/                  | (lisp io)                    | 2025-06-17 Tue 00:00 |                      |
-| TODO     | wm:kbd -> io/kbd:kbd                                                    | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| WIP      | virtual streams                                                         | ~/src/core/lib/io/                  | (lisp io)                    |                      |                      |
-| PROJECT  | math                                                                    | ~/src/core/lib/math                 | (lisp math)                  |                      |                      |
-| RESEARCH | in-vector iterator                                                      | ~/src/core/lib/math                 | (lisp math)                  |                      |                      |
-| PROJECT  | box                                                                     | ~/src/core/lib/                     | (lisp)                       |                      |                      |
-| PROJECT  | log [0/2]                                                               | ~/src/core/lib/log/                 | (lisp)                       |                      |                      |
-| TODO     | log-broadcast-stream                                                    | ~/src/core/lib/log/                 | (lisp)                       |                      |                      |
-| TODO     | async-db-log-file                                                       | ~/src/core/lib/log/                 | (lisp)                       |                      |                      |
-| PROJECT  | std [3/5]                                                               | ~/src/core/std/                     | (lisp std)                   |                      |                      |
-| NOPE     | sstring<->cstring                                                       | ~/src/core/std/                     | (lisp std)                   |                      |                      |
-| WIP      | fix register-module append                                              | ~/src/core/std/                     | (lisp std)                   |                      |                      |
-| TBD      | return* proto                                                           | ~/src/core/std/                     | (lisp std)                   | 2026-03-14 Sat 00:00 |                      |
-| NOPE     | DEFAPI                                                                  | ~/src/core/std/                     | (lisp std)                   |                      |                      |
-| PROJECT  | emacs [2/17]                                                            | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| WIP      | comp/org capture templates                                              | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | comp/org agenda views, export, dblock                                   | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | agenda views                                                            | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| FIXME    | compiler warnings                                                       | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| WIP      | graph                                                                   | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TODO     | default values for link commands                                        | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TODO     | org-graph edge relative links                                           | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TBD      | org-timeline upgrades [0/3]                                             | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TODO     | timeline selection update on pointer hover                              | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TODO     | org-agenda-follow impl                                                  | ~/src/core/emacs/                   | (emacs org)                  |                      |                      |
-| TODO     | align org-timeline properties with ulang                                | ~/src/core/emacs/                   | (emacs org ulang)            |                      |                      |
-| TODO     | skel.el project integration                                             | ~/src/core/emacs/                   | (emacs skel)                 |                      |                      |
-| TODO     | allout-mode support                                                     | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | skel widgets                                                            | ~/src/core/emacs/                   | (emacs skel)                 |                      |                      |
-| TODO     | desktop save functions                                                  | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | skel.el hack-dir-local-variables                                        | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| WIP      | skel.el indentation rules                                               | ~/src/core/emacs/lib/skel.el        | (emacs)                      | 2025-03-01 Sat 00:00 |                      |
-| TODO     | project-tasks timestamp -> date when no h/m info                        | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | defpkg-format                                                           | ~/src/core/emacs/                   | (emacs lisp)                 |                      |                      |
-| TODO     | speedbar-obj-alist for cl                                               | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| TODO     | new graph property: pronunciation                                       | ~/src/core/emacs/                   | (emacs)                      |                      |                      |
-| PROJECT  | skel [3/13]                                                             | ~/src/core/                         | (skel)                       |                      |                      |
-| TODO     | defer skel components                                                   | ~/src/core/                         | (skel)                       |                      |                      |
-| TODO     | rule source                                                             | ~/src/core/                         | (skel)                       |                      |                      |
-| TODO     | ensure-rule-source                                                      | ~/src/core/                         | (skel)                       |                      |                      |
-| TODO     | implement task-pool                                                     | ~/src/core/                         | (skel thread)                |                      |                      |
-| NOPE     | implement vm                                                            | ~/src/core/                         | (skel)                       | 2025-02-27 Thu 00:00 | 2025-03-03 Mon 00:00 |
-| TODO     | handle missing method errors or define default method when none defined | ~/src/core/                         | (skel bin cli)               |                      |                      |
-| TODO     | skel tasks/runner/timer                                                 | ~/src/core/                         | (skel)                       |                      |                      |
-| OUTLINE  | skel template objects                                                   | ~/src/core/                         | (skel)                       |                      |                      |
-| NEXT     | homer [1/1]                                                             | ~/src/core/                         | (skel lisp homer)            |                      |                      |
-| TODO     | project desktop config                                                  | ~/src/core/                         | (skel)                       |                      |                      |
-| PROJECT  | krypt                                                                   | ~/src/core/                         | (skel)                       |                      |                      |
-| WIP      | mpk [0/2]                                                               | ~/src/core/mpk/                     | (skel)                       |                      |                      |
-| TODO     | setup API for tmdb and tvdb                                             | ~/src/core/mpk/                     | (skel)                       |                      |                      |
-| WAIT     | clean                                                                   | ~/src/core/mpk/clean.lisp           | (skel)                       |                      |                      |
-| TODO     | media logging                                                           | ~/src/core/mpk/                     | (skel)                       |                      |                      |
 
 * env-table                                                              :os:
 :PROPERTIES:

@@ -17,9 +17,9 @@
 | id          | 1784914079056115652                    |
 | root        | ~/src/org/meta/                        |
 | tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
-| updated     | Mon May 25 21:12:32 2026 -0400         |
+| updated     | Fri Jun 05 20:48:05 2026 -0400         |
 | langs       | org                                    |
-| lines       | 3023 :code 2746 :comment 7 :blank 270  |
+| lines       | 3036 :code 2758 :comment 8 :blank 270  |
 |-------------+----------------------------------------|
 
 #+CALL: hg-churn() :dir ~/src/org/meta/
@@ -45,7 +45,8 @@
 2026-02     81 **
 2026-03    783 *************************
 2026-04    437 **************
-2026-05    106 ***
+2026-05    467 ***************
+2026-06     21 
 #+end_example
 
 #+CALL: project-html-files() :dir ~/src/org/meta/
@@ -53,8 +54,8 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/babel.html][babel]]     | 2026-05-27 21:46:12 |
-| [[https://compiler.company/meta/index.html][index]]     | 2026-05-27 21:48:49 |
+| [[https://compiler.company/meta/index.html][index]]     | 2026-06-05 23:18:47 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2026-06-05 22:55:49 |
 | [[https://compiler.company/meta/business.html][business]]  | 2025-09-03 17:34:46 |
 | [[https://compiler.company/meta/glossary.html][glossary]]  | 2026-04-18 21:46:32 |
 | [[https://compiler.company/meta/style.html][style]]     | 2025-11-02 15:54:27 |
