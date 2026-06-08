@@ -634,36 +634,36 @@ exist locally.
 :END:
 #+name: project-html-files
 #+begin_src emacs-lisp :results replace :var project="."
-  (let* ((proj (project-current nil project))
-         (project (file-name-as-directory (expand-file-name project)))
-         (name (project-name proj))
-         (root (expand-file-name (project-root proj)))
-         (project-vc-include-untracked nil)
-         (exclude-files '(".hgignore" ".stash"))
-         ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
-         (link-fmt "https://compiler.company/%s/%s"))
-    `((file modified)
-      hline
-      ,@(mapcar (lambda (x)
-                  ;; don't rely on project/vc - only include files which exist locally
-                  (when-let ((attr (file-attributes x)))
-                    (let ((y (if (string= (file-name-base x) "readme")
-                                 (let ((s (file-name-split x)))
-                                   (apply 'file-name-concat "/" (append (butlast s) (list "index.html"))))
-                               (file-name-with-extension x "html"))))
-                      (list (format "[[%s][%s]]"
-                                    (format link-fmt name (string-replace root "" y)) 
-                                    (file-name-sans-extension (string-replace project "" y)))
-                            (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr))))))
-                  (cl-remove-if (lambda (x)
-                                  (or
-                                   (not (string= "org" (file-name-extension x)))
-                                   (cl-member-if
-                                    (lambda (y) (string-prefix-p (expand-file-name y) x))
-                                    exclude-files)
-                                   (and (not (string= root (file-name-as-directory (expand-file-name project))))
-                                        (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
-                                (project-files proj)))))
+(let* ((proj (project-current nil project))
+       (project (file-name-as-directory (expand-file-name project)))
+       (name (project-name proj))
+       (root (expand-file-name (project-root proj)))
+       (project-vc-include-untracked nil)
+       (exclude-files '(".hgignore" ".stash"))
+       ;; (link-fmt "https://vc.compiler.company/%s/file/tip/%s")
+       (link-fmt "https://compiler.company/%s/%s"))
+  `((file modified)
+    hline
+    ,@(mapcar (lambda (x)
+                ;; don't rely on project/vc - only include files which exist locally
+                (when-let ((attr (file-attributes x)))
+                  (let ((y (if (string= (file-name-base x) "readme")
+                               (let ((s (file-name-split x)))
+                                 (apply 'file-name-concat "/" (append (butlast s) (list "index.html"))))
+                             (file-name-with-extension x "html"))))
+                    (list (format "[[%s][%s]]"
+                                  (format link-fmt name (string-replace root "" y)) 
+                                  (file-name-sans-extension (string-replace project "" y)))
+                          (format-time-string "%Y-%m-%d %H:%M:%S" (file-attribute-modification-time attr))))))
+                (cl-remove-if (lambda (x)
+                                (or
+                                 (not (string= "org" (file-name-extension x)))
+                                 (cl-member-if
+                                  (lambda (y) (string-prefix-p (expand-file-name y) x))
+                                  exclude-files)
+                                 (and (not (string= root (file-name-as-directory (expand-file-name project))))
+                                      (not (string-prefix-p (expand-file-name project) (expand-file-name x root))))))
+                              (project-files proj)))))
 #+end_src
 
 #+RESULTS: project-html-files
@@ -763,6 +763,62 @@ List all project tasks.
 #+end_src
 
 #+RESULTS: project-tasks
+
+* project-agenda                                         :project:org:agenda:
+:PROPERTIES:
+:CREATED:  <2026-06-07 Sun 21:29>
+:ID:       c268ad80-7fd9-47a1-a84d-79bf3d52fa04
+:END:
+Print an in-buffer project-agenda.
+#+name: project-agenda
+#+begin_src emacs-lisp :results replace :var project="." file="" span=30 start=(- (org-today) 7)
+(save-excursion
+  (let ((name (project-name (project-current nil (or project default-directory))))
+        (org-agenda-start-on-weekday nil)
+        (org-agenda-include-diary nil))
+    (project-agenda-list nil start span)
+    (if (string-empty-p file)
+        (let ((file (make-temp-file "project-agenda" nil ".txt")))
+          (org-agenda-write file)
+          (with-current-buffer (find-file-noselect file)
+            (buffer-substring (point-min) (point-max))))
+      (org-agenda-write file))))
+#+end_src
+
+#+RESULTS: project-agenda
+#+begin_example
+30 days-agenda (W22-W27):
+Sunday     31 May 2026
+Monday      1 June 2026 W23
+Tuesday     2 June 2026
+Wednesday   3 June 2026
+Thursday    4 June 2026
+Friday      5 June 2026
+Saturday    6 June 2026
+Sunday      7 June 2026
+Monday      8 June 2026 W24
+Tuesday     9 June 2026
+Wednesday  10 June 2026
+Thursday   11 June 2026
+Friday     12 June 2026
+Saturday   13 June 2026
+Sunday     14 June 2026
+Monday     15 June 2026 W25
+Tuesday    16 June 2026
+Wednesday  17 June 2026
+Thursday   18 June 2026
+Friday     19 June 2026
+Saturday   20 June 2026
+Sunday     21 June 2026
+Monday     22 June 2026 W26
+Tuesday    23 June 2026
+Wednesday  24 June 2026
+Thursday   25 June 2026
+Friday     26 June 2026
+Saturday   27 June 2026
+Sunday     28 June 2026
+Monday     29 June 2026 W27
+#+end_example
 
 * env-table                                                              :os:
 :PROPERTIES:
