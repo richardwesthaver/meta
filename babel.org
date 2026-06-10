@@ -493,8 +493,11 @@ return tab
 Return an org-mode unordered-list of project links.
 #+name: project-links
 #+begin_src emacs-lisp :var project="." include='nil :results list
-(let* ((name (project-name (project-current nil project)))
-       (link-fmt "https://%s/%s/%s.html")
+(let* ((project (project-current nil project))
+       (parent (project-parent project))
+       (name (project-name project))
+       (slug (if parent (join-paths (project-name parent) name) name))
+       (link-fmt "https://%s/%s/%s")
        (docs (org-link-make-string (format link-fmt 
 					   company-domain "docs" 
 					   (format "%s/index" name)) 
@@ -502,27 +505,29 @@ Return an org-mode unordered-list of project links.
   (list 
    (pcase include
      ('all (format "%s \n  - %s\n  - %s\n  - %s" docs
-		   (org-link-make-string (format link-fmt company-domain "docs" (format "%s/man" name)) 
+		   (org-link-make-string (format link-fmt company-domain "docs" 
+                                         (format "%s/man" slug))
 					             "User Manual")
-           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/api" name)) 
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/api" slug))
                                  "API Reference")
-           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/info" name))
+           (org-link-make-string (format link-fmt company-domain "docs" (format "%s/info" slug))
                                  "Info")))
      ('man (format "%s \n  - %s" docs
 		   (org-link-make-string 
-		    (format link-fmt company-domain "docs" (format "%s/man" name)) 
+		    (format link-fmt company-domain "docs" (format "%s/man" slug))
 		    "Manual")))
      ('api (format "%s \n  - %s" docs
 		   (org-link-make-string 
-		    (format link-fmt company-domain "docs" (format "%s/api" name)) 
+		    (format link-fmt company-domain "docs" (format "%s/api" slug))
 		    "API")))
      (_ docs))
-   (org-link-make-string (format link-fmt company-domain "plan/tasks" name) "Tasks")))
+   (org-link-make-string 
+    (format link-fmt company-domain "plan/tasks" 
+            (if (and parent (project-tasks-file))
+                (format "%s.html#%s" (project-name parent) name)
+              (file-name-with-extension name "html")))
+    "Tasks")))
 #+end_src
-
-#+RESULTS: project-links
-- [[https://compiler.company/docs/meta/index.html][Documentation]]
-- [[https://compiler.company/plan/tasks/meta.html][Tasks]]
 
 * project-details                                                   :project:
 :PROPERTIES:
@@ -729,15 +734,12 @@ exist locally.
 List all project tasks.
 #+name: project-tasks
 #+begin_src emacs-lisp :results replace :var project="."
-(let ((name (project-name (project-current nil (or project default-directory))))
+(let ((project (project-current nil (or project default-directory)))
        (hdr (list '(status item tags)
                   'hline))
        (tbl))
   (save-excursion
-    (with-current-buffer (find-file-noselect
-                          (join-paths company-org-directory
-                                      "plan/tasks/" 
-                                      (format "%s.org" name)))
+    (with-current-buffer (find-file-noselect (project-tasks-file))
       (org-with-wide-buffer
        (org-map-entries (lambda ()
                           (print (org-store-link nil))
@@ -746,7 +748,7 @@ List all project tasks.
                             (push (or (org-get-todo-state) "") row)
                             (push (format "%s%s" (make-string lvl ?.) (org-store-link nil)) row)
                             ;; (push (org-get-location (point)) row)
-                            (push (or (remove name (org-get-tags)) "") row)
+                            (push (or (remove (project-name project) (org-get-tags)) "") row)
 			    ;; (push (org-priority-show) row)
                             ;; (push (if-let ((ts (org-get-scheduled-time (point) t)))
                             ;;           (format-time-string (cdr org-timestamp-formats) ts)
