@@ -1393,31 +1393,31 @@ hg diff -S -g --stat
 :END:
 #+name: org-graph-3d
 #+begin_src emacs-lisp :exports code :results html
-  (format "<div id='3d-graph'></div>
+(format "<div id='3d-graph'></div>
 
-  <script type='module'>
-      import SpriteText from 'https://esm.sh/three-spritetext';
-      const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
-        .jsonUrl('https://cdn.compiler.company/data/org-graph.json')
-        .showNavInfo(false)
-        .nodeId('id')
-        .nodeLabel('id')
-        .nodeAutoColorBy('path')
-        .linkSource('in')
-        .linkTarget('out')
-        .onNodeClick(node => window.open(node.path,'_blank'))
-        .linkWidth(4)
-        .linkDirectionalParticles(8)
-        .nodeThreeObject(node => {
-          const sprite = new SpriteText(node.name);
-          sprite.material.depthWrite = false; // make sprite background transparent
-          sprite.color = node.color;
-          sprite.textHeight = 8;
-          sprite.center.y = -0.6; // shift above node
-          return sprite;
-        })
-        .nodeThreeObjectExtend(true);
-  </script>")
+<script type='module'>
+    import SpriteText from 'https://esm.sh/three-spritetext';
+    const Graph = new ForceGraph3D(document.getElementById('3d-graph'),{controlType: 'orbit'})
+      .jsonUrl('https://cdn.compiler.company/data/org-graph.json')
+      .showNavInfo(false)
+      .nodeId('id')
+      .nodeLabel('id')
+      .nodeAutoColorBy('path')
+      .linkSource('in')
+      .linkTarget('out')
+      .onNodeClick(node => window.open(node.path,'_blank'))
+      .linkWidth(4)
+      .linkDirectionalParticles(8)
+      .nodeThreeObject(node => {
+        const sprite = new SpriteText(node.name);
+        sprite.material.depthWrite = false; // make sprite background transparent
+        sprite.color = node.color;
+        sprite.textHeight = 8;
+        sprite.center.y = -0.6; // shift above node
+        return sprite;
+      })
+      .nodeThreeObjectExtend(true);
+</script>")
 #+end_src
 
 #+RESULTS: org-graph-3d
