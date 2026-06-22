@@ -326,6 +326,7 @@ cat * | wc -w
 | nil | project-html-files        |
 | nil | project-files             |
 | nil | project-tasks             |
+| nil | project-agenda            |
 | nil | env-table                 |
 | nil | get-env                   |
 | nil | org-current-h1-title      |
@@ -357,7 +358,6 @@ cat * | wc -w
 | nil | lisp-stats                |
 | nil | describe-lisp-symbol      |
 | nil | lisp-system-directory     |
-| nil | lisp-system-depends-on    |
 | nil | lisp-system-dependents    |
 | nil | lisp-system-depencies     |
 | nil | lisp-system-packages      |
@@ -378,6 +378,8 @@ cat * | wc -w
 | nil | group-table               |
 | nil | insert-file               |
 | nil | random                    |
+| nil | nu                        |
+| nil | term                      |
 
 * trim                                                                 :util:
 :PROPERTIES:
@@ -1626,19 +1628,6 @@ dot -V 2>&1
 (namestring (system-home (string-upcase system)))
 #+end_src
 
-* lisp-system-depends-on                                               :lisp:
-:PROPERTIES:
-:ID:       03ba435f-f426-480b-8a17-122c0f6ec4b1
-:END:
-#+name: lisp-system-depends-on
-#+begin_src lisp :var system="std" :results replace
-(std:load-system system)
-(slot-value (find-system (string-upcase system)) 'std/defsys::require)
-#+end_src
-
-#+RESULTS: lisp-system-depends-on
-| :PPCRE |
-
 * lisp-system-dependents                                               :lisp:
 :PROPERTIES:
 :ID:       a4da4509-d9d4-4fdc-abdd-adef0e80eac4
@@ -1678,13 +1667,19 @@ dot -V 2>&1
 :ID:       d83b3c38-ad02-4a1f-b6db-57a1d4acd9d3
 :END:
 #+name: lisp-system-tests
-#+begin_src lisp :var system="std" :results replace
+#+begin_src lisp :var system="std" links='nil :results replace
 (when system
   (let ((sys (keywordicate (string-upcase system))))
     (load-system sys)
     (load-module sys :tests)
     (when-let ((s (rt:find-suite sys)))
-      (mapcar 'name (rt:tests s)))))
+      (mapcar 
+       (if links
+           (lambda (x) 
+             (format nil "[[lisp:~A][~A]]" (name x) (name x)))
+           (lambda (x) 
+             (format nil "~~~A~~" (name x))))
+       (rt:tests s)))))
 #+end_src
 
 #+RESULTS: lisp-system-tests
@@ -1733,8 +1728,14 @@ dot -V 2>&1
 :ID:       96c4e8d9-31f8-4d5f-8605-031d8a328cdb
 :END:
 #+name: lisp-package-symbols
-#+begin_src lisp :var package="core" :results replace
-  (map 'list 'name (doc:doc-symbols (doc:package-documentation (string-upcase package))))
+#+begin_src lisp :var package="core" links='nil :results replace
+(map 'list 
+     (if links
+         (lambda (x) 
+           (format nil "[[lisp:~A][~A]]" (name x) (name x)))
+         (lambda (x)
+           (format nil "~~~A~~" (name x))))
+     (doc:doc-symbols (doc:package-documentation (string-upcase package))))
 #+end_src
 
 * lisp-docs                                                        :lisp:doc:
