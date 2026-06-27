@@ -17,9 +17,9 @@
 | id          | 1784914079056115652                    |
 | root        | ~/src/org/meta/                        |
 | tags        | ORG DOCS NOTES META PLAN ARCHIVE GRAPH |
-| updated     | Mon Jun 15 22:46:41 2026 -0400         |
+| updated     | Sun Jun 21 22:10:24 2026 -0400         |
 | langs       | org                                    |
-| lines       | 2935 :code 2656 :comment 8 :blank 271  |
+| lines       | 2895 :code 2623 :comment 8 :blank 264  |
 |-------------+----------------------------------------|
 
 #+CALL: hg-churn() :dir ~/src/org/meta/
@@ -46,7 +46,7 @@
 2026-03    783 *************************
 2026-04    437 **************
 2026-05    467 ***************
-2026-06    577 ******************
+2026-06    620 ********************
 #+end_example
 
 #+CALL: project-html-files() :dir ~/src/org/meta/
@@ -54,12 +54,11 @@
 #+RESULTS:
 | file      | modified            |
 |-----------+---------------------|
-| [[https://compiler.company/meta/index.html][index]]     | 2026-06-17 18:28:06 |
-| [[https://compiler.company/meta/babel.html][babel]]     | 2026-06-15 16:20:59 |
-| [[https://compiler.company/meta/business.html][business]]  | 2025-09-03 17:34:46 |
-| [[https://compiler.company/meta/glossary.html][glossary]]  | 2026-04-18 21:46:32 |
-| [[https://compiler.company/meta/style.html][style]]     | 2025-11-02 15:54:27 |
-| [[https://compiler.company/meta/ulang.html][ulang]]     | 2026-04-18 23:09:06 |
-| [[https://compiler.company/meta/workflows.html][workflows]] | 2026-05-23 00:04:53 |
+| [[https://compiler.company/meta/babel.html][babel]]     | 2026-06-26 19:14:24 |
+| [[https://compiler.company/meta/glossary.html][glossary]]  | 2026-06-26 19:14:43 |
+| [[https://compiler.company/meta/index.html][index]]     | 2026-06-26 20:33:48 |
+| [[https://compiler.company/meta/style.html][style]]     | 2026-06-26 19:14:38 |
+| [[https://compiler.company/meta/ulang.html][ulang]]     | 2026-06-26 19:14:31 |
+| [[https://compiler.company/meta/workflows.html][workflows]] | 2026-06-26 19:14:34 |
 
 #+END:

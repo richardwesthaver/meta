@@ -3,6 +3,7 @@
 #+description: Core Library of Babel
 #+setupfile: ../clean.theme
 #+property: header-args :exports both :eval no-export
+#+ARCHIVE: ../archive/meta.org::** babel
 #+options: props:t
 Welcome to the CC [[https://www.gnu.org/software/emacs/manual/html_node/org/Library-of-Babel.html][Library of Babel]]. This file contains a collection of
 code blocks which may be used by authors throughout our public
@@ -1963,22 +1964,6 @@ dd if=/dev/urandom of=$file count=$count bs=$bs
 
 #+RESULTS: random-sha512
 : 5f6ce6c42a70f997248c5b811a31057943b786082a9954483d675061c4c2b0195d5645d98f5b2433a0dbdb8fffbd00bafaf3b17ba1137e173d268b2adf8d8c74  -
-* HOLD nu
-:PROPERTIES:
-:ID:       c8f126b9-b69f-463c-bb9b-c44406238b3a
-:CREATED:  <2026-05-25 Mon 21:08>
-:HEADER-ARGS+: :results output replace :shebang #!/usr/bin/env nu :exports both
-:END:
-:LOGBOOK:
-- State "HOLD"       from              [2026-05-25 Mon 21:10] \\
-  not used much, but convenient and pretty :)
-:END:
-#+name: nu-http-head
-#+begin_src nu :var url="https://compiler.company"
-http head $url
-#+end_src
-
-#+RESULTS: nu-http-head
 * term
 :PROPERTIES:
 :ID:       a631cdcc-fd30-41b7-b00f-440e851ae192

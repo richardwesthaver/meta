@@ -3,6 +3,7 @@
 #+email: ellis@rwest.io
 #+description: High-level description of CC workflows
 #+setupfile: ../clean.theme
+#+ARCHIVE: ../archive/meta.org::** workflows
 * Overview
 :PROPERTIES:
 :ID:       ad4a24f8-7de4-479b-bc5a-7065e4b43087

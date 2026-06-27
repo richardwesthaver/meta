@@ -1,6 +1,7 @@
 #+title: glossary
 #+author: Richard Westhaver
 #+description: CC Glossary
+#+ARCHIVE: ../archive/meta.org::** glossary
 #+setupfile: ../clean.theme
 * Terms
 :PROPERTIES:
