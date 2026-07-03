@@ -909,288 +909,88 @@ Monday     29 June 2026 W27
 :  of 2026-04-18
 : Org v9.8.2
 
-* vc-buffer-log                                                          :vc:
+* project-vc-log                                                         :vc:
 :PROPERTIES:
 :ID:       b2d9f6f0-2ac7-4e45-abbe-b32cc2d0f7aa
 :END:
-#+name: vc-buffer-log
-#+header: :var limit=-1
-#+header: :var buf=(buffer-name (current-buffer))
-#+begin_src emacs-lisp
+#+name: project-vc-log
+#+begin_src emacs-lisp :var limit=10 :var project="."
 ;; Most of this code is copied from vc.el vc-print-log
 (require 'vc)
-(when (vc-find-backend-function
-       (vc-backend (buffer-file-name (get-buffer buf))) 'print-log)
-  (let ((limit -1)
-        (vc-fileset nil)
-        (backend nil)
-        (files nil))
-    (with-current-buffer (get-buffer buf)
-      (setq vc-fileset (vc-deduce-fileset t)) ; FIXME: Why t? --Stef
-      (setq backend (car vc-fileset))
-      (setq files (cadr vc-fileset)))
-    (with-temp-buffer
-      (let ((status (vc-call-backend
-                     backend 'print-log files (current-buffer))))
-        (when (and (processp status)   ; Make sure status is a process
-                   (= 0 (process-exit-status status))) ; which has not terminated
-          (while (not (eq 'exit (process-status status)))
-            (sit-for 1 t)))
-        (buffer-string)))))
+(let* ((project (project-current nil (or project default-directory)))
+       (default-directory (project-root project))
+       (vc-fileset nil)
+       (backend nil)
+       (files nil))
+  (save-excursion
+    (vc-dir (project-root project))
+    (setq vc-fileset (vc-deduce-fileset t t t)
+          backend (car vc-fileset)
+          files (cadr vc-fileset))
+    (prog1
+        (with-temp-buffer
+          (let ((status (vc-call-backend
+                         backend 'print-log files (current-buffer) nil nil limit)))
+            (when (and (processp status)   ; Make sure status is a process
+                       (= 0 (process-exit-status status))) ; which has not terminated
+              (while (not (eq 'exit (process-status status)))
+                (sit-for 1 t)))
+            (print (buffer-string))))
+      (quit-window))))
 #+end_src
 
-#+RESULTS: vc-buffer-log
+#+RESULTS: project-vc-log
 #+begin_example
-changeset:   118:df072b42865a
+changeset:   143:91188d15cd85
 tag:         tip
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Feb 23 22:45:35 2026 -0500
+Date:        Sun Jun 28 00:36:04 2026 -0400
 summary:     bump
 
-changeset:   117:47048f43a010
+changeset:   142:3edf26f2e0e6
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Feb 23 20:41:21 2026 -0500
+Date:        Fri Jun 26 20:57:56 2026 -0400
 summary:     bump
 
-changeset:   116:97cfa3f5b87d
+changeset:   141:8211183560ae
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Feb 23 18:08:20 2026 -0500
+Date:        Sun Jun 21 22:10:24 2026 -0400
 summary:     bump
 
-changeset:   115:005574f5e0d2
+changeset:   140:82aad73cd254
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Jan 20 22:42:34 2026 -0500
-summary:     core updates
+Date:        Wed Jun 17 19:05:56 2026 -0400
+summary:     cleanup
 
-changeset:   113:53c712b40109
+changeset:   139:68fdb660c0a9
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Jan 04 20:37:20 2026 -0500
+Date:        Mon Jun 15 22:46:41 2026 -0400
+summary:     mv publish.el
+
+changeset:   138:1a3ecb6b0e86
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Jun 15 19:59:40 2026 -0400
+summary:     progress
+
+changeset:   137:a65b7dda3a32
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Mon Jun 15 18:10:08 2026 -0400
+summary:     rm lib docs - to be templated, inserted as org files in core repo
+
+changeset:   136:7a3ec3bd17f2
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Wed Jun 10 22:52:32 2026 -0400
 summary:     bump
 
-changeset:   112:bb6b342f2eee
+changeset:   135:24ab1c20cda3
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Dec 30 21:00:06 2025 -0500
+Date:        Tue Jun 09 21:56:47 2026 -0400
 summary:     bump
 
-changeset:   110:23d77b4668e7
+changeset:   134:e549c2b7791e
 user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Nov 02 16:07:44 2025 -0500
-summary:     bump
-
-changeset:   109:ac5a6e6d8a29
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Wed Oct 29 21:23:05 2025 -0400
-summary:     scm1, techne, dat/exe
-
-changeset:   108:dcba611d2499
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Oct 18 18:56:33 2025 -0400
-summary:     bump
-
-changeset:   107:4b2b2fc4ac94
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Thu Oct 16 21:01:47 2025 -0400
-summary:     search
-
-changeset:   106:a5c0d1347eb8
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Oct 14 20:20:58 2025 -0400
-summary:     bump
-
-changeset:   105:8524a88c8b64
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Oct 13 00:19:49 2025 -0400
-summary:     bump
-
-changeset:   104:2cb695433044
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Oct 12 00:35:07 2025 -0400
-summary:     bump
-
-changeset:   103:088f5f478106
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Oct 10 22:27:27 2025 -0400
-summary:     lang stuff, graph-ui
-
-changeset:   102:d9c2d317a5fe
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Oct 03 22:16:02 2025 -0400
-summary:     css updates
-
-changeset:   101:2e5a63a9bdc0
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Oct 03 00:03:50 2025 -0400
-summary:     update docs
-
-changeset:   100:ef5e9b85e8df
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Thu Oct 02 23:32:20 2025 -0400
-summary:     css updates
-
-changeset:   98:3813c0f87ed4
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Sep 01 21:48:03 2025 -0400
-summary:     bump
-
-changeset:   90:a709434b72cd
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Aug 05 21:56:05 2025 -0400
-summary:     bump
-
-changeset:   87:9677188c6286
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Jul 25 23:57:30 2025 -0400
-summary:     bump
-
-changeset:   75:58f23dff7896
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Jun 20 19:48:23 2025 -0400
-summary:     bump
-
-changeset:   66:0671a0f1cb66
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Jun 08 15:31:25 2025 -0400
-summary:     project-details vc update
-
-changeset:   62:d45be2b39f91
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Wed Jun 04 20:55:28 2025 -0400
-summary:     doc updates
-
-changeset:   50:bca552bcb411
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue May 13 17:59:10 2025 -0400
-summary:     bump
-
-changeset:   49:952a028c159a
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun May 11 01:01:10 2025 -0400
-summary:     task updates, math notes
-
-changeset:   41:749abcd5cf0f
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Thu Apr 24 21:40:29 2025 -0400
-summary:     more graph stuff, sbcl-pg in notes
-
-changeset:   35:14e88312c544
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Apr 04 16:22:19 2025 -0400
-summary:     bump
-
-changeset:   34:6ba7c2ebfc8b
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Mar 15 20:49:54 2025 -0400
-summary:     bump
-
-changeset:   33:f3000e8fc269
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Mar 15 19:12:29 2025 -0400
-summary:     bump
-
-changeset:   32:5c550780874e
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Mar 09 16:37:02 2025 -0400
-summary:     publish updates - auto sitemap generation
-
-changeset:   29:6caa6bb1894e
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Mar 02 20:33:18 2025 -0500
-summary:     bump
-
-changeset:   28:88b6e64c3b05
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Mar 02 20:02:49 2025 -0500
-summary:     lisp babel
-
-changeset:   27:7231c7e26f12
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Mar 02 00:04:17 2025 -0500
-summary:     lisp docs babel
-
-changeset:   26:14a0c3ba3dc9
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Mar 01 23:58:35 2025 -0500
-summary:     lisp doc utils
-
-changeset:   24:cdbca94b9a27
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Feb 24 21:38:56 2025 -0500
-summary:     bump
-
-changeset:   23:4295f363bee6
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Feb 23 21:30:38 2025 -0500
-summary:     bump
-
-changeset:   20:2e7552a37f4d
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Feb 16 19:29:00 2025 -0500
-summary:     bump
-
-changeset:   18:e2cc8a474453
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Feb 15 16:19:12 2025 -0500
-summary:     update links, fixes
-
-changeset:   17:0e7fc660547c
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Feb 14 19:28:14 2025 -0500
-summary:     update docs
-
-changeset:   14:4c50dd0d0898
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Jan 17 23:10:47 2025 -0500
-summary:     graph updates
-
-changeset:   13:8160535ac709
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Thu Dec 12 22:40:45 2024 -0500
-summary:     hgsub update
-
-changeset:   12:f6df7eaa3684
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Sep 22 21:29:45 2024 -0400
-summary:     id updates
-
-changeset:   11:6e53b8dc7795
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Sep 20 20:00:07 2024 -0400
-summary:     bump
-
-changeset:   10:65bf0057ca35
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Fri Sep 13 21:21:53 2024 -0400
-summary:     style updates
-
-changeset:   9:995df3d48af0
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sat Sep 07 22:38:02 2024 -0400
-summary:     ulang
-
-changeset:   8:06698c6708de
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Wed Sep 04 16:59:32 2024 -0400
-summary:     fixes
-
-changeset:   7:4728f14839e4
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Aug 27 21:35:44 2024 -0400
-summary:     publishing updates
-
-changeset:   6:f747ffac7f40
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Aug 25 00:15:40 2024 -0400
-summary:     meta and task work
-
-changeset:   5:6538a100c792
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Aug 18 22:16:12 2024 -0400
-summary:     weekend warrior
-
-changeset:   2:a4e233714062
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Aug 12 18:31:37 2024 -0400
-summary:     meta and task updates
+Date:        Sun Jun 07 22:19:16 2026 -0400
+summary:     project-agenda, css updates
 
 #+end_example
 
