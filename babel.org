@@ -927,22 +927,42 @@ Monday     29 June 2026 W27
     (setq vc-fileset (vc-deduce-fileset t t t)
           backend (car vc-fileset)
           files (cadr vc-fileset))
-    (prog1
-        (with-temp-buffer
-          (let ((status (vc-call-backend
-                         backend 'print-log files (current-buffer) nil nil limit)))
-            (when (and (processp status)   ; Make sure status is a process
-                       (= 0 (process-exit-status status))) ; which has not terminated
-              (while (not (eq 'exit (process-status status)))
-                (sit-for 1 t)))
-            (print (buffer-string))))
-      (quit-window))))
+      (prog1
+          (with-temp-buffer
+            (let ((status (vc-call-backend
+                           backend 'print-log files (current-buffer) nil nil limit)))
+              (when (and (processp status)   ; Make sure status is a process
+                         (= 0 (process-exit-status status))) ; which has not terminated
+                (while (not (eq 'exit (process-status status)))
+                  (sit-for 1 t)))
+              (print (buffer-string))))
+        (quit-window)))))
 #+end_src
 
 #+RESULTS: project-vc-log
 #+begin_example
-changeset:   143:91188d15cd85
+changeset:   147:7b52f36dc6ea
 tag:         tip
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Jul 05 19:46:11 2026 -0400
+summary:     bump
+
+changeset:   146:0c7a210146fc
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sun Jul 05 14:09:17 2026 -0400
+summary:     bump
+
+changeset:   145:80251bb7bd2a
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Sat Jul 04 15:21:35 2026 -0400
+summary:     bump
+
+changeset:   144:1fcd22e3d007
+user:        Richard Westhaver <ellis@rwest.io>
+Date:        Thu Jul 02 20:59:24 2026 -0400
+summary:     css tweaks
+
+changeset:   143:91188d15cd85
 user:        Richard Westhaver <ellis@rwest.io>
 Date:        Sun Jun 28 00:36:04 2026 -0400
 summary:     bump
@@ -971,26 +991,6 @@ changeset:   138:1a3ecb6b0e86
 user:        Richard Westhaver <ellis@rwest.io>
 Date:        Mon Jun 15 19:59:40 2026 -0400
 summary:     progress
-
-changeset:   137:a65b7dda3a32
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Mon Jun 15 18:10:08 2026 -0400
-summary:     rm lib docs - to be templated, inserted as org files in core repo
-
-changeset:   136:7a3ec3bd17f2
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Wed Jun 10 22:52:32 2026 -0400
-summary:     bump
-
-changeset:   135:24ab1c20cda3
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Tue Jun 09 21:56:47 2026 -0400
-summary:     bump
-
-changeset:   134:e549c2b7791e
-user:        Richard Westhaver <ellis@rwest.io>
-Date:        Sun Jun 07 22:19:16 2026 -0400
-summary:     project-agenda, css updates
 
 #+end_example
 
